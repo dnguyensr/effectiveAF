@@ -42,9 +42,9 @@ test('values set in the comparison carry over to the wallet', async ({ page }) =
   await editor.getByRole('button', { name: 'Close' }).click();
   await expect(page.getByTestId('compare-verdict-amex-gold')).toHaveText('Pays for itself (+$99)');
 
-  await page.getByRole('button', { name: 'Add to wallet: Gold Card' }).click();
+  await page.getByRole('button', { name: 'Add to wallet as considering: Gold Card' }).click();
   await page.getByRole('link', { name: 'My wallet' }).click();
-  await expect(page.getByTestId('verdict-amex-gold')).toHaveText('Pays for itself (+$99)');
+  await expect(page.getByTestId('verdict-amex-gold')).toHaveText('Would pay for itself (+$99)');
   await page.goBack();
   await expect(page.getByRole('heading', { name: 'Compare cards' })).toBeVisible();
 });

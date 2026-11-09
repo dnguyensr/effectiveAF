@@ -138,10 +138,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.25,
-    "branches": 95,
-    "functions": 98.55,
-    "statements": 98.8
+    "lines": 99.3,
+    "branches": 95.45,
+    "functions": 98.64,
+    "statements": 98.88
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -175,13 +175,13 @@
   },
   "src/ui/CardPicker.tsx": {
     "lines": 100,
-    "branches": 97.29,
+    "branches": 97.67,
     "functions": 100,
     "statements": 100
   },
   "src/ui/CompareView.tsx": {
     "lines": 100,
-    "branches": 90.9,
+    "branches": 91.66,
     "functions": 100,
     "statements": 100
   },
@@ -253,7 +253,7 @@
   },
   "src/ui/WalletView.tsx": {
     "lines": 100,
-    "branches": 92,
+    "branches": 92.59,
     "functions": 100,
     "statements": 100
   },

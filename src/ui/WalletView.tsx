@@ -71,6 +71,9 @@ export function WalletView({ activeCardId, onSelect, onAddCard }: Props) {
                       ? `${formatUsd(c.effectiveCents)}/yr`
                       : `+${formatUsd(-c.effectiveCents)}`}
                   </span>
+                  {c.ownership === 'considering' && (
+                    <span class="tag tag-considering">Considering</span>
+                  )}
                   {c.unsetCount > 0 && <span class="tab-unset">{c.unsetCount} not set</span>}
                 </button>
               ))}

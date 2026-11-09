@@ -8,14 +8,39 @@ import {
   type Verdict,
 } from './card-math';
 
-export interface WalletSummary {
-  cards: CardSummary[];
-  /** Wallet IDs with no matching catalog card (e.g. a card retired from the catalog). */
-  unknownCardIds: string[];
+export interface Totals {
+  count: number;
   feeCents: number;
   realizedCents: number;
   effectiveCents: number;
   verdict: Verdict;
+}
+
+export interface WalletSummary {
+  /** Every wallet card, in wallet order, held or considered. */
+  cards: CardSummary[];
+  /** Wallet IDs with no matching catalog card (e.g. a card retired from the catalog). */
+  unknownCardIds: string[];
+  /** The fields below total only the cards the user holds. */
+  feeCents: number;
+  realizedCents: number;
+  effectiveCents: number;
+  verdict: Verdict;
+  /** Totals for cards the user is considering signing up for, kept separate. */
+  considering: Totals;
+}
+
+function totals(cards: readonly CardSummary[]): Totals {
+  const feeCents = cards.reduce((sum, c) => sum + c.feeCents, 0);
+  const realizedCents = cards.reduce((sum, c) => sum + c.realizedCents, 0);
+  const effectiveCents = feeCents - realizedCents;
+  return {
+    count: cards.length,
+    feeCents,
+    realizedCents,
+    effectiveCents,
+    verdict: verdictFor(effectiveCents),
+  };
 }
 
 export function summarizeWallet(
@@ -34,16 +59,14 @@ export function summarizeWallet(
     else unknownCardIds.push(id);
   }
 
-  const feeCents = cards.reduce((sum, c) => sum + c.feeCents, 0);
-  const realizedCents = cards.reduce((sum, c) => sum + c.realizedCents, 0);
-  const effectiveCents = feeCents - realizedCents;
-
+  const held = totals(cards.filter((c) => c.ownership === 'have'));
   return {
     cards,
     unknownCardIds,
-    feeCents,
-    realizedCents,
-    effectiveCents,
-    verdict: verdictFor(effectiveCents),
+    feeCents: held.feeCents,
+    realizedCents: held.realizedCents,
+    effectiveCents: held.effectiveCents,
+    verdict: held.verdict,
+    considering: totals(cards.filter((c) => c.ownership === 'considering')),
   };
 }

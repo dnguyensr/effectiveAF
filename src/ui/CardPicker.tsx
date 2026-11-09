@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useState } from 'preact/hooks';
 import type { CardDef } from '../catalog/types';
+import type { Ownership } from '../core/card-math';
 import { formatUsd } from '../core/money';
 import { MAX_COMPARE } from '../state/schema';
 import { CustomCardForm } from './CustomForms';
@@ -119,11 +120,15 @@ function PickerBody({
                 key={card.id}
                 card={card}
                 mode={mode}
-                inWallet={wallet.includes(card.id)}
+                status={
+                  wallet.includes(card.id)
+                    ? (store.state.value.cards[card.id]?.ownership ?? 'have')
+                    : null
+                }
                 selected={compare.includes(card.id)}
                 compareFull={compare.length >= MAX_COMPARE}
-                onAdd={() => {
-                  store.addCard(card.id);
+                onAdd={(ownership) => {
+                  store.addCard(card.id, undefined, ownership);
                   onAdded?.(card.id);
                 }}
                 onToggle={() => store.toggleCompare(card.id)}
@@ -148,14 +153,15 @@ function PickerBody({
 interface RowProps {
   card: CardDef;
   mode: PickerMode;
-  inWallet: boolean;
+  /** Wallet status if the card is in the wallet, else null. */
+  status: Ownership | null;
   selected: boolean;
   compareFull: boolean;
-  onAdd: () => void;
+  onAdd: (ownership: Ownership) => void;
   onToggle: () => void;
 }
 
-function PickerRow({ card, mode, inWallet, selected, compareFull, onAdd, onToggle }: RowProps) {
+function PickerRow({ card, mode, status, selected, compareFull, onAdd, onToggle }: RowProps) {
   const fullName = card.issuer ? `${card.issuer} ${card.name}` : card.name;
   return (
     <li class="picker-row">
@@ -168,17 +174,29 @@ function PickerRow({ card, mode, inWallet, selected, compareFull, onAdd, onToggl
         </span>
       </div>
       {mode === 'wallet' ? (
-        inWallet ? (
-          <span class="tag">In wallet</span>
+        status ? (
+          <span class="tag">{status === 'considering' ? 'Considering' : 'In wallet'}</span>
         ) : (
-          <button
-            type="button"
-            class="btn btn-primary"
-            aria-label={`Add ${fullName}`}
-            onClick={onAdd}
-          >
-            Add
-          </button>
+          <span class="picker-actions">
+            <button
+              type="button"
+              class="btn btn-primary"
+              aria-label={`Add ${fullName}`}
+              title="I have this card"
+              onClick={() => onAdd('have')}
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              class="btn"
+              aria-label={`Considering: add ${fullName}`}
+              title="I'm thinking about signing up"
+              onClick={() => onAdd('considering')}
+            >
+              Considering
+            </button>
+          </span>
         )
       ) : (
         <label class="picker-check">

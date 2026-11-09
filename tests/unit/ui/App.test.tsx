@@ -400,8 +400,11 @@ describe('compare', () => {
     expect(screen.getByTestId('compare-verdict-capital-one-venture-x').textContent).toBe(
       'Pays for itself (+$35)',
     );
-    click('Add to wallet: Venture X');
-    expect(screen.getByText('In wallet')).toBeTruthy();
+    click('Add to wallet as considering: Venture X');
+    expect(screen.getByText('Considering')).toBeTruthy();
+    expect(screen.getByTestId('compare-verdict-capital-one-venture-x').textContent).toBe(
+      'Would pay for itself (+$35)',
+    );
     click('Remove Venture X from comparison');
     expect(screen.getByText(/Pick 2 to 5 cards/)).toBeTruthy();
   });

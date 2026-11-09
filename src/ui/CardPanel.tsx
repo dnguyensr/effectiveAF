@@ -39,6 +39,8 @@ interface Props {
 export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
   const store = useStore();
   const { card } = summary;
+  const considering = summary.ownership === 'considering';
+  const inWallet = store.state.value.wallet.includes(card.id);
   // The fee rarely changes, so it starts locked against accidental edits.
   const [feeLocked, setFeeLocked] = useState(true);
   const anniversaryMonth = store.state.value.cards[card.id]?.anniversaryMonth;
@@ -63,6 +65,7 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
           <VerdictPill
             effectiveCents={summary.effectiveCents}
             verdict={summary.verdict}
+            considering={considering}
             testId={`verdict-${card.id}`}
           />
         </div>
@@ -79,6 +82,32 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
       </div>
 
       <div class="card-body">
+        {inWallet && (
+          <div class="ownership" role="group" aria-label={`Do you have the ${card.name}?`}>
+            <button
+              type="button"
+              class="chip"
+              aria-pressed={!considering}
+              onClick={() => store.setOwnership(card.id, 'have')}
+            >
+              I have this card
+            </button>
+            <button
+              type="button"
+              class="chip"
+              aria-pressed={considering}
+              onClick={() => store.setOwnership(card.id, 'considering')}
+            >
+              Considering it
+            </button>
+          </div>
+        )}
+        {considering && (
+          <p class="hint">
+            Not counted in your wallet totals. The result shows what the card would cost you in a
+            year if you signed up and used the credits as set below.
+          </p>
+        )}
         <div class="fee-row">
           <label class="fee-label" for={`fee-${card.id}`}>
             {card.custom ? 'Annual fee' : 'Annual fee you pay'}

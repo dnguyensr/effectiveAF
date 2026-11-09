@@ -11,7 +11,7 @@ export function WalletSummary({ summary }: { summary: Summary }) {
       </h2>
       <dl class="summary-grid">
         <div>
-          <dt>Annual fees</dt>
+          <dt>Annual fees{summary.considering.count > 0 ? ' (cards you have)' : ''}</dt>
           <dd data-testid="summary-fees">{formatUsd(summary.feeCents)}</dd>
         </div>
         <div>
@@ -27,6 +27,17 @@ export function WalletSummary({ summary }: { summary: Summary }) {
           </dd>
         </div>
       </dl>
+      {summary.considering.count > 0 && (
+        <p class="summary-considering" data-testid="summary-considering">
+          {summary.cards.length === summary.considering.count
+            ? 'Considering '
+            : 'Not counted above: considering '}
+          {summary.considering.count} {summary.considering.count === 1 ? 'card' : 'cards'}, which{' '}
+          {summary.considering.verdict === 'costs'
+            ? `would cost ${formatUsd(summary.considering.effectiveCents)}/yr after credits.`
+            : `would pay for ${summary.considering.count === 1 ? 'itself' : 'themselves'} (+${formatUsd(-summary.considering.effectiveCents)}/yr).`}
+        </p>
+      )}
     </section>
   );
 }

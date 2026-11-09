@@ -18,6 +18,7 @@ Effective annual fee = annual fee − the value you really get from each credit
 If the result is zero or below, the card pays for itself. If not, you'll see how much it still needs to earn back through rewards or other benefits.
 
 - **Nothing is assumed.** Every credit starts as _not set_ and counts $0 until you decide what it's worth: slide or type a value, or mark it _won't use_. Quick presets set every credit to face value, or only travel and dining.
+- **Have it or considering it:** mark each card as one you hold (is it worth keeping?) or one you're thinking of signing up for (is it worth getting?). Considered cards show what they _would_ cost and stay out of your wallet total.
 - **My wallet:** your cards as tabs, a running total, and a _use it before it resets_ list of credits about to expire this month or period.
 - **Compare:** 2 to 5 cards side by side, like a car-trim sheet: similar credits share a row, and "—" means a card doesn't have one.
 - **Your own perks and cards:** add credits we don't list, or value non-credit benefits like lounge access; create cards that aren't in the catalog.

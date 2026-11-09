@@ -6,7 +6,12 @@
 import { computed, signal } from '@preact/signals';
 import { CATALOG } from '../catalog';
 import type { Cadence, CardDef } from '../catalog/types';
-import { summarizeCard, type CardSummary, type CardUserState } from '../core/card-math';
+import {
+  summarizeCard,
+  type CardSummary,
+  type CardUserState,
+  type Ownership,
+} from '../core/card-math';
 import { localIsoDate } from '../core/dates';
 import { clamp, toWholeDollars } from '../core/money';
 import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
@@ -91,7 +96,8 @@ export function createStore({
   /** Credits in use that reset (or end) within 30 days, across the wallet. */
   const upcoming = computed(() =>
     upcomingResets(
-      summary.value.cards,
+      // Credits on a card you're only considering aren't yours to lose yet.
+      summary.value.cards.filter((c) => c.ownership === 'have'),
       asOf,
       Object.fromEntries(
         Object.entries(state.value.cards).map(([id, cs]) => [id, cs.anniversaryMonth]),
@@ -141,8 +147,17 @@ export function createStore({
       ...(cs?.customPerks?.length ? { customPerks: cs.customPerks } : {}),
       ...(cs?.anniversaryMonth !== undefined ? { anniversaryMonth: cs.anniversaryMonth } : {}),
       ...(cs?.pointValueCents !== undefined ? { pointValueCents: cs.pointValueCents } : {}),
+      ...(cs?.ownership !== undefined ? { ownership: cs.ownership } : {}),
     };
     return Object.keys(kept).length > 1 ? kept : undefined;
+  }
+
+  /** "have" is the default, so it isn't stored. */
+  function withOwnership(cs: CardUserState, ownership: Ownership): CardUserState {
+    const rest = Object.fromEntries(
+      Object.entries(cs).filter(([key]) => key !== 'ownership'),
+    ) as CardUserState;
+    return ownership === 'considering' ? { ...rest, ownership } : rest;
   }
 
   function findCard(cardId: string): CardDef | undefined {
@@ -188,11 +203,25 @@ export function createStore({
       }
     },
 
-    addCard(cardId: string, index?: number) {
+    /**
+     * Adds a card to the wallet. `ownership` marks it as held or considered; when omitted, a
+     * previously set status (e.g. after remove/undo) is kept, otherwise it's "have".
+     */
+    addCard(cardId: string, index?: number, ownership?: Ownership) {
       if (!findCard(cardId) || state.value.wallet.includes(cardId)) return;
       const wallet = [...state.value.wallet];
       wallet.splice(index ?? wallet.length, 0, cardId);
-      commit({ ...state.value, wallet });
+      let next: Omit<UserState, 'updatedAt'> = { ...state.value, wallet };
+      if (ownership !== undefined) {
+        const cs = next.cards[cardId] ?? { perks: {} };
+        next = withCard(next, cardId, withOwnership(cs, ownership));
+      }
+      commit(next);
+    },
+
+    setOwnership(cardId: string, ownership: Ownership) {
+      if (!findCard(cardId)) return;
+      updateCard(cardId, (cs) => withOwnership(cs, ownership));
     },
 
     /** Removes the card from the wallet but keeps its valuations, so re-adding restores them. */

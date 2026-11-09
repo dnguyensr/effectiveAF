@@ -15,10 +15,10 @@ function cell(text: string): string {
   return text.replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
 }
 
-function verdict(c: Pick<CardSummary, 'effectiveCents' | 'verdict'>): string {
+function verdict(c: Pick<CardSummary, 'effectiveCents' | 'verdict'>, considering = false): string {
   return c.verdict === 'pays-for-itself'
-    ? `Pays for itself (+${formatUsd(-c.effectiveCents)})`
-    : `Costs ${formatUsd(c.effectiveCents)}/yr`;
+    ? `${considering ? 'Would pay' : 'Pays'} for itself (+${formatUsd(-c.effectiveCents)})`
+    : `${considering ? 'Would cost' : 'Costs'} ${formatUsd(c.effectiveCents)}/yr`;
 }
 
 function cardLine(c: CardSummary): string {
@@ -31,22 +31,26 @@ function cardLine(c: CardSummary): string {
     ...(skipped.length > 0 ? [`won't use ${skipped.join(', ')}`] : []),
     ...(c.unsetCount > 0 ? [`${c.unsetCount} not valued yet`] : []),
   ];
-  return `**${cell(c.card.name)}:** ${parts.join('; ')}.`;
+  return `**${cell(c.card.name)}${c.ownership === 'considering' ? ' (considering)' : ''}:** ${parts.join('; ')}.`;
 }
 
 export function walletMarkdown(wallet: WalletSummary, asOf: string): string {
-  const name = (c: CardSummary) => cell([c.card.issuer, c.card.name].filter(Boolean).join(' '));
+  const considering = (c: CardSummary) => c.ownership === 'considering';
+  const name = (c: CardSummary) =>
+    cell([c.card.issuer, c.card.name].filter(Boolean).join(' ')) +
+    (considering(c) ? ' _(considering)_' : '');
   const rows = wallet.cards.map(
     (c) =>
-      `| ${name(c)} | ${formatUsd(c.feeCents)} | ${formatUsd(c.realizedCents)} of ${formatUsd(c.nominalCents)} | ${verdict(c)} |`,
+      `| ${name(c)} | ${formatUsd(c.feeCents)} | ${formatUsd(c.realizedCents)} of ${formatUsd(c.nominalCents)} | ${verdict(c, considering(c))} |`,
   );
+  const totalLabel = wallet.considering.count > 0 ? '**Total, cards I have**' : '**Total**';
   return [
     `**My credit card wallet** (values as of ${formatIsoDate(asOf)})`,
     '',
     '| Card | Annual fee | Credits I actually use | Effective cost |',
     '|---|--:|--:|---|',
     ...rows,
-    `| **Total** | **${formatUsd(wallet.feeCents)}** | **${formatUsd(wallet.realizedCents)}** | **${verdict(wallet)}** |`,
+    `| ${totalLabel} | **${formatUsd(wallet.feeCents)}** | **${formatUsd(wallet.realizedCents)}** | **${verdict(wallet)}** |`,
     '',
     ...wallet.cards.map(cardLine),
     '',

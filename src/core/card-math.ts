@@ -10,8 +10,13 @@ import {
 } from './valuation';
 import { toWholeDollars } from './money';
 
+/** Whether the user holds the card or is deciding whether to sign up. */
+export type Ownership = 'have' | 'considering';
+
 /** What the user has changed for one card. Everything else comes from the catalog. */
 export interface CardUserState {
+  /** Defaults to "have". */
+  ownership?: Ownership | undefined;
   feeOverrideCents?: number | undefined;
   perks: Record<string, PerkValuation>;
   /** Month (1-12) the account was opened; anchors cardmember-year resets. */
@@ -45,6 +50,7 @@ export interface CardSummary {
   perks: PerkSummary[];
   /** How many of `perks` the user hasn't valued yet. */
   unsetCount: number;
+  ownership: Ownership;
 }
 
 export function verdictFor(effectiveCents: number): Verdict {
@@ -86,5 +92,6 @@ export function summarizeCard(
     verdict: verdictFor(effectiveCents),
     perks,
     unsetCount: perks.filter((p) => p.status === 'unset').length,
+    ownership: userState?.ownership ?? 'have',
   };
 }

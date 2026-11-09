@@ -62,15 +62,17 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
                           Set my values
                         </button>
                         {wallet.includes(c.card.id) ? (
-                          <span class="tag">In wallet</span>
+                          <span class="tag">
+                            {c.ownership === 'considering' ? 'Considering' : 'You have it'}
+                          </span>
                         ) : (
                           <button
                             type="button"
                             class="link-button"
-                            aria-label={`Add to wallet: ${c.card.name}`}
-                            onClick={() => store.addCard(c.card.id)}
+                            aria-label={`Add to wallet as considering: ${c.card.name}`}
+                            onClick={() => store.addCard(c.card.id, undefined, 'considering')}
                           >
-                            Add to wallet
+                            Add to wallet as considering
                           </button>
                         )}
                         <button
@@ -157,6 +159,7 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
                       <VerdictPill
                         effectiveCents={c.effectiveCents}
                         verdict={c.verdict}
+                        considering={c.ownership === 'considering'}
                         testId={`compare-verdict-${c.card.id}`}
                       />
                     </td>
