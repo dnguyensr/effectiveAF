@@ -14,7 +14,13 @@ import {
 } from '../core/card-math';
 import { localIsoDate } from '../core/dates';
 import { clamp, toWholeDollars } from '../core/money';
-import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
+import {
+  DEFAULT_BASELINE_PERCENT,
+  MAX_BASELINE_PERCENT,
+  MAX_POINT_VALUE_CENTS,
+  MIN_BASELINE_PERCENT,
+  MIN_POINT_VALUE_CENTS,
+} from '../core/breakeven';
 import { applyPreset, WONT_USE, type PresetId } from '../core/presets';
 import { resolveCards } from '../core/resolve';
 import { upcomingResets } from '../core/resets';
@@ -104,6 +110,10 @@ export function createStore({
       ),
     ),
   );
+  /** What the user's everyday card earns (% cash back); break-even compares against it. */
+  const baselinePercent = computed(
+    () => state.value.settings?.baselinePercent ?? DEFAULT_BASELINE_PERCENT,
+  );
   const saveFailed = signal(false);
 
   const saver = storage
@@ -184,6 +194,18 @@ export function createStore({
     /** True when the last write to storage failed (e.g. storage full). */
     saveFailed,
     findCard,
+    baselinePercent,
+
+    setBaselinePercent(percent: number) {
+      if (
+        !Number.isFinite(percent) ||
+        percent < MIN_BASELINE_PERCENT ||
+        percent > MAX_BASELINE_PERCENT
+      ) {
+        return;
+      }
+      commit({ ...state.value, settings: { ...state.value.settings, baselinePercent: percent } });
+    },
     upcoming,
     compareSummaries,
 

@@ -61,6 +61,29 @@ describe('store: point value', () => {
   });
 });
 
+describe('store: everyday card baseline', () => {
+  it('defaults to 2%, accepts 1–3%, and ignores anything else', () => {
+    const store = setup();
+    expect(store.baselinePercent.value).toBe(2);
+    store.setBaselinePercent(1.5);
+    expect(store.baselinePercent.value).toBe(1.5);
+    expect(store.state.value.settings).toEqual({ baselinePercent: 1.5 });
+    store.setBaselinePercent(5);
+    store.setBaselinePercent(Number.NaN);
+    store.setBaselinePercent(0.5);
+    expect(store.baselinePercent.value).toBe(1.5);
+  });
+
+  it('validates the baseline in saved data', () => {
+    const withBaseline = (v: unknown) =>
+      parseImport(JSON.stringify({ ...createEmptyState('x'), settings: { baselinePercent: v } }))
+        .ok;
+    expect(withBaseline(3)).toBe(true);
+    expect(withBaseline(0.5)).toBe(false);
+    expect(withBaseline(4)).toBe(false);
+  });
+});
+
 describe('break-even UI', () => {
   it('shows monthly spend per category, updating with the point value', () => {
     render(<App store={setup('capital-one-venture-x')} />);
@@ -68,7 +91,7 @@ describe('break-even UI', () => {
     const row = (name: RegExp) =>
       within(section).getByRole('rowheader', { name }).closest('tr') as HTMLElement;
     expect(row(/^Hotels and rental cars/).textContent).toContain('$412/mo');
-    expect(row(/^Everything else/).textContent).toContain('No better than 2% cash back');
+    expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
 
     const input = within(section).getByLabelText('Capital One miles worth');
     fireEvent.input(input, { target: { value: '' } });
@@ -77,9 +100,19 @@ describe('break-even UI', () => {
     // 2x × 1.5¢ = 3¢ − 2¢ = 1¢ → $395 / 0.01 / 12 = $3,291.67 → $3,292
     expect(row(/^Everything else/).textContent).toContain('$3,292/mo');
     fireEvent.input(input, { target: { value: '50' } });
-    expect(row(/^Everything else/).textContent).toContain('No better than 2% cash back');
+    expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
     fireEvent.blur(input);
     expect((input as HTMLInputElement).value).toBe('1');
+
+    // A 3% everyday card: the 10x row needs more spend, and a membership warning appears.
+    expect(within(section).queryByRole('note')).toBeNull();
+    fireEvent.change(within(section).getByLabelText('Your everyday card earns'), {
+      target: { value: '3' },
+    });
+    // 10x at 1¢ = 10¢ − 3¢ = 7¢ extra -> $395 / 0.07 / 12 = $470.24 -> $471/mo
+    expect(row(/^Hotels and rental cars/).textContent).toContain('$471/mo');
+    expect(row(/^Everything else/).textContent).toContain('No better than your 3% card');
+    expect(within(section).getByRole('note').textContent).toContain('Robinhood Gold');
   });
 
   it('says the card already pays for itself, and is absent for custom cards', () => {

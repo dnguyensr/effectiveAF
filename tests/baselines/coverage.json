@@ -138,10 +138,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.3,
-    "branches": 95.45,
-    "functions": 98.64,
-    "statements": 98.88
+    "lines": 99.32,
+    "branches": 95.72,
+    "functions": 98.68,
+    "statements": 98.91
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -163,7 +163,7 @@
   },
   "src/ui/BreakEven.tsx": {
     "lines": 100,
-    "branches": 95.45,
+    "branches": 95.83,
     "functions": 100,
     "statements": 100
   },

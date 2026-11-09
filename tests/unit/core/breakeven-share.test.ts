@@ -53,6 +53,23 @@ describe('breakEven (hand-computed)', () => {
     expect(rows?.[0]?.extraCentsPerDollar).toBe(1.3);
   });
 
+  it('measures against the everyday card the user chooses (hand-computed)', () => {
+    // Venture X costing $395 at 1¢ a mile:
+    // 1.5% baseline: 10x -> 8.5¢ extra per $ -> $4,647.06/yr -> $387.25 -> $388/mo;
+    //   5x -> 3.5¢ -> $11,285.71/yr -> $940.48 -> $941/mo;
+    //   2x -> 0.5¢ -> $79,000/yr -> $6,583.33 -> $6,584/mo
+    // 3% baseline: 5x -> 2¢ extra -> $19,750/yr -> $1,645.83 -> $1,646/mo; 2x never beats 3%
+    const vx = rates('capital-one-venture-x');
+    expect(breakEven(39500, vx, 1, 1.5)?.map((r) => r.monthlySpendDollars)).toEqual([
+      388, 941, 6584,
+    ]);
+    expect(breakEven(39500, vx, 1, 3)?.map((r) => r.monthlySpendDollars)).toEqual([
+      471,
+      1646,
+      null,
+    ]);
+  });
+
   it('is null when the card already pays for itself', () => {
     expect(breakEven(0, rates('amex-gold'), 1)).toBeNull();
     expect(breakEven(-500, rates('amex-gold'), 1)).toBeNull();

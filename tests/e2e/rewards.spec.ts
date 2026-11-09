@@ -16,7 +16,12 @@ test('break-even spend responds to values and point value, and persists', async 
   await section.getByLabel('Membership Rewards points worth').fill('2');
   // 4x × 2¢ = 8¢ − 2¢ = 6¢ → $205 / 0.06 / 12 = $284.72 → $285/mo
   await expect(restaurants).toContainText('$285/mo');
+  // Against a 3% everyday card: 8¢ − 3¢ = 5¢ → $205 / 0.05 / 12 = $341.67 → $342/mo
+  await section.getByLabel('Your everyday card earns').selectOption('3');
+  await expect(restaurants).toContainText('$342/mo');
+  await expect(section.getByRole('note')).toContainText('Robinhood Gold');
   expect(await seriousViolations(page)).toEqual([]);
+  await section.getByLabel('Your everyday card earns').selectOption('2');
   await waitForSaved(page, "s.cards['amex-gold']?.pointValueCents === 2");
   await page.reload();
   await expect(restaurants).toContainText('$285/mo');

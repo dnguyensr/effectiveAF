@@ -8,7 +8,12 @@
  */
 import * as z from 'zod/mini';
 import { CADENCES, type CustomCardInput, type CustomPerkInput } from '../catalog/types';
-import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
+import {
+  MAX_BASELINE_PERCENT,
+  MAX_POINT_VALUE_CENTS,
+  MIN_BASELINE_PERCENT,
+  MIN_POINT_VALUE_CENTS,
+} from '../core/breakeven';
 import type { CardUserState } from '../core/card-math';
 import type { PerkValuation } from '../core/valuation';
 
@@ -83,6 +88,15 @@ export const UserStateSchema = z.object({
     z.refine((ids) => new Set(ids).size === ids.length, 'wallet contains duplicate cards'),
   ),
   cards: z.record(Id, CardUserStateSchema),
+  /** App-wide preferences. */
+  settings: z.optional(
+    z.object({
+      /** What the user's everyday card earns, in % cash back, for break-even math. */
+      baselinePercent: z.optional(
+        z.number().check(z.minimum(MIN_BASELINE_PERCENT), z.maximum(MAX_BASELINE_PERCENT)),
+      ),
+    }),
+  ),
   /** Cards chosen for the comparison view, in column order. */
   compare: z.array(Id).check(
     z.maxLength(MAX_COMPARE),

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useState } from 'preact/hooks';
 import {
-  BASELINE_CENTS_PER_DOLLAR,
+  BASELINE_OPTIONS,
   breakEven,
   DEFAULT_POINT_VALUE_CENTS,
   MAX_POINT_VALUE_CENTS,
@@ -26,7 +26,8 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
   const [draft, setDraft] = useState<string | null>(null);
   const rates = card.earnRates;
   if (!rates?.length) return null;
-  const rows = breakEven(summary.effectiveCents, rates, pointValue);
+  const baseline = store.baselinePercent.value;
+  const rows = breakEven(summary.effectiveCents, rates, pointValue, baseline);
   const inputId = `point-value-${card.id}`;
 
   return (
@@ -40,9 +41,30 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
         <>
           <p class="hint">
             After credits it costs {formatUsd(summary.effectiveCents)} a year. To make that up
-            compared with a no-fee {BASELINE_CENTS_PER_DOLLAR}% cash-back card, you'd need to put
-            about this much on it each month in one category:
+            compared with putting the same spending on your everyday card, you'd need to put about
+            this much on it each month in one category:
           </p>
+          <div class="form-row">
+            <label for={`baseline-${card.id}`}>Your everyday card earns</label>
+            <select
+              id={`baseline-${card.id}`}
+              class="month-select"
+              value={String(baseline)}
+              onChange={(e) => store.setBaselinePercent(Number(e.currentTarget.value))}
+            >
+              {BASELINE_OPTIONS.map((p) => (
+                <option key={p} value={String(p)}>
+                  {p}% cash back
+                </option>
+              ))}
+            </select>
+          </div>
+          {baseline >= 3 && (
+            <p class="hint warn-note" role="note">
+              Cards that earn 3% on everything usually need a paid membership. For example, the
+              Robinhood Gold Card requires Robinhood Gold ($50 a year), so count that cost too.
+            </p>
+          )}
           <div class="form-row">
             <label for={inputId}>{card.rewardsCurrency ?? 'Points'} worth</label>
             <span class="money-input">
@@ -88,7 +110,7 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
                   <td>{r.multiplier}x</td>
                   <td>
                     {r.monthlySpendDollars === null
-                      ? `No better than ${BASELINE_CENTS_PER_DOLLAR}% cash back`
+                      ? `No better than your ${baseline}% card`
                       : `${dollars.format(r.monthlySpendDollars)}/mo`}
                   </td>
                 </tr>

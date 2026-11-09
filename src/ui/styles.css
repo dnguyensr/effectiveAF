@@ -1389,3 +1389,7 @@ td .unset-note {
   justify-content: flex-end;
   gap: 6px;
 }
+
+.warn-note {
+  color: var(--warn);
+}
