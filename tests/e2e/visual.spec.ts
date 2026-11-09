@@ -21,7 +21,8 @@ async function snap(page: Page, testInfo: TestInfo, name: string) {
 }
 
 for (const scheme of ['light', 'dark'] as const) {
-  test.describe(`${scheme} theme`, () => {
+  // Tagged so CI can run screenshots separately (non-blocking while the views are changing).
+  test.describe(`${scheme} theme`, { tag: '@visual' }, () => {
     test.use({ colorScheme: scheme });
 
     test('first visit', async ({ page }, testInfo) => {

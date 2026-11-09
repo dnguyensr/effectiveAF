@@ -5,7 +5,14 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Deploying is manual for now (early development: screenshots often need updating first).
+  # Actions → CI → Run workflow → branch "main" → tick "Deploy to GitHub Pages".
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy to GitHub Pages after the tests pass (main only)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -62,9 +69,20 @@ jobs:
             echo "::error::package.json has @playwright/test $installed but the CI container is 1.65.0. Update .github/workflows/ci.yml."
             exit 1
           fi
-      - run: npx playwright test
+      - name: Functional and accessibility tests
+        run: npx playwright test --grep-invert @visual
+      # Screenshots are non-blocking while the views are still changing: a mismatch shows as a
+      # warning (with diffs in the report artifact) instead of failing CI. Delete the
+      # continue-on-error line once the views settle to make screenshots blocking again.
+      - name: Screenshot comparisons (non-blocking)
+        id: visual
+        run: npx playwright test --grep @visual
+        continue-on-error: true
+      - name: Flag screenshot differences
+        if: steps.visual.outcome == 'failure'
+        run: echo "::warning::Screenshots differ from the baselines. Check the playwright-report artifact; run Update screenshots if the change is intended."
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: failure() || steps.visual.outcome == 'failure'
         with:
           name: playwright-report
           path: |
@@ -75,7 +93,9 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: [checks, e2e]
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    # Only when started by hand with "deploy" ticked, on main. Pushes and the screenshot
+    # workflow's CI re-run test but never deploy.
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
