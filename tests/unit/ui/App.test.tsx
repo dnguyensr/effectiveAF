@@ -73,10 +73,11 @@ describe('first visit', () => {
       'Capital One',
       'Citi',
       'Bank of America',
+      'Wells Fargo',
       'Bilt',
       'Your cards',
     ]);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(11);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(16);
   });
 
   it('"Compare cards" goes to the comparison and opens the picker there', () => {

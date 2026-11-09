@@ -27,6 +27,23 @@ test('break-even spend responds to values and point value, and persists', async 
   await expect(restaurants).toContainText('$285/mo');
 });
 
+test('cash-back cards show earn rates in % with no point value', async ({ page }) => {
+  await page.goto('./');
+  await addCards(page, /Add American Express Blue Cash Preferred Card/);
+  const section = page.getByRole('region', { name: 'Making up the difference with rewards' });
+  const supermarkets = section.getByRole('row').filter({
+    has: page.getByRole('rowheader', { name: /^U\.S\. supermarkets/ }),
+  });
+  // 6% − 2% = 4¢ extra → $95 / 0.04 / 12 = $197.92 → $198/mo
+  await expect(supermarkets).toContainText('6%');
+  await expect(supermarkets).toContainText('$198/mo');
+  await expect(section.getByLabel(/worth$/)).toHaveCount(0);
+  await page.getByRole('slider', { name: /^Disney streaming credit/ }).fill('50');
+  // $60 counted → $35 left → $35 / 0.04 / 12 = $72.92 → $73/mo
+  await expect(supermarkets).toContainText('$73/mo');
+  expect(await seriousViolations(page)).toEqual([]);
+});
+
 test('the forum summary lists every card and the total', async ({ page }) => {
   await page.goto('./');
   await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);

@@ -30,7 +30,8 @@ try {
     await page.waitForTimeout(250);
   }
   await page.waitForTimeout(2000);
-  const text = await page.evaluate(() => document.body.innerText);
+  // Read via a locator: some pages' content security policy blocks page.evaluate.
+  const text = await page.locator('body').innerText();
   const date = new Date().toISOString().slice(0, 10);
   const file = join(outDir, `${date}-${name}.txt`);
   writeFileSync(file, `${url}\nFetched ${new Date().toISOString()}\n\n${text}\n`);

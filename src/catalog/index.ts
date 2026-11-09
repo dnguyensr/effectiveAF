@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import { amexBlueCashPreferred } from './cards/amex-blue-cash-preferred';
 import { amexBusinessPlatinum } from './cards/amex-business-platinum';
 import { amexGold } from './cards/amex-gold';
 import { amexPlatinum } from './cards/amex-platinum';
+import { biltObsidian } from './cards/bilt-obsidian';
 import { biltPalladium } from './cards/bilt-palladium';
+import { bofaPremiumRewards } from './cards/bofa-premium-rewards';
 import { bofaPremiumRewardsElite } from './cards/bofa-premium-rewards-elite';
 import { capitalOneVentureX } from './cards/capital-one-venture-x';
 import { capitalOneVentureXBusiness } from './cards/capital-one-venture-x-business';
@@ -10,6 +13,8 @@ import { chaseSapphirePreferred } from './cards/chase-sapphire-preferred';
 import { chaseSapphireReserve } from './cards/chase-sapphire-reserve';
 import { chaseSapphireReserveBusiness } from './cards/chase-sapphire-reserve-business';
 import { citiStrataElite } from './cards/citi-strata-elite';
+import { citiStrataPremier } from './cards/citi-strata-premier';
+import { wellsFargoAutographJourney } from './cards/wells-fargo-autograph-journey';
 import type { CardDef } from './types';
 
 /** Bump whenever card data changes, so saved sessions record which data they were made with. */
@@ -20,14 +25,19 @@ export const CATALOG: readonly CardDef[] = [
   amexPlatinum,
   amexGold,
   amexBusinessPlatinum,
+  amexBlueCashPreferred,
   chaseSapphirePreferred,
   chaseSapphireReserve,
   chaseSapphireReserveBusiness,
   capitalOneVentureX,
   capitalOneVentureXBusiness,
   citiStrataElite,
+  citiStrataPremier,
   bofaPremiumRewardsElite,
+  bofaPremiumRewards,
+  wellsFargoAutographJourney,
   biltPalladium,
+  biltObsidian,
 ];
 
 const byId = new Map(CATALOG.map((card) => [card.id, card]));

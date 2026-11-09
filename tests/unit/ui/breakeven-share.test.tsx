@@ -115,6 +115,24 @@ describe('break-even UI', () => {
     expect(within(section).getByRole('note').textContent).toContain('Robinhood Gold');
   });
 
+  it('shows cash-back cards in % at face value, with no point value to set', () => {
+    const store = setup('amex-blue-cash-preferred');
+    // Even a stale saved point value is ignored: cash back is always worth 1¢ per 1%.
+    store.setPointValue('amex-blue-cash-preferred', 3);
+    render(<App store={store} />);
+    const section = screen.getByRole('region', { name: 'Making up the difference with rewards' });
+    const row = (name: RegExp) =>
+      within(section).getByRole('rowheader', { name }).closest('tr') as HTMLElement;
+    expect(within(section).queryByLabelText(/worth$/)).toBeNull();
+    // 6% − 2% = 4¢ extra -> $95 / 0.04 / 12 = $197.92 -> $198/mo
+    expect(row(/^U\.S\. supermarkets/).textContent).toContain('6%');
+    expect(row(/^U\.S\. supermarkets/).textContent).toContain('$198/mo');
+    // 3% − 2% = 1¢ extra -> $95 / 0.01 / 12 = $791.67 -> $792/mo
+    expect(row(/^U\.S\. gas stations/).textContent).toContain('$792/mo');
+    expect(row(/^Everything else/).textContent).toContain('1%');
+    expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
+  });
+
   it('says the card already pays for itself, and is absent for custom cards', () => {
     const store = setup('amex-gold');
     store.applyPreset('amex-gold', 'face');

@@ -98,13 +98,18 @@ export interface CardDef {
   notes?: readonly string[];
   /** Rewards currency, e.g. "Membership Rewards points" (catalog cards only). */
   rewardsCurrency?: string;
+  /**
+   * True when the card earns cash back rather than points: each earn rate's multiplier is then
+   * a percentage (cents per $1), always worth face value.
+   */
+  cashBack?: boolean;
   /** Points or miles per dollar by spending category, highest first (catalog cards only). */
   earnRates?: readonly EarnRate[];
 }
 
 export interface EarnRate {
   category: string;
-  /** Points or miles per dollar. */
+  /** Points or miles per dollar, or % cash back for cash-back cards. */
   multiplier: number;
   note?: string;
 }

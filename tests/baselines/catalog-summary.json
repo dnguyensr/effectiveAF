@@ -235,6 +235,30 @@
     ]
   },
   {
+    "id": "amex-blue-cash-preferred",
+    "name": "American Express Blue Cash Preferred Card",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "amex-blue-cash-preferred.disney",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "streaming",
+        "annualNominal": "$120"
+      }
+    ],
+    "totalNominal": "$120",
+    "rewardsCurrency": "Cash back",
+    "earnRates": [
+      "6x U.S. supermarkets",
+      "6x Select U.S. streaming subscriptions",
+      "3x Transit (taxis, rideshare, parking, tolls, trains, buses)",
+      "3x U.S. gas stations",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "chase-sapphire-preferred",
     "name": "Chase Sapphire Preferred",
     "annualFee": "$95",
@@ -604,6 +628,31 @@
     ]
   },
   {
+    "id": "citi-strata-premier",
+    "name": "Citi Strata Premier Card",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "citi-strata-premier.hotel",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      }
+    ],
+    "totalNominal": "$100",
+    "rewardsCurrency": "ThankYou points",
+    "earnRates": [
+      "10x Hotels, car rentals and attractions on cititravel.com",
+      "3x Air travel and other hotel purchases",
+      "3x Restaurants",
+      "3x Supermarkets",
+      "3x Gas and EV charging",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "bofa-premium-rewards-elite",
     "name": "Bank of America Premium Rewards Elite",
     "annualFee": "$550",
@@ -639,6 +688,57 @@
     ]
   },
   {
+    "id": "bofa-premium-rewards",
+    "name": "Bank of America Premium Rewards",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "bofa-premium-rewards.airline",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "bofa-premium-rewards.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$100",
+        "kind": "trusted-traveler",
+        "annualNominal": "$25"
+      }
+    ],
+    "totalNominal": "$125",
+    "rewardsCurrency": "Bank of America points",
+    "earnRates": [
+      "2x Travel and dining",
+      "1.5x Everything else"
+    ]
+  },
+  {
+    "id": "wells-fargo-autograph-journey",
+    "name": "Wells Fargo Autograph Journey Card",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "wells-fargo-autograph-journey.airline",
+        "cadence": "annual",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$50"
+      }
+    ],
+    "totalNominal": "$50",
+    "rewardsCurrency": "Wells Fargo Rewards points",
+    "earnRates": [
+      "5x Hotels",
+      "4x Airlines",
+      "3x Restaurants and other travel",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "bilt-palladium",
     "name": "Bilt Palladium Card",
     "annualFee": "$495",
@@ -667,6 +767,32 @@
       "4x Lyft",
       "3x Flights via Bilt Travel",
       "2x Everything else"
+    ]
+  },
+  {
+    "id": "bilt-obsidian",
+    "name": "Bilt Obsidian Card",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "bilt-obsidian.hotel",
+        "cadence": "semiannual",
+        "perPeriod": "$50",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      }
+    ],
+    "totalNominal": "$100",
+    "rewardsCurrency": "Bilt Points",
+    "earnRates": [
+      "6x Bilt partner restaurants",
+      "4x Hotels via Bilt Travel",
+      "3x Dining or grocery (your choice)",
+      "3x Flights via Bilt Travel",
+      "3x Lyft",
+      "2x Other travel",
+      "1x Everything else"
     ]
   }
 ]
