@@ -11,7 +11,8 @@ export default defineConfig({
   // Never create baselines silently in CI; use the "Update screenshots" workflow.
   updateSnapshots: process.env.CI ? 'none' : 'missing',
   retries: process.env.CI ? 2 : 0,
-  ...(process.env.CI ? { workers: 2 } : {}),
+  // More parallel browsers than this has crashed Playwright's Firefox during axe scans.
+  workers: process.env.CI ? 2 : 4,
   reporter: process.env.CI
     ? [['github'], ['html', { open: 'never' }]]
     : [['list'], ['html', { open: 'never' }]],

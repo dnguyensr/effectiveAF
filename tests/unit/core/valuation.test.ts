@@ -6,6 +6,7 @@ import {
   annualNominalCents,
   isPerkAvailable,
   percentOfNominal,
+  perkStatus,
   realizedCents,
   type PerkValuation,
 } from '../../../src/core/valuation';
@@ -47,19 +48,13 @@ describe('isPerkAvailable', () => {
 describe('realizedCents', () => {
   const nominal = 20000;
 
-  it('uses the default ratio when the user has not valued the perk', () => {
-    expect(realizedCents(nominal, undefined, 0.75)).toBe(15000);
+  it('assumes nothing: a perk the user has not valued counts as zero', () => {
+    expect(realizedCents(nominal, undefined)).toBe(0);
   });
 
-  it('clamps a bad default ratio', () => {
-    expect(realizedCents(nominal, undefined, 2)).toBe(20000);
-    expect(realizedCents(nominal, undefined, -1)).toBe(0);
-    expect(realizedCents(nominal, undefined, Number.NaN)).toBe(0);
-  });
-
-  it('values a disabled perk at zero whatever was entered', () => {
-    expect(realizedCents(nominal, { mode: 'percent', percent: 80, enabled: false }, 1)).toBe(0);
-    expect(realizedCents(nominal, { mode: 'dollars', cents: 5000, enabled: false }, 1)).toBe(0);
+  it("values a won't-use perk at zero whatever was entered", () => {
+    expect(realizedCents(nominal, { mode: 'percent', percent: 80, enabled: false })).toBe(0);
+    expect(realizedCents(nominal, { mode: 'dollars', cents: 5000, enabled: false })).toBe(0);
   });
 
   it.each<[PerkValuation, number]>([
@@ -73,23 +68,23 @@ describe('realizedCents', () => {
     [{ mode: 'dollars', cents: -5, enabled: true }, 0],
     [{ mode: 'dollars', cents: Number.POSITIVE_INFINITY, enabled: true }, 0],
   ])('%o -> %d', (valuation, expected) => {
-    expect(realizedCents(nominal, valuation, 0.5)).toBe(expected);
+    expect(realizedCents(nominal, valuation)).toBe(expected);
   });
 
   it('rounds percent values to whole cents', () => {
-    expect(realizedCents(1295, { mode: 'percent', percent: 33, enabled: true }, 0)).toBe(427);
+    expect(realizedCents(1295, { mode: 'percent', percent: 33, enabled: true })).toBe(427);
   });
 
   it('keeps a typed dollar amount when the face value grows, and caps it when it shrinks', () => {
     const typed: PerkValuation = { mode: 'dollars', cents: 15000, enabled: true };
-    expect(realizedCents(30000, typed, 0)).toBe(15000);
-    expect(realizedCents(10000, typed, 0)).toBe(10000);
+    expect(realizedCents(30000, typed)).toBe(15000);
+    expect(realizedCents(10000, typed)).toBe(10000);
   });
 
   it('scales a percentage with the face value', () => {
     const pct: PerkValuation = { mode: 'percent', percent: 50, enabled: true };
-    expect(realizedCents(30000, pct, 0)).toBe(15000);
-    expect(realizedCents(10000, pct, 0)).toBe(5000);
+    expect(realizedCents(30000, pct)).toBe(15000);
+    expect(realizedCents(10000, pct)).toBe(5000);
   });
 
   describe('properties', () => {
@@ -111,9 +106,8 @@ describe('realizedCents', () => {
         fc.property(
           fc.integer({ min: 0, max: 10_000_000 }),
           fc.option(valuation, { nil: undefined }),
-          fc.double({ min: -2, max: 2, noNaN: false }),
-          (nom, val, ratio) => {
-            const r = realizedCents(nom, val, ratio);
+          (nom, val) => {
+            const r = realizedCents(nom, val);
             expect(Number.isInteger(r)).toBe(true);
             expect(r).toBeGreaterThanOrEqual(0);
             expect(r).toBeLessThanOrEqual(nom);
@@ -128,12 +122,20 @@ describe('realizedCents', () => {
           fc.integer({ min: 100, max: 10_000_000 }),
           fc.integer({ min: 0, max: 100 }),
           (nom, pct) => {
-            const r = realizedCents(nom, { mode: 'percent', percent: pct, enabled: true }, 0);
+            const r = realizedCents(nom, { mode: 'percent', percent: pct, enabled: true });
             expect(Math.abs(percentOfNominal(r, nom) - pct)).toBeLessThanOrEqual(1);
           },
         ),
       );
     });
+  });
+});
+
+describe('perkStatus', () => {
+  it("distinguishes not set, using and won't use", () => {
+    expect(perkStatus(undefined)).toBe('unset');
+    expect(perkStatus({ mode: 'dollars', cents: 0, enabled: true })).toBe('using');
+    expect(perkStatus({ mode: 'percent', percent: 50, enabled: false })).toBe('skipped');
   });
 });
 

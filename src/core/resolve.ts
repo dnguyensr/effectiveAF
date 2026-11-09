@@ -25,12 +25,11 @@ export function customPerkDef(input: CustomPerkInput): PerkDef {
     name: input.name,
     description: 'Added by you.',
     category: 'custom',
+    kind: 'custom',
     cadence: input.cadence,
     amountPerPeriodCents: input.amountPerPeriodCents,
     resetBasis: 'calendar-year',
     cadenceLabel: cadenceLabelFor(input.cadence, input.amountPerPeriodCents),
-    // The user typed in the amount, so start by assuming they get all of it.
-    defaultRatio: 1,
     requiresEnrollment: false,
     custom: true,
   };

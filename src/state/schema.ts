@@ -31,6 +31,7 @@ const PerkValuationSchema = z.discriminatedUnion('mode', [
 ]);
 
 export const MAX_CUSTOM_CARDS = 20;
+export const MAX_COMPARE = 5;
 export const MAX_CUSTOM_PERKS_PER_CARD = 30;
 export const MAX_NAME_LENGTH = 60;
 
@@ -60,6 +61,7 @@ const CustomCardSchema = z.object({
 
 const CardUserStateSchema = z.object({
   feeOverrideCents: z.optional(Cents),
+  anniversaryMonth: z.optional(z.int().check(z.minimum(1), z.maximum(12))),
   perks: z.record(Id, PerkValuationSchema),
   customPerks: z.optional(
     z
@@ -76,6 +78,11 @@ export const UserStateSchema = z.object({
     z.refine((ids) => new Set(ids).size === ids.length, 'wallet contains duplicate cards'),
   ),
   cards: z.record(Id, CardUserStateSchema),
+  /** Cards chosen for the comparison view, in column order. */
+  compare: z.array(Id).check(
+    z.maxLength(MAX_COMPARE),
+    z.refine((ids) => new Set(ids).size === ids.length, 'duplicate cards'),
+  ),
   customCards: z
     .array(CustomCardSchema)
     .check(z.maxLength(MAX_CUSTOM_CARDS), z.refine(uniqueIds, 'duplicate custom card IDs')),

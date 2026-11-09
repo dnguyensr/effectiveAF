@@ -35,7 +35,7 @@ describe('resolveCards', () => {
     expect(cards[0]).toBe(CATALOG[0]);
   });
 
-  it('appends custom perks to a catalog card, marked custom and valued at 100% by default', () => {
+  it('appends custom perks to a catalog card, marked custom', () => {
     const gold = resolveCards(CATALOG, [], {
       'amex-gold': { perks: {}, customPerks: [lounge] },
     }).find((c) => c.id === 'amex-gold') as CardDef;
@@ -44,7 +44,6 @@ describe('resolveCards', () => {
       id: lounge.id,
       custom: true,
       category: 'custom',
-      defaultRatio: 1,
     });
     expect(added?.cadenceLabel).toBe('$50 / year');
     expect(summarizeCard(gold, undefined, AS_OF).nominalCents).toBe(42400 + 5000);
@@ -88,8 +87,8 @@ describe('resolveCards', () => {
 });
 
 describe('presets', () => {
-  it('lists four presets with labels and descriptions', () => {
-    expect(PRESETS.map((p) => p.id)).toEqual(['estimates', 'face', 'organic', 'none']);
+  it('lists the three presets with labels and descriptions', () => {
+    expect(PRESETS.map((p) => p.id)).toEqual(['face', 'travel-dining', 'clear']);
     for (const p of PRESETS) expect(p.description.length).toBeGreaterThan(10);
   });
 
@@ -101,29 +100,33 @@ describe('presets', () => {
     const s = total('face');
     expect(s.realizedCents).toBe(302440);
     expect(s.effectiveCents).toBe(-212940);
+    expect(s.unsetCount).toBe(0);
   });
 
-  it('organic: only travel, dining and rideshare at estimates, $670.70, costs $224.30', () => {
-    // hotel 150 + Resy 200 + Uber Cash 140 + airline 100 + CLEAR+ 65.70 + Global Entry 15
-    const s = total('organic');
-    expect(s.realizedCents).toBe(67070);
-    expect(s.effectiveCents).toBe(22430);
-    const off = s.perks.filter((p) => !p.enabled).map((p) => p.perk.category);
-    expect(new Set(off)).toEqual(new Set(['entertainment', 'retail', 'membership', 'wellness']));
+  it("travel & dining: $1,649 at face value, the rest won't use, pays for itself by $754", () => {
+    // hotel 600 + Resy 400 + Uber Cash 200 + airline 200 + CLEAR+ 219 + Global Entry 30
+    const s = total('travel-dining');
+    expect(s.realizedCents).toBe(164900);
+    expect(s.effectiveCents).toBe(-75400);
+    const skipped = s.perks.filter((p) => p.status === 'skipped').map((p) => p.perk.category);
+    expect(new Set(skipped)).toEqual(
+      new Set(['entertainment', 'retail', 'membership', 'wellness']),
+    );
+    expect(s.unsetCount).toBe(0);
   });
 
-  it('none: everything off, the full fee is the cost', () => {
-    const s = total('none');
+  it('clear: everything back to not set, the full fee is the cost', () => {
+    const s = summarizeCard(
+      platinum,
+      { perks: applyPreset(platinum, applyPreset(platinum, {}, 'face'), 'clear') },
+      AS_OF,
+    );
     expect(s.realizedCents).toBe(0);
     expect(s.effectiveCents).toBe(89500);
+    expect(s.unsetCount).toBe(platinum.perks.length);
   });
 
-  it('switching a preset off and back on keeps the starting estimate', () => {
-    const v = applyPreset(platinum, {}, 'none')['amex-platinum.resy'];
-    expect(v).toEqual({ mode: 'percent', percent: 50, enabled: false });
-  });
-
-  it('estimates clears catalog valuations but keeps custom perks and unrelated entries', () => {
+  it('never touches custom perks or entries for other perks', () => {
     const custom = customPerkDef({
       id: 'amex-platinum.my-x',
       name: 'X',
@@ -131,15 +134,13 @@ describe('presets', () => {
       amountPerPeriodCents: 100,
     });
     const card: CardDef = { ...platinum, perks: [...platinum.perks, custom] };
+    const mine = { mode: 'dollars', cents: 50, enabled: true } as const;
     const current = {
       'amex-platinum.resy': { mode: 'dollars', cents: 1, enabled: true },
-      'amex-platinum.my-x': { mode: 'dollars', cents: 50, enabled: true },
+      'amex-platinum.my-x': mine,
     } as const;
-    expect(applyPreset(card, current, 'estimates')).toEqual({
-      'amex-platinum.my-x': current['amex-platinum.my-x'],
-    });
-    expect(applyPreset(card, current, 'face')['amex-platinum.my-x']).toEqual(
-      current['amex-platinum.my-x'],
-    );
+    expect(applyPreset(card, current, 'clear')).toEqual({ 'amex-platinum.my-x': mine });
+    expect(applyPreset(card, current, 'face')['amex-platinum.my-x']).toEqual(mine);
+    expect(applyPreset(card, current, 'travel-dining')['amex-platinum.my-x']).toEqual(mine);
   });
 });

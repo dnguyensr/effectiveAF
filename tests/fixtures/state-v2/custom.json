@@ -36,6 +36,7 @@
       ]
     }
   },
+  "compare": ["amex-gold", "custom-citi01", "chase-sapphire-reserve"],
   "customCards": [
     { "id": "custom-citi01", "issuer": "Citi", "name": "Strata Premier", "annualFeeCents": 9500 },
     { "id": "custom-unused", "issuer": "", "name": "Old store card", "annualFeeCents": 0 }

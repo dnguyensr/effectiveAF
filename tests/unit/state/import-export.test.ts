@@ -41,7 +41,9 @@ describe('export / import', () => {
   it('accepts a full v1 backup', () => {
     const r = parseImport(fixture('state-v1/full.json'));
     expect(r.ok && r.cardCount).toBe(3);
-    expect(r.ok && r.valuationCount).toBe(5);
+    // 5 set by the user + the v1 estimates migrated in: Gold 4, Venture X 3, Platinum 12,
+    // Reserve 11 = 30.
+    expect(r.ok && r.valuationCount).toBe(30);
   });
 });
 

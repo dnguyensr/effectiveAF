@@ -22,6 +22,33 @@ export type PerkCategory =
   /** Added by the user: their own credit or a non-credit benefit (lounge access, insurance...). */
   | 'custom';
 
+/**
+ * What a perk is, independent of the card: used to line up similar credits across cards in
+ * the comparison view. Ordered and grouped by KINDS.
+ */
+export const KINDS = [
+  { id: 'travel-general', label: 'Travel credit', group: 'Travel' },
+  { id: 'hotel', label: 'Hotel credits', group: 'Travel' },
+  { id: 'airline-fees', label: 'Airline fee credit', group: 'Travel' },
+  { id: 'trusted-traveler', label: 'Global Entry / TSA PreCheck', group: 'Travel' },
+  { id: 'airport-security', label: 'CLEAR+', group: 'Travel' },
+  { id: 'bonus-miles', label: 'Anniversary bonus', group: 'Travel' },
+  { id: 'dining', label: 'Dining credits', group: 'Dining' },
+  { id: 'food-delivery', label: 'Delivery promos', group: 'Dining' },
+  { id: 'delivery-membership', label: 'Delivery membership', group: 'Dining' },
+  { id: 'rideshare', label: 'Rideshare credits', group: 'Rideshare' },
+  { id: 'rideshare-membership', label: 'Rideshare membership', group: 'Rideshare' },
+  { id: 'streaming', label: 'Streaming & digital', group: 'Entertainment' },
+  { id: 'events', label: 'Event tickets', group: 'Entertainment' },
+  { id: 'retail', label: 'Retail credits', group: 'Shopping' },
+  { id: 'shopping-membership', label: 'Shopping membership', group: 'Shopping' },
+  { id: 'fitness', label: 'Fitness', group: 'Wellness' },
+  { id: 'wearables', label: 'Wearables', group: 'Wellness' },
+  { id: 'custom', label: 'Your perks', group: 'Yours' },
+] as const;
+
+export type PerkKind = (typeof KINDS)[number]['id'];
+
 export interface PerkDef {
   /** Stable ID, `<card-id>.<perk-slug>`. */
   id: string;
@@ -29,6 +56,7 @@ export interface PerkDef {
   /** One line on what it covers and how to trigger it. */
   description: string;
   category: PerkCategory;
+  kind: PerkKind;
   cadence: Cadence;
   /** Allowance for one period, in cents (e.g. 2500 for "$25 per month"). */
   amountPerPeriodCents: number;
@@ -37,8 +65,6 @@ export interface PerkDef {
   resetBasis: ResetBasis;
   /** Short human cadence, e.g. "$25 / month". */
   cadenceLabel: string;
-  /** Typical share of the face value a regular cardholder actually uses, 0..1. */
-  defaultRatio: number;
   requiresEnrollment: boolean;
   /** ISO date (inclusive). After this date the perk is treated as gone. */
   endsOn?: string;

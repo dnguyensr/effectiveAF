@@ -8,6 +8,18 @@ import { findCard } from '../../src/catalog';
 import type { CardDef } from '../../src/catalog/types';
 import { summarizeCard, type CardUserState } from '../../src/core/card-math';
 import type { PerkValuation } from '../../src/core/valuation';
+import { parseState } from '../../src/state/migrations';
+
+/** The card state a v1 user who held `cardId` and changed nothing has after migrating. */
+function v1User(cardId: string): CardUserState | undefined {
+  return parseState({
+    schemaVersion: 1,
+    catalogVersion: '2026-11-08',
+    wallet: [cardId],
+    cards: {},
+    updatedAt: 'x',
+  }).cards[cardId];
+}
 
 function card(id: string): CardDef {
   const c = findCard(id);
@@ -24,6 +36,13 @@ function onlyUsing(c: CardDef, using: Record<string, PerkValuation>): CardUserSt
 }
 
 describe('hand-computed scenarios', () => {
+  it('a brand-new card counts nothing: the full fee is the cost', () => {
+    const s = summarizeCard(card('amex-platinum'), undefined, '2026-11-08');
+    expect(s.realizedCents).toBe(0);
+    expect(s.effectiveCents).toBe(89500);
+    expect(s.unsetCount).toBe(12);
+  });
+
   it('Platinum face value totals $3,024.40', () => {
     // 600 hotel + 400 Resy + 300 digital + 300 lululemon + 200 Uber Cash (15×12+20)
     // + 120 Uber One + 200 airline + 219 CLEAR+ + 155.40 Walmart+ (12.95×12)
@@ -31,9 +50,9 @@ describe('hand-computed scenarios', () => {
     expect(summarizeCard(card('amex-platinum'), undefined, '2026-11-08').nominalCents).toBe(302440);
   });
 
-  it('Platinum at the conservative defaults pays for itself by $95.55', () => {
+  it('a v1 Platinum holder keeps +$95.55 after migration (old starting estimates)', () => {
     // 150 + 200 + 150 + 75 + 140 + 36 + 100 + 65.70 + 38.85 + 0 + 20 + 15 = 990.55
-    const s = summarizeCard(card('amex-platinum'), undefined, '2026-11-08');
+    const s = summarizeCard(card('amex-platinum'), v1User('amex-platinum'), '2026-11-08');
     expect(s.realizedCents).toBe(99055);
     expect(s.effectiveCents).toBe(89500 - 99055);
     expect(s.verdict).toBe('pays-for-itself');
@@ -65,9 +84,13 @@ describe('hand-computed scenarios', () => {
     expect(s.effectiveCents).toBe(-9900);
   });
 
-  it('Venture X at the defaults costs $10', () => {
+  it('a v1 Venture X holder keeps costing $10 after migration', () => {
     // 300×0.9 = 270 travel + 100 anniversary miles + 30×0.5 = 15 Global Entry = 385
-    const s = summarizeCard(card('capital-one-venture-x'), undefined, '2026-11-08');
+    const s = summarizeCard(
+      card('capital-one-venture-x'),
+      v1User('capital-one-venture-x'),
+      '2026-11-08',
+    );
     expect(s.realizedCents).toBe(38500);
     expect(s.effectiveCents).toBe(1000);
     expect(s.verdict).toBe('costs');

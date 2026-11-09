@@ -31,7 +31,9 @@
     "test:e2e:docker": "node scripts/e2e-docker.mjs",
     "test:e2e:update": "node scripts/e2e-docker.mjs --update-snapshots",
     "licenses:check": "node scripts/licenses.mjs check",
-    "verify": "npm run licenses:check && npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run test:e2e"
+    "verify": "npm run licenses:check && npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run coverage:check && npm run test:e2e",
+    "coverage:check": "node scripts/coverage-ratchet.mjs check",
+    "coverage:update": "vitest run --coverage && node scripts/coverage-ratchet.mjs update"
   },
   "dependencies": {
     "@preact/signals": "^2.11.4",

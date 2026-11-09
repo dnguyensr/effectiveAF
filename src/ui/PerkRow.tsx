@@ -9,21 +9,25 @@ import { useStore } from './store-context';
 interface Props {
   cardId: string;
   summary: PerkSummary;
+  /** yyyy-mm-dd of the next reset, "anniversary" if it depends on an unknown month, or null. */
+  nextReset: string | null;
 }
 
-export function PerkRow({ cardId, summary }: Props) {
+/**
+ * One perk with its three states: not set (the starting state, $0), using (any value set with
+ * the slider or dollar field) and won't use (an explicit $0 that remembers the last value).
+ */
+export function PerkRow({ cardId, summary, nextReset }: Props) {
   const store = useStore();
-  const { perk, nominalCents, valuation, enabled } = summary;
+  const { perk, nominalCents, valuation, status } = summary;
   const domId = perk.id.replace(/\./g, '--');
 
-  // While a perk is switched off, keep showing (greyed) what it would be worth if switched on.
-  const shownCents = enabled
-    ? summary.realizedCents
-    : realizedCents(nominalCents, valuation && { ...valuation, enabled: true }, perk.defaultRatio);
+  // For "won't use", keep showing the remembered value in the controls.
+  const shownCents = realizedCents(nominalCents, valuation && { ...valuation, enabled: true });
   const percent = percentOfNominal(shownCents, nominalCents);
 
   return (
-    <li class={`perk${enabled ? '' : ' perk-off'}`} data-perk-id={perk.id}>
+    <li class={`perk perk-${status}`} data-perk-id={perk.id}>
       <div class="perk-top">
         <div class="perk-info">
           <h4 class="perk-name" id={`${domId}-name`}>
@@ -32,6 +36,13 @@ export function PerkRow({ cardId, summary }: Props) {
           <div class="perk-tags">
             <span class="tag tag-cadence">{perk.cadenceLabel}</span>
             {perk.requiresEnrollment && <span class="tag">Enrollment required</span>}
+            {nextReset && (
+              <span class="tag tag-reset">
+                {nextReset === 'anniversary'
+                  ? 'Resets on your account anniversary'
+                  : `Resets ${formatIsoDate(nextReset)}`}
+              </span>
+            )}
             {perk.endsOn && <span class="tag">Ends {formatIsoDate(perk.endsOn)}</span>}
             {perk.custom && <span class="tag tag-custom">Yours</span>}
           </div>
@@ -53,22 +64,17 @@ export function PerkRow({ cardId, summary }: Props) {
           </p>
         </div>
         <div class="perk-value" data-testid={`realized-${perk.id}`}>
-          <strong>{formatUsd(enabled ? summary.realizedCents : 0)}</strong>
+          <strong>
+            {status === 'unset'
+              ? 'Not set'
+              : status === 'skipped'
+                ? "Won't use"
+                : formatUsd(summary.realizedCents)}
+          </strong>
           <span>of {formatUsd(nominalCents)}/yr</span>
         </div>
       </div>
       <div class="perk-controls">
-        <label class="switch">
-          <input
-            type="checkbox"
-            checked={enabled}
-            aria-label={`Use ${perk.name}`}
-            onChange={(e) => store.setPerkEnabled(cardId, perk.id, e.currentTarget.checked)}
-          />
-          <span class="switch-label" aria-hidden="true">
-            {enabled ? 'Using' : 'Not using'}
-          </span>
-        </label>
         <input
           class="perk-range"
           type="range"
@@ -76,9 +82,8 @@ export function PerkRow({ cardId, summary }: Props) {
           max={100}
           step={1}
           value={percent}
-          disabled={!enabled}
           aria-label={`${perk.name}: percent of face value you'll use`}
-          aria-valuetext={`${percent}% (${formatUsd(shownCents)})`}
+          aria-valuetext={status === 'unset' ? 'Not set' : `${percent}% (${formatUsd(shownCents)})`}
           onInput={(e) => store.setPerkPercent(cardId, perk.id, Number(e.currentTarget.value))}
         />
         <span class="perk-percent" aria-hidden="true">
@@ -88,9 +93,19 @@ export function PerkRow({ cardId, summary }: Props) {
           id={`${domId}-dollars`}
           label={`${perk.name}: dollars per year you'll use`}
           valueCents={shownCents}
-          disabled={!enabled}
           onCommit={(cents) => store.setPerkDollars(cardId, perk.id, cents ?? 0)}
         />
+        <label class="switch">
+          <input
+            type="checkbox"
+            checked={status === 'skipped'}
+            aria-label={`Won't use ${perk.name}`}
+            onChange={(e) => store.setPerkEnabled(cardId, perk.id, !e.currentTarget.checked)}
+          />
+          <span class="switch-label" aria-hidden="true">
+            Won't use
+          </span>
+        </label>
       </div>
     </li>
   );

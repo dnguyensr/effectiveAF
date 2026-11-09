@@ -3,7 +3,9 @@ import type { CardDef, CustomPerkInput, PerkDef } from '../catalog/types';
 import {
   annualNominalCents,
   isPerkAvailable,
+  perkStatus,
   realizedCents,
+  type PerkStatus,
   type PerkValuation,
 } from './valuation';
 
@@ -11,6 +13,8 @@ import {
 export interface CardUserState {
   feeOverrideCents?: number | undefined;
   perks: Record<string, PerkValuation>;
+  /** Month (1-12) the account was opened; anchors cardmember-year resets. */
+  anniversaryMonth?: number | undefined;
   /** Perks or benefits the user added to this card. */
   customPerks?: CustomPerkInput[] | undefined;
 }
@@ -22,7 +26,7 @@ export interface PerkSummary {
   nominalCents: number;
   realizedCents: number;
   valuation: PerkValuation | undefined;
-  enabled: boolean;
+  status: PerkStatus;
 }
 
 export interface CardSummary {
@@ -36,6 +40,8 @@ export interface CardSummary {
   verdict: Verdict;
   /** Perks still offered on `asOf`; expired ones are left out of every total. */
   perks: PerkSummary[];
+  /** How many of `perks` the user hasn't valued yet. */
+  unsetCount: number;
 }
 
 export function verdictFor(effectiveCents: number): Verdict {
@@ -55,9 +61,9 @@ export function summarizeCard(
       return {
         perk,
         nominalCents: nominal,
-        realizedCents: realizedCents(nominal, valuation, perk.defaultRatio),
+        realizedCents: realizedCents(nominal, valuation),
         valuation,
-        enabled: valuation?.enabled ?? true,
+        status: perkStatus(valuation),
       };
     });
 
@@ -76,5 +82,6 @@ export function summarizeCard(
     effectiveCents,
     verdict: verdictFor(effectiveCents),
     perks,
+    unsetCount: perks.filter((p) => p.status === 'unset').length,
   };
 }

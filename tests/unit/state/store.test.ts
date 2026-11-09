@@ -99,16 +99,16 @@ describe('createStore', () => {
     expect(store.state.value.cards).toEqual({});
   });
 
-  it('toggling a perk off keeps its value; with no value yet it starts from the default', () => {
+  it("won't use keeps the value; with no value yet it records $0", () => {
     const { store } = setup();
     store.addCard('amex-gold');
     store.setPerkEnabled('amex-gold', 'amex-gold.dining', false);
     expect(store.state.value.cards['amex-gold']?.perks['amex-gold.dining']).toEqual({
       mode: 'percent',
-      percent: 50,
+      percent: 0,
       enabled: false,
     });
-    expect(store.summary.value.cards[0]?.perks[0]?.realizedCents).toBe(0);
+    expect(store.summary.value.cards[0]?.perks[0]?.status).toBe('skipped');
 
     store.setPerkDollars('amex-gold', 'amex-gold.uber-cash', 3000);
     store.setPerkEnabled('amex-gold', 'amex-gold.uber-cash', false);

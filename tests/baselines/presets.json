@@ -1,28 +1,6 @@
 {
   "asOf": "2026-11-08",
   "presets": {
-    "estimates": {
-      "amex-platinum": {
-        "realized": "$990.55",
-        "effective": "-$95.55"
-      },
-      "amex-gold": {
-        "realized": "$215",
-        "effective": "$110"
-      },
-      "chase-sapphire-preferred": {
-        "realized": "$216",
-        "effective": "-$121"
-      },
-      "chase-sapphire-reserve": {
-        "realized": "$1,183.10",
-        "effective": "-$388.10"
-      },
-      "capital-one-venture-x": {
-        "realized": "$385",
-        "effective": "$10"
-      }
-    },
     "face": {
       "amex-platinum": {
         "realized": "$3,024.40",
@@ -45,29 +23,29 @@
         "effective": "-$35"
       }
     },
-    "organic": {
+    "travel-dining": {
       "amex-platinum": {
-        "realized": "$670.70",
-        "effective": "$224.30"
+        "realized": "$1,649",
+        "effective": "-$754"
       },
       "amex-gold": {
-        "realized": "$215",
-        "effective": "$110"
+        "realized": "$424",
+        "effective": "-$99"
       },
       "chase-sapphire-preferred": {
-        "realized": "$126",
-        "effective": "-$31"
+        "realized": "$250",
+        "effective": "-$155"
       },
       "chase-sapphire-reserve": {
-        "realized": "$897.50",
-        "effective": "-$102.50"
+        "realized": "$1,920",
+        "effective": "-$1,125"
       },
       "capital-one-venture-x": {
-        "realized": "$385",
-        "effective": "$10"
+        "realized": "$430",
+        "effective": "-$35"
       }
     },
-    "none": {
+    "clear": {
       "amex-platinum": {
         "realized": "$0",
         "effective": "$895"

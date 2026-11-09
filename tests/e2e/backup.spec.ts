@@ -2,13 +2,13 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CURRENT_SCHEMA_VERSION } from '../../src/state/schema';
-import { addCard, expect, test, verdict, waitForSaved } from './fixtures';
+import { addCards, expect, selectTab, test, verdict, waitForSaved } from './fixtures';
 
 test('export, clear everything, import: identical result', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'Mobile WebKit does not expose downloads to Playwright');
   await page.goto('./');
-  await addCard(page, /Add American Express Gold Card/);
-  await addCard(page, /Add Chase Sapphire Preferred/);
+  await addCards(page, /Add American Express Gold Card/, /Add Chase Sapphire Preferred/);
+  await selectTab(page, /Gold Card/);
   await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('0');
   await waitForSaved(page, "s.cards['amex-gold']?.feeOverrideCents === 0");
   const before = await page.getByTestId('summary-effective').textContent();
@@ -27,7 +27,7 @@ test('export, clear everything, import: identical result', async ({ page, browse
 
   await page.evaluate(() => localStorage.clear());
   await page.reload();
-  await expect(page.getByRole('heading', { name: 'Add the cards you have' })).toBeVisible();
+  await expect(page.getByText(/Your wallet is empty/)).toBeVisible();
 
   await page.getByRole('button', { name: 'Back up or restore' }).click();
   await page.getByLabel('Choose a backup file').setInputFiles({
@@ -41,12 +41,13 @@ test('export, clear everything, import: identical result', async ({ page, browse
   await page.getByRole('button', { name: 'Close' }).click();
 
   await expect(page.getByTestId('summary-effective')).toHaveText(before ?? '');
-  await expect(verdict(page, 'amex-gold')).toHaveText('Pays for itself (+$215)');
+  await selectTab(page, /Gold Card/);
+  await expect(verdict(page, 'amex-gold')).toHaveText('Pays for itself (+$0)');
 });
 
 test('pasted backups are validated before anything changes', async ({ page }) => {
   await page.goto('./');
-  await addCard(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X/);
   await page.getByRole('button', { name: 'Back up or restore' }).click();
   const dialog = page.getByRole('dialog', { name: 'Back up or restore' });
   await expect(dialog).toBeVisible();
@@ -66,7 +67,7 @@ test('pasted backups are validated before anything changes', async ({ page }) =>
 
   await dialog.getByRole('button', { name: 'Close' }).click();
   await expect(dialog).toBeHidden();
-  await expect(verdict(page, 'capital-one-venture-x')).toHaveText('Costs $10/yr');
+  await expect(verdict(page, 'capital-one-venture-x')).toHaveText('Costs $395/yr');
 });
 
 test('Escape closes the dialog', async ({ page }) => {

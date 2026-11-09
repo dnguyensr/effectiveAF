@@ -1,0 +1,230 @@
+{
+  "src/catalog/cards/amex-gold.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-platinum.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/capital-one-venture-x.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-sapphire-preferred.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-sapphire-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/index.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/types.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/card-math.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/compare.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/dates.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/money.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/presets.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/resolve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/valuation.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/wallet-math.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/errors.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/import-export.ts": {
+    "lines": 100,
+    "branches": 75,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/migrations.ts": {
+    "lines": 100,
+    "branches": 97.22,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/schema.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/storage.ts": {
+    "lines": 100,
+    "branches": 91.66,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/state/store.ts": {
+    "lines": 99.14,
+    "branches": 93.58,
+    "functions": 98.33,
+    "statements": 98.63
+  },
+  "src/state/v1-estimates.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/App.tsx": {
+    "lines": 100,
+    "branches": 97.05,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/BackupDialog.tsx": {
+    "lines": 100,
+    "branches": 83.33,
+    "functions": 90.9,
+    "statements": 89.58
+  },
+  "src/ui/CardPanel.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/CardPicker.tsx": {
+    "lines": 100,
+    "branches": 97.29,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/CompareView.tsx": {
+    "lines": 100,
+    "branches": 90.9,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/CustomForms.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/Modal.tsx": {
+    "lines": 100,
+    "branches": 83.33,
+    "functions": 100,
+    "statements": 78.57
+  },
+  "src/ui/MoneyInput.tsx": {
+    "lines": 100,
+    "branches": 90,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/navigation.ts": {
+    "lines": 100,
+    "branches": 92.3,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/PerkRow.tsx": {
+    "lines": 100,
+    "branches": 94.44,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/store-context.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/ThemeToggle.tsx": {
+    "lines": 94.11,
+    "branches": 87.5,
+    "functions": 100,
+    "statements": 94.73
+  },
+  "src/ui/VerdictPill.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/WalletSummary.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/WalletView.tsx": {
+    "lines": 100,
+    "branches": 92,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/Welcome.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  }
+}

@@ -40,22 +40,23 @@ function finiteOr0(n: number): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+/** Not set: the user hasn't valued it. Using: a value is set. Skipped: "won't use". */
+export type PerkStatus = 'unset' | 'using' | 'skipped';
+
+export function perkStatus(valuation: PerkValuation | undefined): PerkStatus {
+  if (valuation === undefined) return 'unset';
+  return valuation.enabled ? 'using' : 'skipped';
+}
+
 /**
- * Realized value in cents for one perk.
- * - no valuation yet: the catalog's typical ratio
- * - disabled: 0
+ * Realized value in cents for one perk. Nothing is assumed: a perk the user hasn't valued
+ * counts as $0.
+ * - not set or won't use: 0
  * - percent: clamped to 0–100%
  * - dollars: clamped to 0..face value
  */
-export function realizedCents(
-  nominalCents: number,
-  valuation: PerkValuation | undefined,
-  defaultRatio: number,
-): number {
-  if (valuation === undefined) {
-    return Math.round(nominalCents * clamp(finiteOr0(defaultRatio), 0, 1));
-  }
-  if (!valuation.enabled) return 0;
+export function realizedCents(nominalCents: number, valuation: PerkValuation | undefined): number {
+  if (valuation === undefined || !valuation.enabled) return 0;
   if (valuation.mode === 'percent') {
     return Math.round((nominalCents * clamp(finiteOr0(valuation.percent), 0, 100)) / 100);
   }

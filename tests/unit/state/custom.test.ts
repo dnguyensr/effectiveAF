@@ -25,20 +25,45 @@ function setup() {
 }
 
 describe('v1 → v2 migration', () => {
-  it('adds an empty custom card list and keeps everything else', () => {
+  it('adds an empty custom card list and keeps every value the user set', () => {
     const v1 = JSON.parse(fixture('state-v1/full.json'));
     const v2 = parseState(v1);
     expect(v2.schemaVersion).toBe(2);
     expect(v2.customCards).toEqual([]);
     expect(v2.wallet).toEqual(v1.wallet);
-    expect(v2.cards).toEqual(v1.cards);
+    for (const [cardId, cs] of Object.entries(v1.cards as Record<string, { perks: object }>)) {
+      expect(v2.cards[cardId]?.perks).toMatchObject(cs.perks);
+    }
+  });
+
+  it('writes the old starting estimate into every perk the v1 user left untouched', () => {
+    const v2 = parseState(JSON.parse(fixture('state-v1/full.json')));
+    // Set by the user in v1: kept exactly.
+    expect(v2.cards['amex-gold']?.perks['amex-gold.dining']).toEqual({
+      mode: 'dollars',
+      cents: 9000,
+      enabled: true,
+    });
+    expect(v2.cards['amex-gold']?.perks['amex-gold.dunkin']?.enabled).toBe(false);
+    // Untouched in v1: now explicit, at the v1 estimate.
+    expect(v2.cards['amex-gold']?.perks['amex-gold.resy']).toEqual({
+      mode: 'percent',
+      percent: 50,
+      enabled: true,
+    });
+    // Venture X was in the wallet with no entry at all.
+    expect(Object.keys(v2.cards['capital-one-venture-x']?.perks ?? {})).toHaveLength(3);
+    // Reserve was valued but not in the wallet: still filled in.
+    expect(Object.keys(v2.cards['chase-sapphire-reserve']?.perks ?? {})).toHaveLength(11);
   });
 
   it('is applied by migrate directly', () => {
     expect(migrate({ schemaVersion: 1, wallet: [] })).toEqual({
       schemaVersion: 2,
       wallet: [],
+      cards: {},
       customCards: [],
+      compare: [],
     });
   });
 });
@@ -99,10 +124,11 @@ describe('store: presets', () => {
   it('applies a preset to one card', () => {
     const store = setup();
     store.addCard('amex-platinum');
-    store.applyPreset('amex-platinum', 'none');
+    store.applyPreset('amex-platinum', 'face');
+    expect(store.summary.value.cards[0]?.realizedCents).toBe(302440);
+    store.applyPreset('amex-platinum', 'clear');
     expect(store.summary.value.cards[0]?.realizedCents).toBe(0);
-    store.applyPreset('amex-platinum', 'estimates');
-    expect(store.summary.value.cards[0]?.realizedCents).toBe(99055);
+    expect(store.summary.value.cards[0]?.unsetCount).toBe(12);
     store.applyPreset('nope', 'face');
   });
 
@@ -121,7 +147,7 @@ describe('store: presets', () => {
 });
 
 describe('store: custom cards', () => {
-  it('creates a custom card, adds it to the wallet and summarizes it', () => {
+  it('creates a custom card; the caller decides where it goes', () => {
     const store = setup();
     const id = store.addCustomCard({
       issuer: '  Citi ',
@@ -135,7 +161,8 @@ describe('store: custom cards', () => {
       name: 'Strata Premier',
       annualFeeCents: 9500,
     });
-    expect(store.state.value.wallet).toEqual(['custom-id1']);
+    expect(store.state.value.wallet).toEqual([]);
+    store.addCard('custom-id1');
     expect(store.summary.value.effectiveCents).toBe(9500);
   });
 
@@ -166,6 +193,7 @@ describe('store: custom cards', () => {
   it('edits a custom card fee directly; clearing it means $0', () => {
     const store = setup();
     const id = store.addCustomCard({ issuer: '', name: 'A', annualFeeCents: 9500 }) as string;
+    store.addCard(id);
     store.setFeeOverride(id, 12000);
     expect(store.state.value.customCards[0]?.annualFeeCents).toBe(12000);
     expect(store.state.value.cards[id]).toBeUndefined();
@@ -200,8 +228,9 @@ describe('store: custom perks', () => {
       amountPerPeriodCents: 20000,
     });
     expect(id).toBe('capital-one-venture-x.my-id1');
-    // Defaults 385 + lounge 200 at 100% = 585; 395 − 585 = −190
-    expect(store.summary.value.effectiveCents).toBe(-19000);
+    // Catalog perks not set ($0) + lounge $200, starting at 100%: 395 − 200 = 195
+    expect(store.summary.value.effectiveCents).toBe(19500);
+    expect(store.summary.value.cards[0]?.perks.at(-1)?.status).toBe('using');
     store.setPerkDollars('capital-one-venture-x', id as string, 50000);
     expect(store.summary.value.cards[0]?.perks.at(-1)?.realizedCents).toBe(20000);
   });

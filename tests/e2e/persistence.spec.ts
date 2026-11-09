@@ -1,37 +1,63 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { addCard, expect, STORAGE_KEY, test, verdict, waitForSaved } from './fixtures';
+import {
+  addCards,
+  expect,
+  seedState,
+  selectTab,
+  STORAGE_KEY,
+  test,
+  verdict,
+  waitForSaved,
+} from './fixtures';
 
-test('changes survive a reload', async ({ page }) => {
+test('changes survive a reload, and the wallet opens directly', async ({ page }) => {
   await page.goto('./');
-  await addCard(page, /Add American Express Gold Card/);
+  await addCards(page, /Add American Express Gold Card/);
   await page.getByRole('slider', { name: /^Dining credit/ }).fill('100');
   await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('250');
   await waitForSaved(page, "s.cards['amex-gold']?.feeOverrideCents === 25000");
 
-  await page.reload();
-  await expect(verdict(page, 'amex-gold')).toHaveText('Pays for itself (+$25)');
+  await page.goto('./');
+  await expect(page.getByRole('heading', { name: 'My wallet' })).toBeVisible();
+  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $130/yr');
   await expect(page.getByTestId('summary-fees')).toHaveText('$250');
 });
 
 test('a second tab sees saved data after loading', async ({ page, context }) => {
   await page.goto('./');
-  await addCard(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X/);
   await waitForSaved(page, "s.wallet.includes('capital-one-venture-x')");
-
   const other = await context.newPage();
   await other.clock.setFixedTime(new Date('2026-11-08T12:00:00'));
   await other.goto('./');
-  await expect(verdict(other, 'capital-one-venture-x')).toHaveText('Costs $10/yr');
+  await expect(verdict(other, 'capital-one-venture-x')).toHaveText('Costs $395/yr');
 });
 
 test('pending changes are saved when the page is hidden', async ({ page }) => {
   await page.goto('./');
-  await addCard(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X/);
   await page.evaluate(() => window.dispatchEvent(new Event('pagehide')));
   const saved = await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY);
   expect(JSON.parse(saved ?? '{}').wallet).toEqual(['capital-one-venture-x']);
+});
+
+test('a v1 user keeps their numbers after the upgrade', async ({ page }) => {
+  // A v1 wallet with Venture X and nothing touched: v1 showed it costing $10/yr.
+  await seedState(
+    page,
+    JSON.stringify({
+      schemaVersion: 1,
+      catalogVersion: '2026-11-08',
+      wallet: ['capital-one-venture-x'],
+      cards: {},
+      updatedAt: '2026-11-08T12:00:00.000Z',
+    }),
+  );
+  await page.goto('./');
+  await expect(verdict(page, 'capital-one-venture-x')).toHaveText('Costs $10/yr');
+  await expect(page.getByText(/not set yet/)).toHaveCount(0);
 });
 
 test.describe('saved data from every schema version loads', () => {
@@ -43,36 +69,23 @@ test.describe('saved data from every schema version loads', () => {
   for (const file of files) {
     test(file, async ({ page }) => {
       const raw = readFileSync(join(root, file), 'utf8');
-      await page.addInitScript(
-        ([key, value]) => {
-          if (!sessionStorage.getItem('seeded')) {
-            localStorage.setItem(key as string, value as string);
-            sessionStorage.setItem('seeded', '1');
-          }
-        },
-        [STORAGE_KEY, raw],
-      );
+      await seedState(page, raw);
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
-      await page.goto('./');
+      await page.goto('./#wallet');
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
       await expect(page.getByText(/couldn't be read/)).toHaveCount(0);
-      const wallet = (JSON.parse(raw) as { wallet: string[] }).wallet.filter(
+      const known = (JSON.parse(raw) as { wallet: string[] }).wallet.filter(
         (id) => id !== 'discontinued-card',
       );
-      for (const id of wallet) await expect(verdict(page, id)).toBeVisible();
+      await expect(page.getByRole('tab')).toHaveCount(known.length);
       expect(errors).toEqual([]);
     });
   }
 });
 
 test('unreadable saved data is set aside, not lost', async ({ page }) => {
-  await page.addInitScript((key) => {
-    if (!sessionStorage.getItem('seeded')) {
-      localStorage.setItem(key, '{"schemaVersion":1,"wallet":"broken"');
-      sessionStorage.setItem('seeded', '1');
-    }
-  }, STORAGE_KEY);
+  await seedState(page, '{"schemaVersion":1,"wallet":"broken"');
   await page.goto('./');
   await expect(page.getByRole('status')).toContainText("couldn't be read");
   const keys = await page.evaluate(() => Object.keys(localStorage));
@@ -81,17 +94,19 @@ test('unreadable saved data is set aside, not lost', async ({ page }) => {
 
 test('works when the browser blocks storage', async ({ page }) => {
   await page.addInitScript(() => {
-    const fail = () => {
-      throw new DOMException('blocked', 'SecurityError');
-    };
-    Object.defineProperty(window, 'localStorage', { get: fail });
+    Object.defineProperty(window, 'localStorage', {
+      get: () => {
+        throw new DOMException('blocked', 'SecurityError');
+      },
+    });
   });
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./');
   await expect(page.getByRole('status')).toContainText("isn't letting effectiveAF save");
-  await addCard(page, /Add American Express Gold Card/);
-  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $110/yr');
+  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X/);
+  await selectTab(page, /Gold Card/);
+  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
   await page.getByRole('button', { name: /^Theme:/ }).click();
   expect(errors).toEqual([]);
 });

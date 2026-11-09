@@ -6,16 +6,18 @@
 import { computed, signal } from '@preact/signals';
 import { CATALOG } from '../catalog';
 import type { Cadence, CardDef } from '../catalog/types';
-import type { CardUserState } from '../core/card-math';
+import { summarizeCard, type CardSummary, type CardUserState } from '../core/card-math';
 import { localIsoDate } from '../core/dates';
 import { clamp } from '../core/money';
 import { applyPreset, type PresetId } from '../core/presets';
 import { resolveCards } from '../core/resolve';
+import { upcomingResets } from '../core/resets';
 import { annualNominalCents } from '../core/valuation';
 import { summarizeWallet } from '../core/wallet-math';
 import type { StateErrorCode } from './errors';
 import {
   MAX_CENTS,
+  MAX_COMPARE,
   MAX_CUSTOM_CARDS,
   MAX_CUSTOM_PERKS_PER_CARD,
   MAX_NAME_LENGTH,
@@ -77,6 +79,23 @@ export function createStore({
   const summary = computed(() =>
     summarizeWallet(cards.value, state.value.wallet, state.value.cards, asOf),
   );
+  /** Columns of the comparison view: chosen cards that still exist. */
+  const compareSummaries = computed(() =>
+    state.value.compare.flatMap((id) => {
+      const card = cardById.value.get(id);
+      return card ? [summarizeCard(card, state.value.cards[id], asOf)] : [];
+    }),
+  );
+  /** Credits in use that reset (or end) within 30 days, across the wallet. */
+  const upcoming = computed(() =>
+    upcomingResets(
+      summary.value.cards,
+      asOf,
+      Object.fromEntries(
+        Object.entries(state.value.cards).map(([id, cs]) => [id, cs.anniversaryMonth]),
+      ),
+    ),
+  );
   const saveFailed = signal(false);
 
   const saver = storage
@@ -110,9 +129,14 @@ export function createStore({
     commit(withCard(state.value, cardId, fn({ ...current, perks: { ...current.perks } })));
   }
 
-  /** What resetting leaves behind: nothing, except perks the user created. */
+  /** What clearing leaves behind: facts about the account (custom perks, anniversary month). */
   function resetState(cs: CardUserState | undefined): CardUserState | undefined {
-    return cs?.customPerks?.length ? { perks: {}, customPerks: cs.customPerks } : undefined;
+    if (!cs?.customPerks?.length && cs?.anniversaryMonth === undefined) return undefined;
+    return {
+      perks: {},
+      ...(cs.customPerks?.length ? { customPerks: cs.customPerks } : {}),
+      ...(cs.anniversaryMonth !== undefined ? { anniversaryMonth: cs.anniversaryMonth } : {}),
+    };
   }
 
   function findCard(cardId: string): CardDef | undefined {
@@ -139,6 +163,24 @@ export function createStore({
     /** True when the last write to storage failed (e.g. storage full). */
     saveFailed,
     findCard,
+    upcoming,
+    compareSummaries,
+
+    /** Summary for any card, in the wallet or not (e.g. a compared card). */
+    summaryFor(cardId: string): CardSummary | undefined {
+      const card = findCard(cardId);
+      return card ? summarizeCard(card, state.value.cards[cardId], asOf) : undefined;
+    },
+
+    /** Adds the card to the comparison, or removes it if already there. Max MAX_COMPARE. */
+    toggleCompare(cardId: string) {
+      const compare = state.value.compare;
+      if (compare.includes(cardId)) {
+        commit({ ...state.value, compare: compare.filter((id) => id !== cardId) });
+      } else if (findCard(cardId) && compare.length < MAX_COMPARE) {
+        commit({ ...state.value, compare: [...compare, cardId] });
+      }
+    },
 
     addCard(cardId: string, index?: number) {
       if (!findCard(cardId) || state.value.wallet.includes(cardId)) return;
@@ -181,7 +223,7 @@ export function createStore({
       updateCard(cardId, (card) => {
         const existing = card.perks[perkId] ?? {
           mode: 'percent' as const,
-          percent: Math.round(perk.defaultRatio * 100),
+          percent: 0,
           enabled: true,
         };
         card.perks[perkId] = { ...existing, enabled };
@@ -211,6 +253,19 @@ export function createStore({
           delete cs.feeOverrideCents;
         } else {
           cs.feeOverrideCents = cleanCents(cents, 0);
+        }
+        return cs;
+      });
+    },
+
+    /** Month the account was opened (1-12), or null to forget it. */
+    setAnniversaryMonth(cardId: string, month: number | null) {
+      if (!findCard(cardId)) return;
+      updateCard(cardId, (cs) => {
+        if (month === null || !Number.isInteger(month) || month < 1 || month > 12) {
+          delete cs.anniversaryMonth;
+        } else {
+          cs.anniversaryMonth = month;
         }
         return cs;
       });
@@ -247,7 +302,7 @@ export function createStore({
       commit({ ...state.value, cards: Object.fromEntries(cards) });
     },
 
-    /** Creates a custom card, adds it to the wallet and returns its ID (null if at the limit). */
+    /** Creates a custom card and returns its ID (null if invalid or at the limit). */
     addCustomCard(input: NewCustomCard): string | null {
       const name = cleanText(input.name);
       if (!name || state.value.customCards.length >= MAX_CUSTOM_CARDS) return null;
@@ -263,7 +318,6 @@ export function createStore({
             annualFeeCents: cleanCents(input.annualFeeCents, 0),
           },
         ],
-        wallet: [...state.value.wallet, id],
       });
       return id;
     },
@@ -277,6 +331,7 @@ export function createStore({
             ...state.value,
             customCards: state.value.customCards.filter((c) => c.id !== cardId),
             wallet: state.value.wallet.filter((id) => id !== cardId),
+            compare: state.value.compare.filter((id) => id !== cardId),
           },
           cardId,
           undefined,
@@ -304,6 +359,8 @@ export function createStore({
             amountPerPeriodCents: cleanCents(input.amountPerPeriodCents, 1),
           },
         ],
+        // Typing the amount is a deliberate choice, so it starts as fully used.
+        perks: { ...cs.perks, [id]: { mode: 'percent', percent: 100, enabled: true } },
       }));
       return id;
     },

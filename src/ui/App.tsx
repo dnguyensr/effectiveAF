@@ -1,34 +1,32 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { useEffect, useState } from 'preact/hooks';
-import { PRESETS, type PresetId } from '../core/presets';
+import { useState } from 'preact/hooks';
 import { messageFor } from '../state/errors';
 import type { Store } from '../state/store';
-import { AddCards } from './AddCards';
 import { BackupDialog } from './BackupDialog';
-import { CardPanel } from './CardPanel';
+import { CardPicker, type PickerMode } from './CardPicker';
+import { CompareView } from './CompareView';
+import { useHashRoute, type Route } from './navigation';
 import { StoreContext } from './store-context';
 import { ThemeToggle } from './ThemeToggle';
-import { WalletSummary } from './WalletSummary';
+import { WalletView } from './WalletView';
+import { Welcome } from './Welcome';
 
 const REPO_URL = 'https://github.com/dnguyensr/effectiveAF';
-const UNDO_MS = 8000;
-
-interface Removed {
-  cardId: string;
-  index: number;
-}
 
 export function App({ store }: { store: Store }) {
+  const [route, go] = useHashRoute();
+  const [picker, setPicker] = useState<PickerMode | null>(null);
   const [backupOpen, setBackupOpen] = useState(false);
-  const [removed, setRemoved] = useState<Removed | null>(null);
-  const [justAdded, setJustAdded] = useState<string | null>(null);
-  const summary = store.summary.value;
+  const [activeCard, setActiveCard] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!removed) return;
-    const timer = setTimeout(() => setRemoved(null), UNDO_MS);
-    return () => clearTimeout(timer);
-  }, [removed]);
+  const { wallet, compare, customCards } = store.state.value;
+  const isNew = wallet.length === 0 && compare.length === 0 && customCards.length === 0;
+  const view: Route | 'welcome' = route ?? (isNew ? 'welcome' : 'wallet');
+
+  const open = (target: Route) => {
+    go(target);
+    setPicker(target);
+  };
 
   return (
     <StoreContext.Provider value={store}>
@@ -44,77 +42,56 @@ export function App({ store }: { store: Store }) {
         <ThemeToggle />
       </header>
 
+      <nav class="views-nav" aria-label="Views">
+        <a href="#wallet" aria-current={view === 'wallet' ? 'page' : undefined}>
+          My wallet
+        </a>
+        <a href="#compare" aria-current={view === 'compare' ? 'page' : undefined}>
+          Compare
+        </a>
+      </nav>
+
       <StorageNotice store={store} />
 
       <main>
-        {summary.cards.length > 0 && <WalletSummary summary={summary} />}
-
-        {summary.cards.length > 0 && (
-          <section class="cards" aria-labelledby="cards-title">
-            <h2 id="cards-title" class="section-title">
-              Your cards
-            </h2>
-            <p class="hint">
-              Slide or type how much of each credit you'd really use in a year. Starting values are
-              conservative guesses; your answers are saved in this browser.
-            </p>
-            {summary.cards.map((c) => (
-              <CardPanel
-                key={c.card.id}
-                summary={c}
-                initiallyOpen={c.card.id === justAdded || summary.cards.length === 1}
-                onRemove={(cardId) => {
-                  const index = store.removeCard(cardId);
-                  setRemoved({ cardId, index });
-                }}
-              />
-            ))}
-          </section>
+        {view === 'welcome' && (
+          <Welcome onValueCards={() => open('wallet')} onCompare={() => open('compare')} />
         )}
-
-        <AddCards onAdded={setJustAdded} />
+        {view === 'wallet' && (
+          <WalletView
+            activeCardId={activeCard}
+            onSelect={setActiveCard}
+            onAddCard={() => setPicker('wallet')}
+          />
+        )}
+        {view === 'compare' && <CompareView onChooseCards={() => setPicker('compare')} />}
 
         <section class="toolbar" aria-label="Data">
           <button type="button" class="btn" onClick={() => setBackupOpen(true)}>
             Back up or restore
           </button>
-          {summary.cards.length > 0 && (
+          {view === 'wallet' && wallet.length > 0 && (
             <button
               type="button"
               class="btn"
               onClick={() => {
-                if (
-                  confirm(
-                    'Reset every card to the standard fees and starting estimates? Perks you added are kept.',
-                  )
-                ) {
+                if (confirm('Clear every value and fee override? Perks you added are kept.')) {
                   store.resetAll();
                 }
               }}
             >
-              Reset all values
+              Clear all values
             </button>
           )}
-          {summary.cards.length > 1 && <WalletPreset store={store} />}
         </section>
       </main>
 
-      {removed && (
-        <div class="toast" role="status">
-          <span>Removed {store.findCard(removed.cardId)?.name ?? 'card'}.</span>
-          <button
-            type="button"
-            class="link-button"
-            onClick={() => {
-              store.addCard(removed.cardId, removed.index);
-              setRemoved(null);
-            }}
-          >
-            Undo
-          </button>
-        </div>
-      )}
-
+      <CardPicker
+        open={picker !== null}
+        mode={picker ?? 'wallet'}
+        onClose={() => setPicker(null)}
+        onAdded={setActiveCard}
+      />
       <BackupDialog open={backupOpen} onClose={() => setBackupOpen(false)} />
 
       <footer class="site-footer">
@@ -130,38 +107,6 @@ export function App({ store }: { store: Store }) {
         </p>
       </footer>
     </StoreContext.Provider>
-  );
-}
-
-function WalletPreset({ store }: { store: Store }) {
-  const [preset, setPreset] = useState<PresetId>('estimates');
-  const chosen = PRESETS.find((p) => p.id === preset);
-  return (
-    <div class="wallet-preset">
-      <label for="wallet-preset">Set every card to</label>
-      <select
-        id="wallet-preset"
-        value={preset}
-        onChange={(e) => setPreset(e.currentTarget.value as PresetId)}
-      >
-        {PRESETS.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.label}
-          </option>
-        ))}
-      </select>
-      <button
-        type="button"
-        class="btn"
-        onClick={() => {
-          if (confirm(`Set every card to “${chosen?.label}”? ${chosen?.description}`)) {
-            store.applyPresetToWallet(preset);
-          }
-        }}
-      >
-        Apply
-      </button>
-    </div>
   );
 }
 

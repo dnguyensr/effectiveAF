@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/preact';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createStore } from '../../../src/state/store';
 import { App } from '../../../src/ui/App';
 import { FIXED_NOW, memoryStorage } from '../helpers';
@@ -17,60 +17,43 @@ function renderApp() {
   return store;
 }
 
-const verdict = (cardId: string) => screen.getByTestId(`verdict-${cardId}`).textContent;
 const click = (name: string | RegExp, root: HTMLElement = document.body) =>
   fireEvent.click(within(root).getByRole('button', { name }));
-const type = (label: string | RegExp, value: string) =>
-  fireEvent.input(screen.getByLabelText(label), { target: { value } });
+const type = (label: string | RegExp, value: string, root: HTMLElement = document.body) =>
+  fireEvent.input(within(root).getByLabelText(label), { target: { value } });
+const verdict = (cardId: string) => screen.getByTestId(`verdict-${cardId}`).textContent;
+
+/** Opens the wallet picker on its "Your cards" tab. */
+function openYours(mode: 'wallet' | 'compare' = 'wallet') {
+  click(mode === 'wallet' ? /^Value the cards I have/ : /^Compare cards/);
+  const picker = screen.getByRole('dialog', {
+    name: mode === 'wallet' ? 'Add a card' : 'Choose cards to compare',
+  });
+  fireEvent.click(within(picker).getByRole('tab', { name: 'Your cards' }));
+  return picker;
+}
+
+beforeEach(() => {
+  history.replaceState(null, '', '/');
+});
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
 
-describe('presets', () => {
-  it('quick-sets one card', () => {
-    renderApp();
-    click(/Add American Express Platinum Card/);
-    const bar = screen.getByRole('group', { name: 'Quick-set Platinum Card credits' });
-    click('Face value', bar);
-    expect(verdict('amex-platinum')).toBe('Pays for itself (+$2,129.40)');
-    click('Only what I already spend on', bar);
-    expect(verdict('amex-platinum')).toBe('Costs $224.30/yr');
-    expect(
-      (screen.getByRole('checkbox', { name: 'Use lululemon credit' }) as HTMLInputElement).checked,
-    ).toBe(false);
-    click('Nothing', bar);
-    expect(verdict('amex-platinum')).toBe('Costs $895/yr');
-    click('Starting estimates', bar);
-    expect(verdict('amex-platinum')).toBe('Pays for itself (+$95.55)');
-  });
-
-  it('sets every card at once after confirming', () => {
-    renderApp();
-    click(/Add American Express Gold Card/);
-    click(/Add Capital One Venture X/);
-    fireEvent.change(screen.getByLabelText('Set every card to'), { target: { value: 'face' } });
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValueOnce(false);
-    click('Apply');
-    expect(verdict('amex-gold')).toBe('Costs $110/yr');
-    confirmSpy.mockReturnValueOnce(true);
-    click('Apply');
-    expect(verdict('amex-gold')).toBe('Pays for itself (+$99)');
-    expect(verdict('capital-one-venture-x')).toBe('Pays for itself (+$35)');
-  });
-
-  it('only offers "set every card" with two or more cards', () => {
-    renderApp();
-    click(/Add American Express Gold Card/);
-    expect(screen.queryByLabelText('Set every card to')).toBeNull();
-  });
-});
-
 describe('custom perks', () => {
-  it('adds a benefit to a catalog card and counts it', () => {
-    renderApp();
-    click(/Add Capital One Venture X/);
+  function withVentureX() {
+    const store = renderApp();
+    click(/^Value the cards I have/);
+    const picker = screen.getByRole('dialog', { name: 'Add a card' });
+    click(/Add Capital One Venture X/, picker);
+    click('Close', picker);
+    return store;
+  }
+
+  it('adds a benefit to a catalog card; it starts fully used and counts', () => {
+    withVentureX();
     click('+ Add your own perk or benefit');
     type('Name', 'Lounge access');
     type('Worth to you', '200');
@@ -78,16 +61,15 @@ describe('custom perks', () => {
     click('Add');
     expect(screen.getByRole('heading', { name: 'Lounge access' })).toBeTruthy();
     expect(screen.getByText('Yours')).toBeTruthy();
-    expect(verdict('capital-one-venture-x')).toBe('Pays for itself (+$190)');
+    expect(verdict('capital-one-venture-x')).toBe('Costs $195/yr');
 
     click('Delete Lounge access');
     expect(screen.queryByRole('heading', { name: 'Lounge access' })).toBeNull();
-    expect(verdict('capital-one-venture-x')).toBe('Costs $10/yr');
+    expect(verdict('capital-one-venture-x')).toBe('Costs $395/yr');
   });
 
   it('validates the form and can be cancelled', () => {
-    renderApp();
-    click(/Add Capital One Venture X/);
+    withVentureX();
     click('+ Add your own perk or benefit');
     click('Add');
     expect(screen.getByRole('alert').textContent).toBe('Give it a name.');
@@ -103,8 +85,7 @@ describe('custom perks', () => {
   });
 
   it('reports when the per-card limit is reached', () => {
-    const store = renderApp();
-    click(/Add Capital One Venture X/);
+    const store = withVentureX();
     for (let i = 0; i < 30; i++) {
       store.addCustomPerk('capital-one-venture-x', {
         name: `p${i}`,
@@ -121,13 +102,17 @@ describe('custom perks', () => {
 });
 
 describe('custom cards', () => {
-  it('creates a card, adds perks to it, and shows it in the summary', () => {
+  it('creates a card from the picker, adds it to the wallet and values its perks', () => {
     renderApp();
-    click("+ Create a card that isn't listed");
-    type('Issuer (optional)', 'Citi');
-    type('Card name', 'Strata Premier');
-    type('Annual fee', '95');
-    click('Create card');
+    const picker = openYours();
+    expect(within(picker).getByText("You haven't created any cards yet.")).toBeTruthy();
+    click("+ Create a card that isn't listed", picker);
+    type('Issuer (optional)', 'Citi', picker);
+    type('Card name', 'Strata Premier', picker);
+    type('Annual fee', '95', picker);
+    click('Create card', picker);
+    expect(within(picker).getByText('In wallet')).toBeTruthy();
+    click('Close', picker);
 
     const panel = screen.getByRole('region', { name: 'Strata Premier' });
     expect(within(panel).getByText('Citi')).toBeTruthy();
@@ -137,8 +122,8 @@ describe('custom cards', () => {
     expect(verdict('custom-t1')).toBe('Costs $95/yr');
 
     click('+ Add your own perk or benefit', panel);
-    type('Name', 'Hotel benefit');
-    type('Worth to you', '100');
+    type('Name', 'Hotel benefit', panel);
+    type('Worth to you', '100', panel);
     click('Add', panel);
     expect(verdict('custom-t1')).toBe('Pays for itself (+$5)');
 
@@ -149,51 +134,44 @@ describe('custom cards', () => {
     expect(within(panel).queryByText('Custom')).toBeNull();
   });
 
-  it('validates the card form', () => {
-    renderApp();
-    click("+ Create a card that isn't listed");
-    click('Create card');
-    expect(screen.getByRole('alert').textContent).toBe('Give the card a name.');
-    type('Card name', 'X');
-    type('Annual fee', 'lots');
-    click('Create card');
-    expect(screen.getByRole('alert').textContent).toContain('annual fee');
-    click('Cancel');
-    expect(screen.queryByLabelText('Card name')).toBeNull();
+  it('a card created from the comparison picker goes into the comparison', () => {
+    const store = renderApp();
+    const picker = openYours('compare');
+    click("+ Create a card that isn't listed", picker);
+    type('Card name', 'Store card', picker);
+    click('Create card', picker);
+    expect(store.state.value.compare).toEqual(['custom-t1']);
+    expect(store.state.value.wallet).toEqual([]);
+    expect(
+      (within(picker).getByRole('checkbox', { name: 'Compare Store card' }) as HTMLInputElement)
+        .checked,
+    ).toBe(true);
   });
 
-  it('allows a blank fee and issuer', () => {
+  it('validates the card form', () => {
     renderApp();
-    click("+ Create a card that isn't listed");
-    type('Card name', 'Store card');
-    click('Create card');
-    expect(verdict('custom-t1')).toBe('Pays for itself (+$0)');
+    const picker = openYours();
+    click("+ Create a card that isn't listed", picker);
+    click('Create card', picker);
+    expect(within(picker).getByRole('alert').textContent).toBe('Give the card a name.');
+    type('Card name', 'X', picker);
+    type('Annual fee', 'lots', picker);
+    click('Create card', picker);
+    expect(within(picker).getByRole('alert').textContent).toContain('annual fee');
+    click('Cancel', picker);
+    expect(within(picker).queryByLabelText('Card name')).toBeNull();
   });
 
   it('reports when the custom card limit is reached', () => {
     const store = renderApp();
     for (let i = 0; i < 20; i++)
       store.addCustomCard({ issuer: '', name: `c${i}`, annualFeeCents: 0 });
-    click("+ Create a card that isn't listed");
-    type('Card name', 'One more');
-    click('Create card');
-    expect(screen.getByRole('alert').textContent).toContain('maximum');
-  });
-
-  it('a removed custom card can be re-added or deleted permanently', () => {
-    const store = renderApp();
-    click("+ Create a card that isn't listed");
-    type('Card name', 'Store card');
-    click('Create card');
-    click('Remove card');
-    expect(screen.getByRole('button', { name: /Add Store card \$0 fee/ })).toBeTruthy();
-
-    const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValueOnce(false);
-    click('Delete Store card permanently');
-    expect(store.state.value.customCards).toHaveLength(1);
-    confirmSpy.mockReturnValueOnce(true);
-    click('Delete Store card permanently');
-    expect(store.state.value.customCards).toHaveLength(0);
-    expect(screen.queryByRole('button', { name: /Store card/ })).toBeNull();
+    click(/^Value the cards I have/);
+    const picker = screen.getByRole('dialog', { name: 'Add a card' });
+    fireEvent.click(within(picker).getByRole('tab', { name: 'Your cards' }));
+    click("+ Create a card that isn't listed", picker);
+    type('Card name', 'One more', picker);
+    click('Create card', picker);
+    expect(within(picker).getByRole('alert').textContent).toContain('maximum');
   });
 });

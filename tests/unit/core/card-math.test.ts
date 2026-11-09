@@ -18,11 +18,11 @@ const testCard: CardDef = {
       name: 'Monthly',
       description: '',
       category: 'dining',
+      kind: 'dining',
       cadence: 'monthly',
       amountPerPeriodCents: 1000,
       resetBasis: 'calendar-year',
       cadenceLabel: '$10 / month',
-      defaultRatio: 0.5,
       requiresEnrollment: false,
     },
     {
@@ -30,11 +30,11 @@ const testCard: CardDef = {
       name: 'Expiring',
       description: '',
       category: 'travel',
+      kind: 'travel-general',
       cadence: 'annual',
       amountPerPeriodCents: 10000,
       resetBasis: 'calendar-year',
       cadenceLabel: '$100 / year',
-      defaultRatio: 1,
       requiresEnrollment: false,
       endsOn: '2026-12-31',
     },
@@ -42,6 +42,14 @@ const testCard: CardDef = {
 };
 
 const otherCard: CardDef = { ...testCard, id: 'other-card', annualFeeCents: 10000, perks: [] };
+
+/** Monthly at 50% ($60), expiring at 100% ($100). */
+const valued = {
+  perks: {
+    'test-card.monthly': { mode: 'percent', percent: 50, enabled: true },
+    'test-card.expiring': { mode: 'percent', percent: 100, enabled: true },
+  },
+} as const;
 
 describe('verdictFor', () => {
   it('treats zero and below as paying for itself', () => {
@@ -52,19 +60,27 @@ describe('verdictFor', () => {
 });
 
 describe('summarizeCard', () => {
-  it('uses catalog defaults when the user has changed nothing', () => {
+  it('counts nothing until the user values a perk', () => {
     const s = summarizeCard(testCard, undefined, '2026-11-08');
     expect(s.feeCents).toBe(25000);
     expect(s.isFeeOverridden).toBe(false);
     expect(s.nominalCents).toBe(22000);
+    expect(s.realizedCents).toBe(0);
+    expect(s.effectiveCents).toBe(25000);
+    expect(s.verdict).toBe('costs');
+    expect(s.perks.map((p) => p.status)).toEqual(['unset', 'unset']);
+    expect(s.unsetCount).toBe(2);
+  });
+
+  it('totals the values the user set', () => {
+    const s = summarizeCard(testCard, valued, '2026-11-08');
     expect(s.realizedCents).toBe(6000 + 10000);
     expect(s.effectiveCents).toBe(9000);
-    expect(s.verdict).toBe('costs');
-    expect(s.perks.map((p) => p.enabled)).toEqual([true, true]);
+    expect(s.unsetCount).toBe(0);
   });
 
   it('drops expired perks from the list and every total', () => {
-    const s = summarizeCard(testCard, undefined, '2027-01-01');
+    const s = summarizeCard(testCard, valued, '2027-01-01');
     expect(s.perks.map((p) => p.perk.id)).toEqual(['test-card.monthly']);
     expect(s.nominalCents).toBe(12000);
     expect(s.realizedCents).toBe(6000);
@@ -87,7 +103,8 @@ describe('summarizeCard', () => {
     expect(s.realizedCents).toBe(12000);
     expect(s.effectiveCents).toBe(-7000);
     expect(s.verdict).toBe('pays-for-itself');
-    expect(s.perks[1]?.enabled).toBe(false);
+    expect(s.perks.map((p) => p.status)).toEqual(['using', 'skipped']);
+    expect(s.unsetCount).toBe(0);
   });
 
   it('does not flag an override equal to the catalog fee', () => {
@@ -98,7 +115,12 @@ describe('summarizeCard', () => {
   it('ignores valuations for perks that no longer exist', () => {
     const s = summarizeCard(
       testCard,
-      { perks: { 'test-card.retired': { mode: 'dollars', cents: 99999, enabled: true } } },
+      {
+        perks: {
+          ...valued.perks,
+          'test-card.retired': { mode: 'dollars', cents: 99999, enabled: true },
+        },
+      },
       '2026-11-08',
     );
     expect(s.realizedCents).toBe(16000);
@@ -112,7 +134,7 @@ describe('summarizeWallet', () => {
     const w = summarizeWallet(
       catalog,
       ['test-card', 'retired-card', 'test-card'],
-      {},
+      { 'test-card': valued },
       '2026-11-08',
     );
     expect(w.cards.map((c) => c.card.id)).toEqual(['test-card']);

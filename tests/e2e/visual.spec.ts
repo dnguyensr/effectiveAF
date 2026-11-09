@@ -6,7 +6,7 @@
  */
 import { existsSync } from 'node:fs';
 import type { Page, TestInfo } from '@playwright/test';
-import { addCard, expect, test } from './fixtures';
+import { addCards, compareCards, expect, test } from './fixtures';
 
 test.skip(process.platform !== 'linux', 'Screenshot baselines are Linux-only; use test:e2e:docker');
 
@@ -24,18 +24,30 @@ for (const scheme of ['light', 'dark'] as const) {
   test.describe(`${scheme} theme`, () => {
     test.use({ colorScheme: scheme });
 
-    test('empty wallet', async ({ page }, testInfo) => {
+    test('first visit', async ({ page }, testInfo) => {
       await page.goto('./');
       await snap(page, testInfo, `empty-${scheme}.png`);
     });
 
-    test('Gold card with a perk off and a custom fee', async ({ page }, testInfo) => {
+    test('Gold card with values, a skipped perk and a custom fee', async ({ page }, testInfo) => {
       await page.goto('./');
-      await addCard(page, /Add American Express Gold Card/);
-      await page.getByRole('checkbox', { name: "Use Dunkin' credit" }).uncheck();
+      await addCards(page, /Add American Express Gold Card/);
+      await page.getByRole('slider', { name: /^Dining credit/ }).fill('75');
+      await page.getByRole('checkbox', { name: "Won't use Dunkin' credit" }).check();
       await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('250');
       await page.getByRole('heading', { level: 1 }).click(); // blur the field
       await snap(page, testInfo, `gold-${scheme}.png`);
+    });
+
+    test('comparison of three cards', async ({ page }, testInfo) => {
+      await page.goto('./');
+      await compareCards(
+        page,
+        /Compare American Express Platinum Card/,
+        /Compare Chase Sapphire Reserve/,
+        /Compare Capital One Venture X/,
+      );
+      await snap(page, testInfo, `compare-${scheme}.png`);
     });
   });
 }

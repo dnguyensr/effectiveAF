@@ -56,8 +56,6 @@ describe('catalog', () => {
         expect(Number.isSafeInteger(perk.annualExtraCents)).toBe(true);
         expect(perk.annualExtraCents).toBeGreaterThan(0);
       }
-      expect(perk.defaultRatio).toBeGreaterThanOrEqual(0);
-      expect(perk.defaultRatio).toBeLessThanOrEqual(1);
       expect(annualNominalCents(perk)).toBeGreaterThan(0);
       if (perk.endsOn !== undefined) expect(isRealDate(perk.endsOn)).toBe(true);
     });

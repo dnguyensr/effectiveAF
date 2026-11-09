@@ -270,23 +270,12 @@ p {
 .card-title {
   flex: 1;
   min-width: 0;
-}
-
-.card-toggle {
-  font: inherit;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  color: inherit;
-  padding: 4px 0;
-  cursor: pointer;
+  margin: 0;
+  font-size: inherit;
 }
 
 .card-issuer {
-  grid-column: 1;
+  display: block;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -295,17 +284,9 @@ p {
 }
 
 .card-name {
-  grid-column: 1;
+  display: block;
   font-size: 1.05rem;
   font-weight: 700;
-}
-
-.chevron {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  align-self: center;
-  color: var(--text-muted);
-  padding: 0 4px;
 }
 
 .pill {
@@ -471,13 +452,17 @@ p {
   color: var(--text-muted);
 }
 
-.perk-off .perk-value strong {
+.perk-unset .perk-value strong,
+.perk-skipped .perk-value strong {
   color: var(--text-muted);
 }
 
-.perk-off {
-  background: var(--surface-2);
+.perk-unset {
   border-style: dashed;
+}
+
+.perk-skipped {
+  background: var(--surface-2);
 }
 
 .perk-controls {
@@ -535,59 +520,6 @@ p {
 }
 
 /* Add cards */
-.add-cards {
-  margin-top: 8px;
-}
-
-.add-cards h2 {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.add-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-.add-card {
-  font: inherit;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 12px 14px;
-  background: var(--surface);
-  color: var(--text);
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: left;
-}
-
-.add-card:hover {
-  border-color: var(--accent);
-  border-style: solid;
-}
-
-.add-name {
-  font-weight: 700;
-}
-
-.add-fee {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.add-verb {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--accent);
-}
 
 /* Toolbar, toast */
 .toolbar {
@@ -754,16 +686,6 @@ p {
   margin-top: 10px;
 }
 
-.add-custom-form {
-  margin-top: 10px;
-}
-
-.add-custom {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .inline-form {
   display: flex;
   flex-direction: column;
@@ -816,4 +738,392 @@ p {
 
 .wallet-preset select {
   flex: 0 1 auto;
+}
+
+/* Phase 2b: views, tabs, picker, comparison */
+.views-nav {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.views-nav a {
+  padding: 8px 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.views-nav a[aria-current='page'] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.view-title {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.view-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.view-head .view-title {
+  margin-bottom: 0;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.unset-note {
+  color: var(--warn);
+  font-size: 0.8rem;
+}
+
+td .unset-note {
+  display: block;
+}
+
+/* Tabs (wallet cards, picker issuers) */
+.tab-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  min-width: 0;
+}
+
+.tab {
+  font: inherit;
+  font-size: 0.85rem;
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.tab[aria-selected='true'] {
+  border-color: var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+.wallet-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 8px 12px;
+  min-width: 120px;
+}
+
+.tab-name {
+  font-weight: 700;
+}
+
+.tab-verdict {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.tab-verdict.costs {
+  color: var(--bad);
+}
+
+.tab-verdict.pays-for-itself {
+  color: var(--good);
+}
+
+.tab-unset {
+  font-size: 0.72rem;
+  color: var(--warn);
+}
+
+.tab-row > .btn-dashed {
+  flex: 0 0 auto;
+}
+
+/* Dialog extras */
+.dialog-wide {
+  width: min(760px, calc(100% - 24px));
+}
+
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dialog-head h2 {
+  margin: 0;
+}
+
+/* Card picker */
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.picker-search {
+  font: inherit;
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.picker-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.picker-name {
+  font-weight: 700;
+}
+
+.picker-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.picker-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+
+.picker-create {
+  margin-top: 10px;
+}
+
+/* Comparison table */
+.compare-scroll {
+  /* Containing block for visually-hidden text in cells, so it scrolls (and clips) with the table. */
+  position: relative;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.compare {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.compare th,
+.compare td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  text-align: left;
+}
+
+.compare tbody th[scope='row'],
+.compare thead th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface);
+  min-width: 120px;
+  max-width: 150px;
+  font-weight: 600;
+  box-shadow: 1px 0 0 var(--border);
+}
+
+.compare-card {
+  min-width: 150px;
+}
+
+.compare-name {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.compare-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.compare-actions .link-button {
+  padding: 2px 0;
+  font-size: 0.78rem;
+}
+
+.group-row th {
+  position: static;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cmp-perk {
+  display: flex;
+  flex-direction: column;
+}
+
+.cmp-perk + .cmp-perk {
+  margin-top: 6px;
+}
+
+.cmp-cadence {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.compare .none {
+  color: var(--text-muted);
+}
+
+.compare .num {
+  font-weight: 700;
+}
+
+/* Welcome */
+.welcome h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.choice {
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.choice:hover {
+  border-color: var(--accent);
+}
+
+.choice-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.choice-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Phase 2c: resets */
+.tag-reset {
+  color: var(--accent);
+  border-color: currentColor;
+}
+
+.month-select {
+  font: inherit;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.resetting {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--warn);
+  border-radius: 12px;
+  background: var(--warn-bg);
+}
+
+.resetting h3 {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.resetting ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.88rem;
+}
+
+.resetting li + li {
+  margin-top: 4px;
+}
+
+.resetting .link-button {
+  padding: 0;
+  font-size: inherit;
 }
