@@ -6,6 +6,9 @@
  *
  *   extra value per $1 = multiplier × point value − baseline (e.g. 2¢)
  *   monthly spend      = effective cost ÷ extra value per $1 ÷ 12   (rounded up to whole $)
+ *
+ * A category with a yearly cap (e.g. $6,000 at 6%) is flagged when that spend would exceed it:
+ * past the cap the card earns its base rate, so that category alone can't make up the cost.
  */
 import type { EarnRate } from '../catalog/types';
 
@@ -29,6 +32,10 @@ export interface BreakEvenRow {
   extraCentsPerDollar: number;
   /** Whole dollars per month to break even, or null if this category doesn't beat the baseline. */
   monthlySpendDollars: number | null;
+  /** The category's yearly spending cap in whole dollars, if it has one. */
+  capDollarsPerYear?: number;
+  /** True when the break-even spend is more than the cap allows. */
+  overCap: boolean;
 }
 
 /** Null when there's nothing to make up (the card already pays for itself). */
@@ -42,12 +49,16 @@ export function breakEven(
   return earnRates.map((rate) => {
     // Round to 1/1000 of a cent so 3 × 1.1 − 2 doesn't become 1.3000000000000003.
     const extra = Math.round((rate.multiplier * pointValueCents - baselinePercent) * 1000) / 1000;
+    const monthly = extra > 0 ? Math.ceil(effectiveCents / extra / 12 - 1e-9) : null;
+    const cap = rate.capCentsPerYear === undefined ? undefined : rate.capCentsPerYear / 100;
     return {
       category: rate.category,
       multiplier: rate.multiplier,
       ...(rate.note ? { note: rate.note } : {}),
       extraCentsPerDollar: extra,
-      monthlySpendDollars: extra > 0 ? Math.ceil(effectiveCents / extra / 12 - 1e-9) : null,
+      monthlySpendDollars: monthly,
+      ...(cap === undefined ? {} : { capDollarsPerYear: cap }),
+      overCap: monthly !== null && cap !== undefined && monthly * 12 > cap,
     };
   });
 }

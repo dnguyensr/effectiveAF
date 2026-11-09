@@ -105,20 +105,29 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
-                <tr key={r.category}>
-                  <th scope="row">
-                    {r.category}
-                    {r.note && <span class="hint"> ({r.note})</span>}
-                  </th>
-                  <td>{cashBack ? `${r.multiplier}%` : `${r.multiplier}x`}</td>
-                  <td>
-                    {r.monthlySpendDollars === null
-                      ? `No better than your ${baseline}% card`
-                      : `${dollars.format(r.monthlySpendDollars)}/mo`}
-                  </td>
-                </tr>
-              ))}
+              {rows.map((r) => {
+                const cap =
+                  r.capDollarsPerYear === undefined
+                    ? undefined
+                    : `${dollars.format(r.capDollarsPerYear)} a year`;
+                const note = [cap && `up to ${cap}`, r.note].filter(Boolean).join(', ');
+                return (
+                  <tr key={r.category}>
+                    <th scope="row">
+                      {r.category}
+                      {note && <span class="hint"> ({note})</span>}
+                    </th>
+                    <td>{cashBack ? `${r.multiplier}%` : `${r.multiplier}x`}</td>
+                    <td>
+                      {r.monthlySpendDollars === null
+                        ? `No better than your ${baseline}% card`
+                        : r.overCap
+                          ? `More than the ${cap} cap`
+                          : `${dollars.format(r.monthlySpendDollars)}/mo`}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </>

@@ -13,7 +13,7 @@ export const amexPlatinum: CardDef = {
     {
       category: 'Flights booked directly with airlines or Amex Travel',
       multiplier: 5,
-      note: 'up to $500,000 a year',
+      capCentsPerYear: 50_000_000,
     },
     { category: 'Prepaid hotels on Amex Travel', multiplier: 5 },
     { category: 'Everything else', multiplier: 1 },

@@ -111,6 +111,11 @@ export interface EarnRate {
   category: string;
   /** Points or miles per dollar, or % cash back for cash-back cards. */
   multiplier: number;
+  /**
+   * Yearly spending this rate applies to (e.g. 600_000 for $6,000); above it the card earns its
+   * base rate. Break-even flags a category whose needed spend is over the cap.
+   */
+  capCentsPerYear?: number;
   note?: string;
 }
 

@@ -11,7 +11,7 @@ export const amexBlueCashPreferred: CardDef = {
   rewardsCurrency: 'Cash back',
   cashBack: true,
   earnRates: [
-    { category: 'U.S. supermarkets', multiplier: 6, note: 'up to $6,000 a year, then 1%' },
+    { category: 'U.S. supermarkets', multiplier: 6, capCentsPerYear: 600_000, note: 'then 1%' },
     { category: 'Select U.S. streaming subscriptions', multiplier: 6 },
     {
       category: 'Transit (taxis, rideshare, parking, tolls, trains, buses)',
