@@ -17,9 +17,10 @@ jobs:
     # Must match the CI e2e container and @playwright/test in package.json.
     container:
       image: mcr.microsoft.com/playwright:v1.65.0-noble
-      options: --ipc=host
-    env:
-      HOME: /root
+      # Run as the runner's user (1001), as Playwright recommends: Firefox refuses to run as root
+      # with a home directory it doesn't own, and overriding HOME instead made the runner's
+      # docker CLI warn about /root/.docker/config.json on every step.
+      options: --ipc=host --user 1001
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
