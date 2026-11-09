@@ -1,0 +1,35 @@
+# Local supporting docs, plans and scratch files (never committed)
+notes/
+temp/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test output (screenshot baselines in tests/e2e/__screenshots__ ARE committed)
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+*.log
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

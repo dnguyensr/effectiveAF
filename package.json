@@ -1,0 +1,61 @@
+{
+  "name": "effectiveaf",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Work out what your premium credit cards really cost after the perks you actually use.",
+  "license": "GPL-3.0-or-later",
+  "author": "Daniel Nguyen",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnguyensr/effectiveAF.git"
+  },
+  "homepage": "https://dnguyensr.github.io/effectiveAF/",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/licenses.mjs notices dist/third-party-licenses.txt",
+    "preview": "vite preview",
+    "typecheck": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "baselines:update": "vitest run --update",
+    "test:e2e": "playwright test",
+    "test:e2e:docker": "node scripts/e2e-docker.mjs",
+    "test:e2e:update": "node scripts/e2e-docker.mjs --update-snapshots",
+    "licenses:check": "node scripts/licenses.mjs check",
+    "verify": "npm run licenses:check && npm run format:check && npm run lint && npm run typecheck && npm run test:coverage && npm run test:e2e"
+  },
+  "dependencies": {
+    "@preact/signals": "^2.11.4",
+    "preact": "^11.2.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@babel/core": "^7.29.13",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.65.0",
+    "@preact/preset-vite": "^2.10.6",
+    "@testing-library/preact": "^3.2.6",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "fast-check": "^4.10.2",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  }
+}
