@@ -1,0 +1,151 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import fc from 'fast-check';
+import { describe, expect, it } from 'vitest';
+import type { Cadence } from '../../../src/catalog/types';
+import {
+  annualNominalCents,
+  isPerkAvailable,
+  percentOfNominal,
+  realizedCents,
+  type PerkValuation,
+} from '../../../src/core/valuation';
+
+describe('annualNominalCents', () => {
+  it.each<[Cadence, number, number | undefined, number]>([
+    ['monthly', 2500, undefined, 30000],
+    ['monthly', 1500, 2000, 20000], // Uber Cash: $15/mo + $20 December bonus
+    ['monthly', 1295, undefined, 15540], // Walmart+
+    ['quarterly', 10000, undefined, 40000],
+    ['semiannual', 30000, undefined, 60000],
+    ['annual', 21900, undefined, 21900],
+    ['every-4-years', 12000, undefined, 3000],
+    ['every-4-years', 8500, undefined, 2125],
+    ['every-4-years', 8501, undefined, 2125], // rounds to whole cents
+  ])('%s of %d (+%s extra) = %d / year', (cadence, amount, extra, expected) => {
+    expect(
+      annualNominalCents({
+        cadence,
+        amountPerPeriodCents: amount,
+        ...(extra === undefined ? {} : { annualExtraCents: extra }),
+      }),
+    ).toBe(expected);
+  });
+});
+
+describe('isPerkAvailable', () => {
+  it('is available when there is no end date', () => {
+    expect(isPerkAvailable({}, '2099-01-01')).toBe(true);
+  });
+
+  it('is available up to and including the end date', () => {
+    expect(isPerkAvailable({ endsOn: '2026-12-31' }, '2026-12-30')).toBe(true);
+    expect(isPerkAvailable({ endsOn: '2026-12-31' }, '2026-12-31')).toBe(true);
+    expect(isPerkAvailable({ endsOn: '2026-12-31' }, '2027-01-01')).toBe(false);
+  });
+});
+
+describe('realizedCents', () => {
+  const nominal = 20000;
+
+  it('uses the default ratio when the user has not valued the perk', () => {
+    expect(realizedCents(nominal, undefined, 0.75)).toBe(15000);
+  });
+
+  it('clamps a bad default ratio', () => {
+    expect(realizedCents(nominal, undefined, 2)).toBe(20000);
+    expect(realizedCents(nominal, undefined, -1)).toBe(0);
+    expect(realizedCents(nominal, undefined, Number.NaN)).toBe(0);
+  });
+
+  it('values a disabled perk at zero whatever was entered', () => {
+    expect(realizedCents(nominal, { mode: 'percent', percent: 80, enabled: false }, 1)).toBe(0);
+    expect(realizedCents(nominal, { mode: 'dollars', cents: 5000, enabled: false }, 1)).toBe(0);
+  });
+
+  it.each<[PerkValuation, number]>([
+    [{ mode: 'percent', percent: 50, enabled: true }, 10000],
+    [{ mode: 'percent', percent: 33, enabled: true }, 6600],
+    [{ mode: 'percent', percent: 150, enabled: true }, 20000],
+    [{ mode: 'percent', percent: -10, enabled: true }, 0],
+    [{ mode: 'percent', percent: Number.NaN, enabled: true }, 0],
+    [{ mode: 'dollars', cents: 15000, enabled: true }, 15000],
+    [{ mode: 'dollars', cents: 99900, enabled: true }, 20000],
+    [{ mode: 'dollars', cents: -5, enabled: true }, 0],
+    [{ mode: 'dollars', cents: Number.POSITIVE_INFINITY, enabled: true }, 0],
+  ])('%o -> %d', (valuation, expected) => {
+    expect(realizedCents(nominal, valuation, 0.5)).toBe(expected);
+  });
+
+  it('rounds percent values to whole cents', () => {
+    expect(realizedCents(1295, { mode: 'percent', percent: 33, enabled: true }, 0)).toBe(427);
+  });
+
+  it('keeps a typed dollar amount when the face value grows, and caps it when it shrinks', () => {
+    const typed: PerkValuation = { mode: 'dollars', cents: 15000, enabled: true };
+    expect(realizedCents(30000, typed, 0)).toBe(15000);
+    expect(realizedCents(10000, typed, 0)).toBe(10000);
+  });
+
+  it('scales a percentage with the face value', () => {
+    const pct: PerkValuation = { mode: 'percent', percent: 50, enabled: true };
+    expect(realizedCents(30000, pct, 0)).toBe(15000);
+    expect(realizedCents(10000, pct, 0)).toBe(5000);
+  });
+
+  describe('properties', () => {
+    const valuation = fc.oneof(
+      fc.record({
+        mode: fc.constant('percent' as const),
+        percent: fc.double({ min: -1000, max: 1000, noNaN: false }),
+        enabled: fc.boolean(),
+      }),
+      fc.record({
+        mode: fc.constant('dollars' as const),
+        cents: fc.integer({ min: -1e9, max: 1e9 }),
+        enabled: fc.boolean(),
+      }),
+    );
+
+    it('is always an integer between 0 and the face value', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 0, max: 10_000_000 }),
+          fc.option(valuation, { nil: undefined }),
+          fc.double({ min: -2, max: 2, noNaN: false }),
+          (nom, val, ratio) => {
+            const r = realizedCents(nom, val, ratio);
+            expect(Number.isInteger(r)).toBe(true);
+            expect(r).toBeGreaterThanOrEqual(0);
+            expect(r).toBeLessThanOrEqual(nom);
+          },
+        ),
+      );
+    });
+
+    it('percent -> dollars -> percent round-trips within 1 point', () => {
+      fc.assert(
+        fc.property(
+          fc.integer({ min: 100, max: 10_000_000 }),
+          fc.integer({ min: 0, max: 100 }),
+          (nom, pct) => {
+            const r = realizedCents(nom, { mode: 'percent', percent: pct, enabled: true }, 0);
+            expect(Math.abs(percentOfNominal(r, nom) - pct)).toBeLessThanOrEqual(1);
+          },
+        ),
+      );
+    });
+  });
+});
+
+describe('percentOfNominal', () => {
+  it.each([
+    [10000, 20000, 50],
+    [0, 20000, 0],
+    [20000, 20000, 100],
+    [30000, 20000, 100],
+    [5, 0, 0],
+    [3885, 15540, 25],
+  ])('%d of %d = %d%%', (realized, nominal, pct) => {
+    expect(percentOfNominal(realized, nominal)).toBe(pct);
+  });
+});

@@ -1,0 +1,9 @@
+{
+  "cards": {
+    "amex-platinum": {
+      "enabled": true,
+      "fee": 895,
+      "valuations": { "plat-hotel": { "dollar": 420 } }
+    }
+  }
+}

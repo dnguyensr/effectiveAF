@@ -1,0 +1,96 @@
+{
+  "asOf": "2026-11-08",
+  "cards": [
+    {
+      "id": "amex-platinum",
+      "fee": "$895",
+      "perks": {
+        "amex-platinum.hotel": "$150",
+        "amex-platinum.resy": "$200",
+        "amex-platinum.digital-entertainment": "$150",
+        "amex-platinum.lululemon": "$75",
+        "amex-platinum.uber-cash": "$140",
+        "amex-platinum.uber-one": "$36",
+        "amex-platinum.airline-fee": "$100",
+        "amex-platinum.clear": "$65.70",
+        "amex-platinum.walmart-plus": "$38.85",
+        "amex-platinum.equinox": "$0",
+        "amex-platinum.oura": "$20",
+        "amex-platinum.global-entry": "$15"
+      },
+      "nominal": "$3,024.40",
+      "realized": "$990.55",
+      "effective": "-$95.55",
+      "verdict": "pays-for-itself"
+    },
+    {
+      "id": "amex-gold",
+      "fee": "$325",
+      "perks": {
+        "amex-gold.dining": "$60",
+        "amex-gold.uber-cash": "$84",
+        "amex-gold.resy": "$50",
+        "amex-gold.dunkin": "$21"
+      },
+      "nominal": "$424",
+      "realized": "$215",
+      "effective": "$110",
+      "verdict": "costs"
+    },
+    {
+      "id": "chase-sapphire-preferred",
+      "fee": "$95",
+      "perks": {
+        "chase-sapphire-preferred.hotel": "$75",
+        "chase-sapphire-preferred.doordash-promo": "$36",
+        "chase-sapphire-preferred.dashpass": "$36",
+        "chase-sapphire-preferred.apple-tv": "$54",
+        "chase-sapphire-preferred.global-entry": "$15"
+      },
+      "nominal": "$550",
+      "realized": "$216",
+      "effective": "-$121",
+      "verdict": "pays-for-itself"
+    },
+    {
+      "id": "chase-sapphire-reserve",
+      "fee": "$795",
+      "perks": {
+        "chase-sapphire-reserve.travel": "$285",
+        "chase-sapphire-reserve.the-edit": "$250",
+        "chase-sapphire-reserve.select-hotels-2026": "$62.50",
+        "chase-sapphire-reserve.dining": "$150",
+        "chase-sapphire-reserve.stubhub": "$120",
+        "chase-sapphire-reserve.apple": "$129.60",
+        "chase-sapphire-reserve.doordash-promos": "$105",
+        "chase-sapphire-reserve.dashpass": "$36",
+        "chase-sapphire-reserve.lyft": "$30",
+        "chase-sapphire-reserve.peloton": "$0",
+        "chase-sapphire-reserve.global-entry": "$15"
+      },
+      "nominal": "$2,784",
+      "realized": "$1,183.10",
+      "effective": "-$388.10",
+      "verdict": "pays-for-itself"
+    },
+    {
+      "id": "capital-one-venture-x",
+      "fee": "$395",
+      "perks": {
+        "capital-one-venture-x.travel": "$270",
+        "capital-one-venture-x.anniversary-miles": "$100",
+        "capital-one-venture-x.global-entry": "$15"
+      },
+      "nominal": "$430",
+      "realized": "$385",
+      "effective": "$10",
+      "verdict": "costs"
+    }
+  ],
+  "allCardsWallet": {
+    "fees": "$2,505",
+    "realized": "$2,989.65",
+    "effective": "-$484.65",
+    "verdict": "pays-for-itself"
+  }
+}

@@ -1,0 +1,62 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import type { CardDef } from '../types';
+
+export const amexGold: CardDef = {
+  id: 'amex-gold',
+  issuer: 'American Express',
+  name: 'Gold Card',
+  annualFeeCents: 32500,
+  lastVerified: '2026-11-08',
+  sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/gold-card/',
+  perks: [
+    {
+      id: 'amex-gold.dining',
+      name: 'Dining credit',
+      description:
+        'Grubhub (incl. Seamless), Buffalo Wild Wings, Five Guys, The Cheesecake Factory and Wonder.',
+      category: 'dining',
+      cadence: 'monthly',
+      amountPerPeriodCents: 1000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$10 / month',
+      defaultRatio: 0.5,
+      requiresEnrollment: true,
+    },
+    {
+      id: 'amex-gold.uber-cash',
+      name: 'Uber Cash',
+      description: 'U.S. Uber rides and Uber Eats orders. Add the card to your Uber account.',
+      category: 'rideshare',
+      cadence: 'monthly',
+      amountPerPeriodCents: 1000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$10 / month',
+      defaultRatio: 0.7,
+      requiresEnrollment: false,
+    },
+    {
+      id: 'amex-gold.resy',
+      name: 'Resy dining credit',
+      description: 'Dining at participating U.S. Resy restaurants (Jan–Jun and Jul–Dec).',
+      category: 'dining',
+      cadence: 'semiannual',
+      amountPerPeriodCents: 5000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$50 / half-year',
+      defaultRatio: 0.5,
+      requiresEnrollment: true,
+    },
+    {
+      id: 'amex-gold.dunkin',
+      name: "Dunkin' credit",
+      description: "Purchases at U.S. Dunkin' locations.",
+      category: 'dining',
+      cadence: 'monthly',
+      amountPerPeriodCents: 700,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$7 / month',
+      defaultRatio: 0.25,
+      requiresEnrollment: true,
+    },
+  ],
+};

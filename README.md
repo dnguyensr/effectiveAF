@@ -7,7 +7,7 @@
 
 👉 **[Open effectiveAF](https://dnguyensr.github.io/effectiveAF/)**
 
-> 🚧 Early development. The calculator itself is being built now; the live site is a placeholder.
+> 🚧 Early development: Phase 1 (five cards, valuations, backups) is built; more cards and features are planned.
 
 ## What it does
 
@@ -19,7 +19,7 @@ Effective annual fee = annual fee − the value you really get from each credit
 
 If the result is zero or below, the card pays for itself. If not, you'll see how much it still needs to earn back through rewards or other benefits.
 
-Planned launch cards:
+Supported cards:
 
 - American Express Platinum Card
 - American Express Gold Card

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "amex-platinum",
+    "name": "American Express Platinum Card",
+    "annualFee": "$895",
+    "lastVerified": "2026-11-08",
+    "perks": [
+      {
+        "id": "amex-platinum.hotel",
+        "cadence": "semiannual",
+        "perPeriod": "$300",
+        "annualNominal": "$600",
+        "defaultRatio": 0.25
+      },
+      {
+        "id": "amex-platinum.resy",
+        "cadence": "quarterly",
+        "perPeriod": "$100",
+        "annualNominal": "$400",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "amex-platinum.digital-entertainment",
+        "cadence": "monthly",
+        "perPeriod": "$25",
+        "annualNominal": "$300",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "amex-platinum.lululemon",
+        "cadence": "quarterly",
+        "perPeriod": "$75",
+        "annualNominal": "$300",
+        "defaultRatio": 0.25
+      },
+      {
+        "id": "amex-platinum.uber-cash",
+        "cadence": "monthly",
+        "perPeriod": "$15",
+        "annualNominal": "$200",
+        "defaultRatio": 0.7
+      },
+      {
+        "id": "amex-platinum.uber-one",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "annualNominal": "$120",
+        "defaultRatio": 0.3
+      },
+      {
+        "id": "amex-platinum.airline-fee",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "annualNominal": "$200",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "amex-platinum.clear",
+        "cadence": "annual",
+        "perPeriod": "$219",
+        "annualNominal": "$219",
+        "defaultRatio": 0.3
+      },
+      {
+        "id": "amex-platinum.walmart-plus",
+        "cadence": "monthly",
+        "perPeriod": "$12.95",
+        "annualNominal": "$155.40",
+        "defaultRatio": 0.25
+      },
+      {
+        "id": "amex-platinum.equinox",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "annualNominal": "$300",
+        "defaultRatio": 0
+      },
+      {
+        "id": "amex-platinum.oura",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "annualNominal": "$200",
+        "defaultRatio": 0.1
+      },
+      {
+        "id": "amex-platinum.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "annualNominal": "$30",
+        "defaultRatio": 0.5
+      }
+    ],
+    "totalNominal": "$3,024.40"
+  },
+  {
+    "id": "amex-gold",
+    "name": "American Express Gold Card",
+    "annualFee": "$325",
+    "lastVerified": "2026-11-08",
+    "perks": [
+      {
+        "id": "amex-gold.dining",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "annualNominal": "$120",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "amex-gold.uber-cash",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "annualNominal": "$120",
+        "defaultRatio": 0.7
+      },
+      {
+        "id": "amex-gold.resy",
+        "cadence": "semiannual",
+        "perPeriod": "$50",
+        "annualNominal": "$100",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "amex-gold.dunkin",
+        "cadence": "monthly",
+        "perPeriod": "$7",
+        "annualNominal": "$84",
+        "defaultRatio": 0.25
+      }
+    ],
+    "totalNominal": "$424"
+  },
+  {
+    "id": "chase-sapphire-preferred",
+    "name": "Chase Sapphire Preferred",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-08",
+    "perks": [
+      {
+        "id": "chase-sapphire-preferred.hotel",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "annualNominal": "$100",
+        "defaultRatio": 0.75
+      },
+      {
+        "id": "chase-sapphire-preferred.doordash-promo",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "annualNominal": "$120",
+        "defaultRatio": 0.3,
+        "endsOn": "2029-12-31"
+      },
+      {
+        "id": "chase-sapphire-preferred.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "annualNominal": "$120",
+        "defaultRatio": 0.3,
+        "endsOn": "2029-12-31"
+      },
+      {
+        "id": "chase-sapphire-preferred.apple-tv",
+        "cadence": "annual",
+        "perPeriod": "$180",
+        "annualNominal": "$180",
+        "defaultRatio": 0.3,
+        "endsOn": "2026-12-31"
+      },
+      {
+        "id": "chase-sapphire-preferred.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "annualNominal": "$30",
+        "defaultRatio": 0.5
+      }
+    ],
+    "totalNominal": "$550"
+  },
+  {
+    "id": "chase-sapphire-reserve",
+    "name": "Chase Sapphire Reserve",
+    "annualFee": "$795",
+    "lastVerified": "2026-11-08",
+    "perks": [
+      {
+        "id": "chase-sapphire-reserve.travel",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "annualNominal": "$300",
+        "defaultRatio": 0.95
+      },
+      {
+        "id": "chase-sapphire-reserve.the-edit",
+        "cadence": "annual",
+        "perPeriod": "$500",
+        "annualNominal": "$500",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "chase-sapphire-reserve.select-hotels-2026",
+        "cadence": "annual",
+        "perPeriod": "$250",
+        "annualNominal": "$250",
+        "defaultRatio": 0.25,
+        "endsOn": "2026-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve.dining",
+        "cadence": "semiannual",
+        "perPeriod": "$150",
+        "annualNominal": "$300",
+        "defaultRatio": 0.5
+      },
+      {
+        "id": "chase-sapphire-reserve.stubhub",
+        "cadence": "semiannual",
+        "perPeriod": "$150",
+        "annualNominal": "$300",
+        "defaultRatio": 0.4,
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve.apple",
+        "cadence": "annual",
+        "perPeriod": "$324",
+        "annualNominal": "$324",
+        "defaultRatio": 0.4,
+        "endsOn": "2027-06-22"
+      },
+      {
+        "id": "chase-sapphire-reserve.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$35",
+        "annualNominal": "$420",
+        "defaultRatio": 0.25,
+        "endsOn": "2029-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "annualNominal": "$120",
+        "defaultRatio": 0.3,
+        "endsOn": "2029-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve.lyft",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "annualNominal": "$120",
+        "defaultRatio": 0.25,
+        "endsOn": "2027-09-30"
+      },
+      {
+        "id": "chase-sapphire-reserve.peloton",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "annualNominal": "$120",
+        "defaultRatio": 0,
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "annualNominal": "$30",
+        "defaultRatio": 0.5
+      }
+    ],
+    "totalNominal": "$2,784"
+  },
+  {
+    "id": "capital-one-venture-x",
+    "name": "Capital One Venture X",
+    "annualFee": "$395",
+    "lastVerified": "2026-11-08",
+    "perks": [
+      {
+        "id": "capital-one-venture-x.travel",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "annualNominal": "$300",
+        "defaultRatio": 0.9
+      },
+      {
+        "id": "capital-one-venture-x.anniversary-miles",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "annualNominal": "$100",
+        "defaultRatio": 1
+      },
+      {
+        "id": "capital-one-venture-x.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "annualNominal": "$30",
+        "defaultRatio": 0.5
+      }
+    ],
+    "totalNominal": "$430"
+  }
+]

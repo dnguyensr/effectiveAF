@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "2026-11-08",
+  "wallet": ["amex-gold"],
+  "cards": { "amex-gold": { "feeOverrideCents": "\"><img src=x onerror=alert(1)>", "perks": {} } },
+  "updatedAt": "2026-11-08T12:00:00.000Z"
+}

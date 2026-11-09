@@ -1,0 +1,27 @@
+{
+  "app": "effectiveAF",
+  "schemaVersion": 1,
+  "catalogVersion": "2026-11-08",
+  "wallet": ["amex-gold", "capital-one-venture-x", "amex-platinum"],
+  "cards": {
+    "amex-gold": {
+      "feeOverrideCents": 25000,
+      "perks": {
+        "amex-gold.dining": { "mode": "dollars", "cents": 9000, "enabled": true },
+        "amex-gold.uber-cash": { "mode": "percent", "percent": 100, "enabled": true },
+        "amex-gold.dunkin": { "mode": "percent", "percent": 50, "enabled": false }
+      }
+    },
+    "amex-platinum": {
+      "perks": {
+        "amex-platinum.equinox": { "mode": "percent", "percent": 0, "enabled": false }
+      }
+    },
+    "chase-sapphire-reserve": {
+      "perks": {
+        "chase-sapphire-reserve.travel": { "mode": "percent", "percent": 100, "enabled": true }
+      }
+    }
+  },
+  "updatedAt": "2026-11-08T12:00:00.000Z"
+}

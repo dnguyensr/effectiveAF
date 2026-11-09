@@ -1,0 +1,147 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import { useEffect, useRef, useState } from 'preact/hooks';
+import {
+  backupFileName,
+  exportState,
+  MAX_IMPORT_CHARS,
+  parseImport,
+  type ImportResult,
+} from '../state/import-export';
+import { useStore } from './store-context';
+
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function BackupDialog({ open, onClose }: Props) {
+  const store = useStore();
+  const ref = useRef<HTMLDialogElement>(null);
+  const [pasted, setPasted] = useState('');
+  const [checked, setChecked] = useState<ImportResult | null>(null);
+  const [restored, setRestored] = useState(false);
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (open && !dialog.open) {
+      setPasted('');
+      setChecked(null);
+      setRestored(false);
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', '');
+    } else if (!open && dialog.open) {
+      if (typeof dialog.close === 'function') dialog.close();
+      else dialog.removeAttribute('open');
+    }
+  }, [open]);
+
+  const backupJson = exportState(store.state.value);
+
+  function download() {
+    const blob = new Blob([backupJson], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = backupFileName(store.asOf);
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function onFile(file: File | undefined) {
+    if (!file) return;
+    if (file.size > MAX_IMPORT_CHARS) {
+      setChecked(parseImport('x'.repeat(MAX_IMPORT_CHARS + 1)));
+      return;
+    }
+    const text = await file.text();
+    setPasted(text);
+    setChecked(parseImport(text));
+  }
+
+  return (
+    <dialog ref={ref} class="dialog" aria-labelledby="backup-title" onClose={onClose}>
+      <h2 id="backup-title">Back up or restore</h2>
+
+      <section aria-labelledby="backup-save-title">
+        <h3 id="backup-save-title">Back up</h3>
+        <p class="hint">
+          Your data lives only in this browser. Download a backup to keep it safe or move it to
+          another device.
+        </p>
+        <button type="button" class="btn btn-primary" onClick={download}>
+          Download backup file
+        </button>
+      </section>
+
+      <section aria-labelledby="backup-restore-title">
+        <h3 id="backup-restore-title">Restore</h3>
+        <label class="file-label">
+          Choose a backup file
+          <input
+            type="file"
+            accept="application/json,.json"
+            onChange={(e) => void onFile(e.currentTarget.files?.[0])}
+          />
+        </label>
+        <label class="paste-label" for="backup-paste">
+          Or paste backup text
+        </label>
+        <textarea
+          id="backup-paste"
+          rows={5}
+          spellcheck={false}
+          value={pasted}
+          onInput={(e) => {
+            setPasted(e.currentTarget.value);
+            setChecked(null);
+          }}
+        />
+        <button
+          type="button"
+          class="btn"
+          disabled={pasted.trim() === ''}
+          onClick={() => setChecked(parseImport(pasted))}
+        >
+          Check backup
+        </button>
+
+        {checked && !checked.ok && (
+          <p class="error" role="alert">
+            {checked.message}
+          </p>
+        )}
+        {checked?.ok && !restored && (
+          <div class="confirm" role="status">
+            <p>
+              This backup has {checked.cardCount} {checked.cardCount === 1 ? 'card' : 'cards'} and{' '}
+              {checked.valuationCount} saved {checked.valuationCount === 1 ? 'value' : 'values'}.
+              Restoring replaces everything you have now.
+            </p>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onClick={() => {
+                store.replaceState(checked.state);
+                setRestored(true);
+              }}
+            >
+              Replace my data
+            </button>
+          </div>
+        )}
+        {restored && (
+          <p class="success" role="status">
+            Backup restored.
+          </p>
+        )}
+      </section>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </dialog>
+  );
+}

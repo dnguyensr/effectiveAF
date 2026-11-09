@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Monthly reminder: open (or update) an issue listing cards whose data hasn't been re-checked
+# against the issuer's page in 90 days.
+name: Catalog staleness check
+
+on:
+  schedule:
+    - cron: '0 14 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - id: stale
+        run: node scripts/catalog-staleness.mjs 90 | tee stale.md
+      - if: steps.stale.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Re-verify card data"
+          {
+            echo "These cards haven't been checked against the issuer's page in over 90 days."
+            echo "For each: compare every fee and credit with the source page, update the card file,"
+            echo "set lastVerified, run npm run baselines:update and explain the diff in the PR."
+            echo
+            cat stale.md
+          } > body.md
+          existing=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file body.md
+          else
+            gh issue create --title "$title" --body-file body.md
+          fi

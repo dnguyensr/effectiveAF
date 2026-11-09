@@ -8,6 +8,8 @@ export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
+  // Never create baselines silently in CI; use the "Update screenshots" workflow.
+  updateSnapshots: process.env.CI ? 'none' : 'missing',
   retries: process.env.CI ? 2 : 0,
   ...(process.env.CI ? { workers: 2 } : {}),
   reporter: process.env.CI

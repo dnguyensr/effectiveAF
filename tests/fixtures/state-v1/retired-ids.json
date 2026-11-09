@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "2020-01-01",
+  "wallet": ["amex-gold", "discontinued-card"],
+  "cards": {
+    "amex-gold": {
+      "perks": {
+        "amex-gold.retired-perk": { "mode": "dollars", "cents": 5000, "enabled": true }
+      }
+    },
+    "discontinued-card": { "perks": {} }
+  },
+  "updatedAt": "2020-01-01T00:00:00.000Z"
+}
