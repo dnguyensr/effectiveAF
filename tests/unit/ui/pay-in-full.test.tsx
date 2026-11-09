@@ -6,6 +6,7 @@ import { parseImport } from '../../../src/state/import-export';
 import { createEmptyState } from '../../../src/state/migrations';
 import { createStore } from '../../../src/state/store';
 import { App } from '../../../src/ui/App';
+import { PayInFullNote } from '../../../src/ui/PayInFullNote';
 import { FIXED_NOW } from '../helpers';
 
 const setup = (...cards: string[]) => {
@@ -81,6 +82,20 @@ describe('pay-in-full question and asterisk', () => {
     fireEvent.keyDown(star, { key: 'Escape' });
     expect(within(header).queryByRole('note')).toBeNull();
 
+    // Its Close button closes it and returns focus to the asterisk.
+    click('Why the asterisk?', header);
+    const note = within(header).getByRole('note');
+    fireEvent.pointerDown(note);
+    expect(within(header).getByRole('note')).toBeTruthy();
+    click('Close', note);
+    expect(within(header).queryByRole('note')).toBeNull();
+    expect(document.activeElement).toBe(star);
+
+    // So does a tap anywhere else.
+    click('Why the asterisk?', header);
+    fireEvent.pointerDown(document.body);
+    expect(within(header).queryByRole('note')).toBeNull();
+
     // Tile and wallet summary carry the asterisk too.
     expect(screen.getByRole('tab', { name: /Gold Card/ }).textContent).toContain(
       '(assumes paying in full)',
@@ -139,5 +154,42 @@ describe('pay-in-full question and asterisk', () => {
       .getByRole('rowheader', { name: 'Effective cost' })
       .closest('tr') as HTMLElement;
     expect(within(row).getAllByRole('button', { name: 'Why the asterisk?' })).toHaveLength(1);
+  });
+});
+
+describe('pay-in-full note placement', () => {
+  /** Opens a standalone note with the asterisk at the given spot and the page this wide. */
+  function openAt(viewport: number, star: { left: number; width: number; bottom: number }) {
+    Object.defineProperty(document.documentElement, 'clientWidth', {
+      configurable: true,
+      value: viewport,
+    });
+    render(<PayInFullNote id="t" paysInFull={undefined} />);
+    const button = screen.getByRole('button', { name: 'Why the asterisk?' });
+    button.getBoundingClientRect = () => ({ ...star, top: star.bottom - 44 }) as DOMRect;
+    fireEvent.click(button);
+    return { button, note: () => screen.getByRole('note') };
+  }
+
+  afterEach(() => {
+    Reflect.deleteProperty(document.documentElement, 'clientWidth');
+  });
+
+  it('centers under the asterisk on wide screens, 6px below it', () => {
+    // 36rem = 576px wide; centered on 940 + 22 = 962 -> left 962 - 288 = 674 (fits: max 688).
+    const { note } = openAt(1280, { left: 940, width: 44, bottom: 100 });
+    expect(note().style.cssText).toBe('top: 106px; left: 674px; width: 576px;');
+  });
+
+  it('spans the screen less 16px each side on phones, and follows the asterisk on scroll', () => {
+    // 390 − 32 = 358px wide; centered would be 222 − 179 = 43, but the max left is
+    // 390 − 16 − 358 = 16, so it sits 16px from the edge.
+    const { button, note } = openAt(390, { left: 200, width: 44, bottom: 100 });
+    expect(note().style.cssText).toBe('top: 106px; left: 16px; width: 358px;');
+    button.getBoundingClientRect = () => ({ left: 200, width: 44, bottom: 50, top: 6 }) as DOMRect;
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    expect(note().style.top).toBe('56px');
   });
 });

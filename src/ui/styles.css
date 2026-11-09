@@ -1531,19 +1531,31 @@ td .unset-note {
   background: var(--warn-bg);
 }
 
+/* Floats over the page under the asterisk; PayInFullNote sets top, left and width. The warning
+   tint is layered over the surface color so the note is opaque in both themes (the dark
+   theme's --warn-bg is translucent). */
 .pay-note {
-  display: block;
-  flex-basis: 100%;
-  max-width: 36rem;
-  margin-top: 4px;
-  padding: 8px 10px;
+  position: fixed;
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 10px 10px 12px;
   border: 1px solid var(--warn);
-  border-radius: 8px;
-  background: var(--warn-bg);
+  border-radius: 10px;
+  background: linear-gradient(var(--warn-bg), var(--warn-bg)), var(--surface);
+  box-shadow: var(--shadow);
   color: var(--text);
   font-size: var(--fs-small);
   font-weight: 400;
+  line-height: 1.5;
   text-align: left;
+  white-space: normal;
+}
+
+.pay-note-close {
+  flex: none;
 }
 
 .pay-question {
