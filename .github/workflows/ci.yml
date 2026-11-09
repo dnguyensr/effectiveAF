@@ -5,14 +5,7 @@ on:
   pull_request:
   push:
     branches: [main]
-  # Deploying is manual for now (early development: screenshots often need updating first).
-  # Actions → CI → Run workflow → branch "main" → tick "Deploy to GitHub Pages".
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: Deploy to GitHub Pages after the tests pass (main only)
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -26,8 +19,8 @@ jobs:
     name: Lint, types, licenses, unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -38,7 +31,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run test:coverage
       - run: npm run coverage:check
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: coverage
@@ -56,8 +49,8 @@ jobs:
     env:
       HOME: /root
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -81,7 +74,7 @@ jobs:
       - name: Flag screenshot differences
         if: steps.visual.outcome == 'failure'
         run: echo "::warning::Screenshots differ from the baselines. Check the playwright-report artifact; run Update screenshots if the change is intended."
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure() || steps.visual.outcome == 'failure'
         with:
           name: playwright-report
@@ -93,9 +86,9 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: [checks, e2e]
-    # Only when started by hand with "deploy" ticked, on main. Pushes and the screenshot
-    # workflow's CI re-run test but never deploy.
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy && github.ref == 'refs/heads/main'
+    # Every push to main (and manual runs on main) deploys once the tests pass. Screenshot
+    # differences don't block it: that step is non-blocking for now.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -108,16 +101,16 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

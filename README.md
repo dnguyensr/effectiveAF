@@ -85,7 +85,7 @@ Card definitions live in `src/catalog/cards/`. Every change must:
 
 ## Deployment
 
-Every push to `main` and every pull request runs the full test suite, but deploying is manual for now: in GitHub go to **Actions → CI → Run workflow**, choose `main`, tick **Deploy to GitHub Pages**, and run it. The site is published only if the tests pass. In the repository settings, **Pages → Source** must be set to **GitHub Actions**.
+Every push to `main` runs the full test suite; if it passes, GitHub Actions builds the site and publishes it to GitHub Pages. Pull requests run the tests without deploying. Screenshot comparisons are non-blocking while the views are still changing (see `.github/workflows/ci.yml`). In the repository settings, **Pages → Source** must be set to **GitHub Actions**.
 
 ## License
 
