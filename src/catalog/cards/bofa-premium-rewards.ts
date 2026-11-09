@@ -20,7 +20,8 @@ export const bofaPremiumRewards: CardDef = {
     {
       id: 'bofa-premium-rewards.airline',
       name: 'Airline incidental credit',
-      description: 'Seat upgrades, baggage fees, in-flight services and airport lounge fees.',
+      description:
+        'Seat upgrades, baggage fees, in-flight services and lounge fees on certain U.S. airlines, charged separately from tickets.',
       category: 'travel',
       kind: 'airline-fees',
       cadence: 'annual',
