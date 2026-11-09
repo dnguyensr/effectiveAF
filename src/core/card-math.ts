@@ -8,6 +8,7 @@ import {
   type PerkStatus,
   type PerkValuation,
 } from './valuation';
+import { toWholeDollars } from './money';
 
 /** What the user has changed for one card. Everything else comes from the catalog. */
 export interface CardUserState {
@@ -70,7 +71,7 @@ export function summarizeCard(
     });
 
   const override = userState?.feeOverrideCents;
-  const feeCents = override ?? card.annualFeeCents;
+  const feeCents = toWholeDollars(override ?? card.annualFeeCents);
   const nominalCents = perks.reduce((sum, p) => sum + p.nominalCents, 0);
   const realized = perks.reduce((sum, p) => sum + p.realizedCents, 0);
   const effectiveCents = feeCents - realized;

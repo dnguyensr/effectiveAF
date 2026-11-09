@@ -5,6 +5,7 @@ import {
   addCards,
   expect,
   seedState,
+  setFee,
   selectTab,
   STORAGE_KEY,
   test,
@@ -16,7 +17,7 @@ test('changes survive a reload, and the wallet opens directly', async ({ page })
   await page.goto('./');
   await addCards(page, /Add American Express Gold Card/);
   await page.getByRole('slider', { name: /^Dining credit/ }).fill('100');
-  await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('250');
+  await setFee(page, 'Gold Card', '250');
   await waitForSaved(page, "s.cards['amex-gold']?.feeOverrideCents === 25000");
 
   await page.goto('./');

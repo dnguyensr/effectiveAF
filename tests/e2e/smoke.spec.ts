@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, expect, seriousViolations, test } from './fixtures';
+import { addCards, expect, perkChip, seriousViolations, setFee, test } from './fixtures';
 
 test('loads at the GitHub Pages base path without errors', async ({ page }) => {
   const errors: string[] = [];
@@ -35,8 +35,9 @@ test.describe('accessibility (axe)', () => {
     await addCards(page, /Add American Express Platinum Card/, /Add Chase Sapphire Reserve/);
     await page.getByRole('tab', { name: /Platinum Card/ }).click();
     await page.getByRole('slider', { name: /^Resy dining credit/ }).fill('50');
-    await page.getByRole('checkbox', { name: "Won't use Equinox credit" }).check();
-    await page.getByRole('textbox', { name: 'Platinum Card annual fee' }).fill('695');
+    await perkChip(page, 'Equinox credit', "Won't use").click();
+    await perkChip(page, 'Oura Ring credit', 'Half').click();
+    await setFee(page, 'Platinum Card', '695');
     expect(await seriousViolations(page)).toEqual([]);
   });
 

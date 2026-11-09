@@ -6,7 +6,7 @@
  */
 import { existsSync } from 'node:fs';
 import type { Page, TestInfo } from '@playwright/test';
-import { addCards, compareCards, expect, test } from './fixtures';
+import { addCards, compareCards, expect, perkChip, setFee, test } from './fixtures';
 
 test.skip(process.platform !== 'linux', 'Screenshot baselines are Linux-only; use test:e2e:docker');
 
@@ -33,8 +33,9 @@ for (const scheme of ['light', 'dark'] as const) {
       await page.goto('./');
       await addCards(page, /Add American Express Gold Card/);
       await page.getByRole('slider', { name: /^Dining credit/ }).fill('75');
-      await page.getByRole('checkbox', { name: "Won't use Dunkin' credit" }).check();
-      await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('250');
+      await perkChip(page, "Dunkin' credit", "Won't use").click();
+      await perkChip(page, 'Uber Cash', 'Half').click();
+      await setFee(page, 'Gold Card', '250');
       await page.getByRole('heading', { level: 1 }).click(); // blur the field
       await snap(page, testInfo, `gold-${scheme}.png`);
     });

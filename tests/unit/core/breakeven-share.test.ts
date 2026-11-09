@@ -108,7 +108,7 @@ describe('walletMarkdown', () => {
         '',
         '| Card | Annual fee | Credits I actually use | Effective cost |',
         '|---|--:|--:|---|',
-        '| American Express Platinum Card | $895 | $200 of $3,024.40 | Costs $695/yr |',
+        '| American Express Platinum Card | $895 | $200 of $3,024 | Costs $695/yr |',
         '| American Express Gold Card | $325 | $424 of $424 | Pays for itself (+$99) |',
         '| Pipe \\| Card | $0 | $0 of $0 | Pays for itself (+$0) |',
         '| **Total** | **$1,220** | **$624** | **Costs $596/yr** |',

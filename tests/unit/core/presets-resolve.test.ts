@@ -14,7 +14,7 @@ describe('cadenceLabelFor', () => {
     ['monthly', 1000, '$10 / month'],
     ['quarterly', 7500, '$75 / quarter'],
     ['semiannual', 5000, '$50 / half-year'],
-    ['annual', 12995, '$129.95 / year'],
+    ['annual', 12900, '$129 / year'],
     ['every-4-years', 12000, '$120 / 4 years'],
   ] as const)('%s %d -> %s', (cadence, cents, label) => {
     expect(cadenceLabelFor(cadence, cents)).toBe(label);
@@ -87,8 +87,8 @@ describe('resolveCards', () => {
 });
 
 describe('presets', () => {
-  it('lists the three presets with labels and descriptions', () => {
-    expect(PRESETS.map((p) => p.id)).toEqual(['face', 'travel-dining', 'clear']);
+  it('lists the four presets with labels and descriptions', () => {
+    expect(PRESETS.map((p) => p.id)).toEqual(['face', 'half', 'travel-dining', 'clear']);
     for (const p of PRESETS) expect(p.description.length).toBeGreaterThan(10);
   });
 
@@ -96,11 +96,20 @@ describe('presets', () => {
     summarizeCard(platinum, { perks: applyPreset(platinum, {}, preset) }, AS_OF);
 
   // Hand-computed from the catalog figures:
-  it('face value: Platinum realizes all $3,024.40 and pays for itself by $2,129.40', () => {
+  it('full value: Platinum realizes all $3,024 and pays for itself by $2,129', () => {
     const s = total('face');
-    expect(s.realizedCents).toBe(302440);
-    expect(s.effectiveCents).toBe(-212940);
+    expect(s.realizedCents).toBe(302400);
+    expect(s.effectiveCents).toBe(-212900);
     expect(s.unsetCount).toBe(0);
+  });
+
+  it('half value: every credit at 50%, rounded per credit, pays for itself by $618', () => {
+    // 300 + 200 + 150 + 150 + 100 + 60 + 100 + 110 (CLEAR+ $109.50) + 78 (Walmart+ $77.50)
+    // + 150 + 100 + 15 = 1,513
+    const s = total('half');
+    expect(s.realizedCents).toBe(151300);
+    expect(s.effectiveCents).toBe(-61800);
+    expect(s.perks.every((p) => p.status === 'using')).toBe(true);
   });
 
   it("travel & dining: $1,649 at face value, the rest won't use, pays for itself by $754", () => {

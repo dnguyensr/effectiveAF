@@ -2,14 +2,14 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CURRENT_SCHEMA_VERSION } from '../../src/state/schema';
-import { addCards, expect, selectTab, test, verdict, waitForSaved } from './fixtures';
+import { addCards, expect, selectTab, setFee, test, verdict, waitForSaved } from './fixtures';
 
 test('export, clear everything, import: identical result', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'Mobile WebKit does not expose downloads to Playwright');
   await page.goto('./');
   await addCards(page, /Add American Express Gold Card/, /Add Chase Sapphire Preferred/);
   await selectTab(page, /Gold Card/);
-  await page.getByRole('textbox', { name: 'Gold Card annual fee' }).fill('0');
+  await setFee(page, 'Gold Card', '0');
   await waitForSaved(page, "s.cards['amex-gold']?.feeOverrideCents === 0");
   const before = await page.getByTestId('summary-effective').textContent();
 

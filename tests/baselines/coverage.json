@@ -138,10 +138,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.24,
+    "lines": 99.25,
     "branches": 95,
-    "functions": 98.48,
-    "statements": 98.78
+    "functions": 98.55,
+    "statements": 98.8
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -199,7 +199,7 @@
   },
   "src/ui/MoneyInput.tsx": {
     "lines": 100,
-    "branches": 90,
+    "branches": 92.85,
     "functions": 100,
     "statements": 100
   },
@@ -211,7 +211,7 @@
   },
   "src/ui/PerkRow.tsx": {
     "lines": 100,
-    "branches": 95.45,
+    "branches": 96.77,
     "functions": 100,
     "statements": 100
   },

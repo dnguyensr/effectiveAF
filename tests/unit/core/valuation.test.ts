@@ -15,13 +15,13 @@ describe('annualNominalCents', () => {
   it.each<[Cadence, number, number | undefined, number]>([
     ['monthly', 2500, undefined, 30000],
     ['monthly', 1500, 2000, 20000], // Uber Cash: $15/mo + $20 December bonus
-    ['monthly', 1295, undefined, 15540], // Walmart+
+    ['monthly', 1295, undefined, 15500], // Walmart+: $155.40 -> $155
     ['quarterly', 10000, undefined, 40000],
     ['semiannual', 30000, undefined, 60000],
     ['annual', 21900, undefined, 21900],
     ['every-4-years', 12000, undefined, 3000],
-    ['every-4-years', 8500, undefined, 2125],
-    ['every-4-years', 8501, undefined, 2125], // rounds to whole cents
+    ['every-4-years', 8500, undefined, 2100], // $21.25 -> $21
+    ['every-4-years', 21900, undefined, 5500], // $54.75 -> $55
   ])('%s of %d (+%s extra) = %d / year', (cadence, amount, extra, expected) => {
     expect(
       annualNominalCents({
@@ -71,8 +71,11 @@ describe('realizedCents', () => {
     expect(realizedCents(nominal, valuation)).toBe(expected);
   });
 
-  it('rounds percent values to whole cents', () => {
-    expect(realizedCents(1295, { mode: 'percent', percent: 33, enabled: true })).toBe(427);
+  it('rounds values to whole dollars', () => {
+    // 33% of $155 = $51.15 -> $51; 50% of $219 = $109.50 -> $110
+    expect(realizedCents(15500, { mode: 'percent', percent: 33, enabled: true })).toBe(5100);
+    expect(realizedCents(21900, { mode: 'percent', percent: 50, enabled: true })).toBe(11000);
+    expect(realizedCents(21900, { mode: 'dollars', cents: 4949, enabled: true })).toBe(4900);
   });
 
   it('keeps a typed dollar amount when the face value grows, and caps it when it shrinks', () => {
@@ -101,14 +104,14 @@ describe('realizedCents', () => {
       }),
     );
 
-    it('is always an integer between 0 and the face value', () => {
+    it('is always whole dollars between 0 and the (whole-dollar) face value', () => {
       fc.assert(
         fc.property(
-          fc.integer({ min: 0, max: 10_000_000 }),
+          fc.integer({ min: 0, max: 100_000 }).map((d) => d * 100),
           fc.option(valuation, { nil: undefined }),
           (nom, val) => {
             const r = realizedCents(nom, val);
-            expect(Number.isInteger(r)).toBe(true);
+            expect(r % 100).toBe(0);
             expect(r).toBeGreaterThanOrEqual(0);
             expect(r).toBeLessThanOrEqual(nom);
           },
@@ -119,7 +122,8 @@ describe('realizedCents', () => {
     it('percent -> dollars -> percent round-trips within 1 point', () => {
       fc.assert(
         fc.property(
-          fc.integer({ min: 100, max: 10_000_000 }),
+          // From $100 up, whole-dollar rounding moves the percentage by at most 1 point.
+          fc.integer({ min: 100, max: 100_000 }).map((d) => d * 100),
           fc.integer({ min: 0, max: 100 }),
           (nom, pct) => {
             const r = realizedCents(nom, { mode: 'percent', percent: pct, enabled: true });

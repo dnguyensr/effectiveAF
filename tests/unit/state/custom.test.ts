@@ -125,7 +125,7 @@ describe('store: presets', () => {
     const store = setup();
     store.addCard('amex-platinum');
     store.applyPreset('amex-platinum', 'face');
-    expect(store.summary.value.cards[0]?.realizedCents).toBe(302440);
+    expect(store.summary.value.cards[0]?.realizedCents).toBe(302400);
     store.applyPreset('amex-platinum', 'clear');
     expect(store.summary.value.cards[0]?.realizedCents).toBe(0);
     expect(store.summary.value.cards[0]?.unsetCount).toBe(12);
@@ -244,7 +244,7 @@ describe('store: custom perks', () => {
       store.addCustomPerk('amex-gold', { name: ' ', cadence: 'annual', amountPerPeriodCents: 1 }),
     ).toBeNull();
     store.addCustomPerk('amex-gold', { name: 'x', cadence: 'monthly', amountPerPeriodCents: -5 });
-    expect(store.state.value.cards['amex-gold']?.customPerks?.[0]?.amountPerPeriodCents).toBe(1);
+    expect(store.state.value.cards['amex-gold']?.customPerks?.[0]?.amountPerPeriodCents).toBe(100);
     for (let i = 1; i < MAX_CUSTOM_PERKS_PER_CARD; i++) {
       store.addCustomPerk('amex-gold', {
         name: `p${i}`,

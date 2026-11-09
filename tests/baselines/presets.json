@@ -3,8 +3,8 @@
   "presets": {
     "face": {
       "amex-platinum": {
-        "realized": "$3,024.40",
-        "effective": "-$2,129.40"
+        "realized": "$3,024",
+        "effective": "-$2,129"
       },
       "amex-gold": {
         "realized": "$424",
@@ -21,6 +21,28 @@
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
+      }
+    },
+    "half": {
+      "amex-platinum": {
+        "realized": "$1,513",
+        "effective": "-$618"
+      },
+      "amex-gold": {
+        "realized": "$212",
+        "effective": "$113"
+      },
+      "chase-sapphire-preferred": {
+        "realized": "$275",
+        "effective": "-$180"
+      },
+      "chase-sapphire-reserve": {
+        "realized": "$1,392",
+        "effective": "-$597"
+      },
+      "capital-one-venture-x": {
+        "realized": "$215",
+        "effective": "$180"
       }
     },
     "travel-dining": {

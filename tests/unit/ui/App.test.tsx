@@ -167,17 +167,42 @@ describe('wallet', () => {
     expect(slider.value).toBe('25');
     expect(verdict('amex-gold')).toBe('Costs $295/yr');
 
-    const wontUse = screen.getByRole('checkbox', { name: "Won't use Dining credit" });
+    const quick = screen.getByRole('group', { name: 'Dining credit: quick values' });
+    const half = within(quick).getByRole('button', { name: 'Half ($60)' });
+    const full = within(quick).getByRole('button', { name: 'Full ($120)' });
+    const wontUse = within(quick).getByRole('button', { name: "Won't use" });
+    expect([half, full, wontUse].map((b) => b.getAttribute('aria-pressed'))).toEqual([
+      'false',
+      'false',
+      'false',
+    ]);
+
+    fireEvent.click(half);
+    expect(dollars.value).toBe('60');
+    expect(half.getAttribute('aria-pressed')).toBe('true');
+    expect(verdict('amex-gold')).toBe('Costs $265/yr');
+    fireEvent.click(full);
+    expect(full.getAttribute('aria-pressed')).toBe('true');
+    expect(half.getAttribute('aria-pressed')).toBe('false');
+    expect(verdict('amex-gold')).toBe('Costs $205/yr');
+
+    // Won't use is an automatic $0.
     fireEvent.click(wontUse);
+    expect(wontUse.getAttribute('aria-pressed')).toBe('true');
     expect(screen.getByTestId('realized-amex-gold.dining').textContent).toContain("Won't use");
-    expect(dollars.value).toBe('30');
+    expect(dollars.value).toBe('0');
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
+    expect(screen.getByText(/3 of 4 not set yet/)).toBeTruthy();
 
+    // Pressing it again clears the perk back to not set.
     fireEvent.click(wontUse);
-    expect(verdict('amex-gold')).toBe('Costs $295/yr');
+    expect(wontUse.getAttribute('aria-pressed')).toBe('false');
+    expect(screen.getByText(/4 of 4 not set yet/)).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('checkbox', { name: "Won't use Uber Cash" }));
-    expect(screen.getByText(/2 of 4 not set yet/)).toBeTruthy();
+    // Any slider move counts as using it again.
+    fireEvent.click(wontUse);
+    fireEvent.input(slider, { target: { value: '50' } });
+    expect(verdict('amex-gold')).toBe('Costs $265/yr');
   });
 
   it('lets the dollar field be cleared while typing, and caps it at face value on blur', () => {
@@ -185,8 +210,13 @@ describe('wallet', () => {
     const dollars = screen.getByRole('textbox', { name: /^Uber Cash/ }) as HTMLInputElement;
     fireEvent.input(dollars, { target: { value: '' } });
     expect(dollars.value).toBe('');
+    // While focused, the field keeps what was typed even though the store capped it...
+    dollars.focus();
     fireEvent.input(dollars, { target: { value: '999' } });
+    expect(dollars.value).toBe('999');
+    // ...and snaps to the capped value on blur.
     fireEvent.blur(dollars);
+    dollars.blur();
     expect(dollars.value).toBe('120');
     fireEvent.input(dollars, { target: { value: 'abc' } });
     fireEvent.keyDown(dollars, { key: 'Enter' });
@@ -196,7 +226,10 @@ describe('wallet', () => {
 
   it('overrides the annual fee and restores the standard fee', () => {
     walletWith(/Add American Express Gold Card/);
-    const fee = screen.getByRole('textbox', { name: 'Gold Card annual fee' });
+    const fee = screen.getByRole('textbox', { name: 'Gold Card annual fee' }) as HTMLInputElement;
+    expect(fee.readOnly).toBe(true);
+    click('Unlock Gold Card annual fee');
+    expect(fee.readOnly).toBe(false);
     fireEvent.input(fee, { target: { value: '0' } });
     expect(screen.getByText('Custom')).toBeTruthy();
     expect(verdict('amex-gold')).toBe('Pays for itself (+$0)');
@@ -205,21 +238,36 @@ describe('wallet', () => {
     fireEvent.input(fee, { target: { value: '100' } });
     click('Use standard $325');
     expect(screen.queryByText('Custom')).toBeNull();
+    click('Lock Gold Card annual fee');
+    expect(fee.readOnly).toBe(true);
+  });
+
+  it('keeps the card summary in a pinned header above its perks', () => {
+    walletWith(/Add American Express Platinum Card/);
+    const header = screen.getByTestId('card-header-amex-platinum');
+    expect(header.className).toBe('card-sticky');
+    expect(header.textContent).toContain('Platinum Card');
+    expect(header.textContent).toContain('$895 fee');
+    expect(within(header).getByTestId('verdict-amex-platinum')).toBeTruthy();
+    expect(header.querySelector('.perk-list')).toBeNull();
   });
 
   it('quick-sets a card and every card at once', () => {
     walletWith(/Add American Express Platinum Card/, /Add Capital One Venture X/);
     fireEvent.click(screen.getByRole('tab', { name: /Platinum Card/ }));
     const bar = screen.getByRole('group', { name: 'Quick-set Platinum Card credits' });
-    click('Face value', bar);
-    expect(verdict('amex-platinum')).toBe('Pays for itself (+$2,129.40)');
-    click('Travel & dining at face value', bar);
+    click('Full value', bar);
+    expect(verdict('amex-platinum')).toBe('Pays for itself (+$2,129)');
+    click('Half value', bar);
+    expect(verdict('amex-platinum')).toBe('Pays for itself (+$618)');
+    click('Travel & dining at full value', bar);
     expect(verdict('amex-platinum')).toBe('Pays for itself (+$754)');
     expect(
-      (screen.getByRole('checkbox', { name: "Won't use lululemon credit" }) as HTMLInputElement)
-        .checked,
-    ).toBe(true);
-    click('Clear all', bar);
+      within(screen.getByRole('group', { name: 'lululemon credit: quick values' }))
+        .getByRole('button', { name: "Won't use" })
+        .getAttribute('aria-pressed'),
+    ).toBe('true');
+    click('Clear all (no value)', bar);
     expect(verdict('amex-platinum')).toBe('Costs $895/yr');
 
     fireEvent.change(screen.getByLabelText('Set every card to'), { target: { value: 'face' } });
@@ -228,9 +276,7 @@ describe('wallet', () => {
     expect(verdict('amex-platinum')).toBe('Costs $895/yr');
     confirmSpy.mockReturnValueOnce(true);
     click('Apply');
-    expect(screen.getByTestId('summary-effective').textContent).toBe(
-      'Pays for itself (+$2,164.40)',
-    );
+    expect(screen.getByTestId('summary-effective').textContent).toBe('Pays for itself (+$2,164)');
   });
 
   it('removes a card with undo, and lets the undo toast expire', () => {
@@ -336,7 +382,7 @@ describe('compare', () => {
     expect(row('Travel credit').textContent).toContain('$300/yr');
     expect(row('Global Entry / TSA PreCheck').textContent).not.toContain('Not offered');
     expect(row('Annual fee').textContent).toContain('$895');
-    expect(row('Face value of credits').textContent).toContain('$3,024.40');
+    expect(row('Face value of credits').textContent).toContain('$3,024');
     expect(screen.getByTestId('compare-value-amex-platinum').textContent).toContain('12 not set');
     expect(screen.getByTestId('compare-verdict-capital-one-venture-x').textContent).toBe(
       'Costs $395/yr',
@@ -349,7 +395,7 @@ describe('compare', () => {
     expect(screen.getByText(/Add at least one more card/)).toBeTruthy();
     click('Set my values for Venture X');
     const editor = dialog('Your values: Venture X');
-    click('Face value', editor);
+    click('Full value', editor);
     click('Close', editor);
     expect(screen.getByTestId('compare-verdict-capital-one-venture-x').textContent).toBe(
       'Pays for itself (+$35)',

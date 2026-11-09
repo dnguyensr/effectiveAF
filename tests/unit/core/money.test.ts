@@ -1,7 +1,28 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { centsToInputValue, clamp, formatUsd, parseDollarsToCents } from '../../../src/core/money';
+import {
+  centsToInputValue,
+  clamp,
+  formatUsd,
+  parseDollarsToCents,
+  toWholeDollars,
+} from '../../../src/core/money';
+
+describe('toWholeDollars', () => {
+  it.each([
+    [15540, 15500],
+    [1295, 1300],
+    [1250, 1300], // half rounds away from zero
+    [1249, 1200],
+    [-1250, -1300],
+    [-49, 0],
+    [0, 0],
+  ])('%d -> %d', (cents, expected) => {
+    expect(toWholeDollars(cents)).toBe(expected);
+    expect(Object.is(toWholeDollars(cents), -0)).toBe(false);
+  });
+});
 
 describe('formatUsd', () => {
   it.each([
@@ -9,34 +30,33 @@ describe('formatUsd', () => {
     [-0, '$0'],
     [100, '$1'],
     [89500, '$895'],
-    [1295, '$12.95'],
-    [5, '$0.05'],
+    [1295, '$13'],
+    [5, '$0'],
     [-27500, '-$275'],
-    [-1, '-$0.01'],
+    [-49, '$0'],
     [123456700, '$1,234,567'],
+    [302440, '$3,024'],
   ])('formats %d cents as %s', (cents, expected) => {
     expect(formatUsd(cents)).toBe(expected);
   });
 
-  it.each([1.5, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER + 1])(
-    'rejects non-integer or unsafe input %d',
+  it.each([Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER * 2])(
+    'rejects %d',
     (bad) => {
       expect(() => formatUsd(bad)).toThrow(RangeError);
     },
   );
 });
 
-describe('parseDollarsToCents', () => {
+describe('parseDollarsToCents (whole dollars)', () => {
   it.each([
     ['150', 15000],
     ['$150', 15000],
-    [' 12.95 ', 1295],
-    ['1,250.5', 125050],
+    [' 12.95 ', 1300],
+    ['1,250.4', 125000],
     ['0', 0],
-    ['.5', 50],
+    ['.5', 100],
     ['12.', 1200],
-    ['0.004', 0],
-    ['0.005', 1],
   ])('parses %j as %d cents', (text, cents) => {
     expect(parseDollarsToCents(text)).toBe(cents);
   });
@@ -48,10 +68,10 @@ describe('parseDollarsToCents', () => {
     },
   );
 
-  it('round-trips with centsToInputValue for any whole-cent amount', () => {
+  it('round-trips with centsToInputValue for any whole-dollar amount', () => {
     fc.assert(
-      fc.property(fc.integer({ min: 0, max: 10_000_000 }), (cents) => {
-        expect(parseDollarsToCents(centsToInputValue(cents))).toBe(cents);
+      fc.property(fc.integer({ min: 0, max: 100_000 }), (dollars) => {
+        expect(parseDollarsToCents(centsToInputValue(dollars * 100))).toBe(dollars * 100);
       }),
     );
   });
@@ -60,8 +80,7 @@ describe('parseDollarsToCents', () => {
 describe('centsToInputValue', () => {
   it.each([
     [15000, '150'],
-    [1295, '12.95'],
-    [1250, '12.50'],
+    [1295, '13'],
     [0, '0'],
   ])('%d -> %s', (cents, text) => {
     expect(centsToInputValue(cents)).toBe(text);

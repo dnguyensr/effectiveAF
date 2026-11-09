@@ -256,7 +256,20 @@ p {
   border-radius: 16px;
   margin-bottom: 14px;
   box-shadow: var(--shadow);
-  overflow: hidden;
+  /* No overflow: hidden here, or the sticky header below would stop sticking. */
+}
+
+.card-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--surface);
+  border-radius: 16px 16px 0 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-body {
+  border-radius: 0 0 16px 16px;
 }
 
 .card-head {
@@ -484,27 +497,6 @@ p {
   text-align: right;
   font-size: 0.8rem;
   color: var(--text-muted);
-}
-
-.switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  cursor: pointer;
-}
-
-.switch input {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--accent);
-  margin: 0;
-}
-
-.switch-label {
-  width: 9ch;
-  white-space: nowrap;
 }
 
 .card-actions {
@@ -1195,4 +1187,50 @@ td .unset-note {
 
 .share .form-actions {
   align-items: center;
+}
+
+/* Per-perk quick values, fee lock */
+.perk-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  min-height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.lock-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.money-input-locked {
+  background: var(--surface-2);
+  border-style: dashed;
+}
+
+.money-input-locked input {
+  cursor: default;
 }

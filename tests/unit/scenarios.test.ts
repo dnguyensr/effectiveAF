@@ -43,18 +43,19 @@ describe('hand-computed scenarios', () => {
     expect(s.unsetCount).toBe(12);
   });
 
-  it('Platinum face value totals $3,024.40', () => {
+  it('Platinum face value totals $3,024 (whole dollars)', () => {
     // 600 hotel + 400 Resy + 300 digital + 300 lululemon + 200 Uber Cash (15×12+20)
-    // + 120 Uber One + 200 airline + 219 CLEAR+ + 155.40 Walmart+ (12.95×12)
-    // + 300 Equinox + 200 Oura + 30 Global Entry (120/4) = 3,024.40
-    expect(summarizeCard(card('amex-platinum'), undefined, '2026-11-08').nominalCents).toBe(302440);
+    // + 120 Uber One + 200 airline + 219 CLEAR+ + 155 Walmart+ (12.95×12 = 155.40 -> 155)
+    // + 300 Equinox + 200 Oura + 30 Global Entry (120/4) = 3,024
+    expect(summarizeCard(card('amex-platinum'), undefined, '2026-11-08').nominalCents).toBe(302400);
   });
 
-  it('a v1 Platinum holder keeps +$95.55 after migration (old starting estimates)', () => {
-    // 150 + 200 + 150 + 75 + 140 + 36 + 100 + 65.70 + 38.85 + 0 + 20 + 15 = 990.55
+  it('a v1 Platinum holder keeps their numbers after migration, to the nearest dollar', () => {
+    // v1 showed +$95.55. In whole dollars: 150 + 200 + 150 + 75 + 140 + 36 + 100
+    // + 66 (CLEAR+ $65.70) + 39 (Walmart+ 25% of $155 = $38.75) + 0 + 20 + 15 = 991 -> +$96
     const s = summarizeCard(card('amex-platinum'), v1User('amex-platinum'), '2026-11-08');
-    expect(s.realizedCents).toBe(99055);
-    expect(s.effectiveCents).toBe(89500 - 99055);
+    expect(s.realizedCents).toBe(99100);
+    expect(s.effectiveCents).toBe(89500 - 99100);
     expect(s.verdict).toBe('pays-for-itself');
   });
 

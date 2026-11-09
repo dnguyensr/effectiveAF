@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import { useState } from 'preact/hooks';
 import type { CardSummary } from '../core/card-math';
 import { formatIsoDate } from '../core/dates';
 import { formatUsd } from '../core/money';
@@ -38,6 +39,8 @@ interface Props {
 export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
   const store = useStore();
   const { card } = summary;
+  // The fee rarely changes, so it starts locked against accidental edits.
+  const [feeLocked, setFeeLocked] = useState(true);
   const anniversaryMonth = store.state.value.cards[card.id]?.anniversaryMonth;
   // Only ask for the anniversary month when some credit resets on it.
   const usesAnniversary = card.perks.some(
@@ -46,31 +49,34 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
 
   return (
     <section class="card" data-card-id={card.id} aria-label={card.name}>
-      <div class="card-head">
-        {showTitle ? (
-          <h3 class="card-title">
-            {card.issuer && <span class="card-issuer">{card.issuer}</span>}
-            <span class="card-name">{card.name}</span>
-          </h3>
-        ) : (
-          <span />
-        )}
-        <VerdictPill
-          effectiveCents={summary.effectiveCents}
-          verdict={summary.verdict}
-          testId={`verdict-${card.id}`}
-        />
+      {/* Stays pinned while scrolling through the perks below. */}
+      <div class="card-sticky" data-testid={`card-header-${card.id}`}>
+        <div class="card-head">
+          {showTitle ? (
+            <h3 class="card-title">
+              {card.issuer && <span class="card-issuer">{card.issuer}</span>}
+              <span class="card-name">{card.name}</span>
+            </h3>
+          ) : (
+            <span />
+          )}
+          <VerdictPill
+            effectiveCents={summary.effectiveCents}
+            verdict={summary.verdict}
+            testId={`verdict-${card.id}`}
+          />
+        </div>
+        <p class="card-stats">
+          {formatUsd(summary.feeCents)} fee · {formatUsd(summary.realizedCents)} of{' '}
+          {formatUsd(summary.nominalCents)} in credits used
+          {summary.unsetCount > 0 && (
+            <span class="unset-note">
+              {' '}
+              · {summary.unsetCount} of {summary.perks.length} not set yet
+            </span>
+          )}
+        </p>
       </div>
-      <p class="card-stats">
-        {formatUsd(summary.feeCents)} fee · {formatUsd(summary.realizedCents)} of{' '}
-        {formatUsd(summary.nominalCents)} in credits used
-        {summary.unsetCount > 0 && (
-          <span class="unset-note">
-            {' '}
-            · {summary.unsetCount} of {summary.perks.length} not set yet
-          </span>
-        )}
-      </p>
 
       <div class="card-body">
         <div class="fee-row">
@@ -82,8 +88,18 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
             label={`${card.name} annual fee`}
             valueCents={summary.feeCents}
             allowEmpty
+            readOnly={feeLocked}
             onCommit={(cents) => store.setFeeOverride(card.id, cents)}
           />
+          <button
+            type="button"
+            class="btn btn-small lock-button"
+            aria-label={`${feeLocked ? 'Unlock' : 'Lock'} ${card.name} annual fee`}
+            onClick={() => setFeeLocked(!feeLocked)}
+          >
+            <LockIcon open={!feeLocked} />
+            {feeLocked ? 'Unlock' : 'Lock'}
+          </button>
           {summary.isFeeOverridden && (
             <>
               <span class="tag tag-custom">Custom</span>
@@ -189,5 +205,19 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
         )}
       </div>
     </section>
+  );
+}
+
+function LockIcon({ open }: { open: boolean }) {
+  return (
+    <svg class="lock-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <rect x="3" y="7" width="10" height="8" rx="1.5" fill="currentColor" />
+      <path
+        d={open ? 'M5 7V5a3 3 0 0 1 5.8-1' : 'M5 7V5a3 3 0 0 1 6 0v2'}
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+      />
+    </svg>
   );
 }

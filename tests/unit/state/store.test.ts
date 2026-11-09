@@ -94,15 +94,16 @@ describe('createStore', () => {
     const { store } = setup();
     store.setPerkPercent('amex-gold', 'amex-gold.nope', 50);
     store.setPerkDollars('nope', 'nope.x', 50);
-    store.setPerkEnabled('amex-gold', 'amex-gold.nope', false);
+    store.skipPerk('amex-gold', 'amex-gold.nope');
+    store.clearPerk('amex-gold', 'amex-gold.nope');
     store.setFeeOverride('nope', 100);
     expect(store.state.value.cards).toEqual({});
   });
 
-  it("won't use keeps the value; with no value yet it records $0", () => {
+  it("won't use sets an explicit $0; clearing goes back to not set", () => {
     const { store } = setup();
     store.addCard('amex-gold');
-    store.setPerkEnabled('amex-gold', 'amex-gold.dining', false);
+    store.skipPerk('amex-gold', 'amex-gold.dining');
     expect(store.state.value.cards['amex-gold']?.perks['amex-gold.dining']).toEqual({
       mode: 'percent',
       percent: 0,
@@ -111,13 +112,13 @@ describe('createStore', () => {
     expect(store.summary.value.cards[0]?.perks[0]?.status).toBe('skipped');
 
     store.setPerkDollars('amex-gold', 'amex-gold.uber-cash', 3000);
-    store.setPerkEnabled('amex-gold', 'amex-gold.uber-cash', false);
-    store.setPerkEnabled('amex-gold', 'amex-gold.uber-cash', true);
-    expect(store.state.value.cards['amex-gold']?.perks['amex-gold.uber-cash']).toEqual({
-      mode: 'dollars',
-      cents: 3000,
-      enabled: true,
-    });
+    store.skipPerk('amex-gold', 'amex-gold.uber-cash');
+    expect(store.summary.value.cards[0]?.perks[1]?.realizedCents).toBe(0);
+    store.clearPerk('amex-gold', 'amex-gold.uber-cash');
+    expect(store.state.value.cards['amex-gold']?.perks['amex-gold.uber-cash']).toBeUndefined();
+    expect(store.summary.value.cards[0]?.perks[1]?.status).toBe('unset');
+    store.clearPerk('amex-gold', 'amex-gold.uber-cash');
+    store.clearPerk('amex-platinum', 'amex-platinum.resy');
   });
 
   it('sets and clears fee overrides; the standard fee clears it', () => {

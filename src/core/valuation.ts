@@ -7,7 +7,7 @@
  * later, while a typed dollar amount stays put (capped at the new face value).
  */
 import type { Cadence, PerkDef } from '../catalog/types';
-import { clamp } from './money';
+import { clamp, toWholeDollars } from './money';
 
 export type PerkValuation =
   | { mode: 'percent'; percent: number; enabled: boolean }
@@ -20,15 +20,18 @@ const PERIODS_PER_YEAR: Record<Exclude<Cadence, 'every-4-years'>, number> = {
   annual: 1,
 };
 
-/** Face value per year, in cents. Every-4-years credits are spread evenly over 4 years. */
+/**
+ * Face value per year, in cents rounded to whole dollars. Every-4-years credits are spread
+ * evenly over 4 years.
+ */
 export function annualNominalCents(
   perk: Pick<PerkDef, 'cadence' | 'amountPerPeriodCents' | 'annualExtraCents'>,
 ): number {
   const extra = perk.annualExtraCents ?? 0;
   if (perk.cadence === 'every-4-years') {
-    return Math.round(perk.amountPerPeriodCents / 4) + extra;
+    return toWholeDollars(perk.amountPerPeriodCents / 4 + extra);
   }
-  return perk.amountPerPeriodCents * PERIODS_PER_YEAR[perk.cadence] + extra;
+  return toWholeDollars(perk.amountPerPeriodCents * PERIODS_PER_YEAR[perk.cadence] + extra);
 }
 
 /** True while the perk is offered on `asOf` (ISO yyyy-mm-dd; string compare is safe). */
@@ -58,9 +61,9 @@ export function perkStatus(valuation: PerkValuation | undefined): PerkStatus {
 export function realizedCents(nominalCents: number, valuation: PerkValuation | undefined): number {
   if (valuation === undefined || !valuation.enabled) return 0;
   if (valuation.mode === 'percent') {
-    return Math.round((nominalCents * clamp(finiteOr0(valuation.percent), 0, 100)) / 100);
+    return toWholeDollars((nominalCents * clamp(finiteOr0(valuation.percent), 0, 100)) / 100);
   }
-  return Math.round(clamp(finiteOr0(valuation.cents), 0, nominalCents));
+  return toWholeDollars(clamp(finiteOr0(valuation.cents), 0, nominalCents));
 }
 
 /** Whole-number percentage of face value, for positioning the slider. */

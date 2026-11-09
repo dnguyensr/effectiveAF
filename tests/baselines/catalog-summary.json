@@ -64,9 +64,9 @@
       {
         "id": "amex-platinum.walmart-plus",
         "cadence": "monthly",
-        "perPeriod": "$12.95",
+        "perPeriod": "$13",
         "kind": "shopping-membership",
-        "annualNominal": "$155.40"
+        "annualNominal": "$155"
       },
       {
         "id": "amex-platinum.equinox",
@@ -90,7 +90,7 @@
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$3,024.40",
+    "totalNominal": "$3,024",
     "rewardsCurrency": "Membership Rewards points",
     "earnRates": [
       "5x Flights booked directly with airlines or Amex Travel",

@@ -8,9 +8,9 @@ import { CATALOG } from '../catalog';
 import type { Cadence, CardDef } from '../catalog/types';
 import { summarizeCard, type CardSummary, type CardUserState } from '../core/card-math';
 import { localIsoDate } from '../core/dates';
-import { clamp } from '../core/money';
+import { clamp, toWholeDollars } from '../core/money';
 import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
-import { applyPreset, type PresetId } from '../core/presets';
+import { applyPreset, WONT_USE, type PresetId } from '../core/presets';
 import { resolveCards } from '../core/resolve';
 import { upcomingResets } from '../core/resets';
 import { annualNominalCents } from '../core/valuation';
@@ -60,8 +60,9 @@ function cleanText(text: string): string {
   return text.trim().replace(/\s+/g, ' ').slice(0, MAX_NAME_LENGTH).trim();
 }
 
+/** Whole dollars (in cents) between min and MAX_CENTS. */
 function cleanCents(cents: number, min: number): number {
-  return clamp(Math.round(Number.isFinite(cents) ? cents : 0), min, MAX_CENTS);
+  return clamp(toWholeDollars(Number.isFinite(cents) ? cents : 0), min, MAX_CENTS);
 }
 
 export function createStore({
@@ -215,25 +216,29 @@ export function createStore({
       const perk = findPerk(cardId, perkId);
       if (!perk) return;
       const nominal = annualNominalCents(perk);
-      const safe = clamp(Math.round(Number.isFinite(cents) ? cents : 0), 0, nominal);
+      const safe = clamp(toWholeDollars(Number.isFinite(cents) ? cents : 0), 0, nominal);
       updateCard(cardId, (card) => {
         card.perks[perkId] = { mode: 'dollars', cents: safe, enabled: true };
         return card;
       });
     },
 
-    setPerkEnabled(cardId: string, perkId: string, enabled: boolean) {
-      const perk = findPerk(cardId, perkId);
-      if (!perk) return;
+    /** Won't use: an explicit $0. */
+    skipPerk(cardId: string, perkId: string) {
+      if (!findPerk(cardId, perkId)) return;
       updateCard(cardId, (card) => {
-        const existing = card.perks[perkId] ?? {
-          mode: 'percent' as const,
-          percent: 0,
-          enabled: true,
-        };
-        card.perks[perkId] = { ...existing, enabled };
+        card.perks[perkId] = WONT_USE;
         return card;
       });
+    },
+
+    /** Back to not set: removes the perk's value. */
+    clearPerk(cardId: string, perkId: string) {
+      if (!state.value.cards[cardId]?.perks[perkId]) return;
+      updateCard(cardId, (card) => ({
+        ...card,
+        perks: Object.fromEntries(Object.entries(card.perks).filter(([id]) => id !== perkId)),
+      }));
     },
 
     /**
@@ -379,7 +384,7 @@ export function createStore({
             id,
             name,
             cadence: input.cadence,
-            amountPerPeriodCents: cleanCents(input.amountPerPeriodCents, 1),
+            amountPerPeriodCents: cleanCents(input.amountPerPeriodCents, 100),
           },
         ],
         // Typing the amount is a deliberate choice, so it starts as fully used.

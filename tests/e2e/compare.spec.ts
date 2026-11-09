@@ -38,7 +38,7 @@ test('values set in the comparison carry over to the wallet', async ({ page }) =
   await compareCards(page, /Compare American Express Gold Card/, /Compare Capital One Venture X/);
   await page.getByRole('button', { name: 'Set my values for Gold Card' }).click();
   const editor = page.getByRole('dialog', { name: 'Your values: Gold Card' });
-  await editor.getByRole('button', { name: 'Face value', exact: true }).click();
+  await editor.getByRole('button', { name: 'Full value', exact: true }).click();
   await editor.getByRole('button', { name: 'Close' }).click();
   await expect(page.getByTestId('compare-verdict-amex-gold')).toHaveText('Pays for itself (+$99)');
 

@@ -43,6 +43,20 @@ export async function compareCards(page: Page, ...names: RegExp[]) {
   await expect(picker).toBeHidden();
 }
 
+/** The fee field starts locked: unlock it, then type. */
+export async function setFee(page: Page, cardName: string, dollars: string) {
+  const unlock = page.getByRole('button', { name: `Unlock ${cardName} annual fee` });
+  if (await unlock.isVisible()) await unlock.click();
+  await page.getByRole('textbox', { name: `${cardName} annual fee` }).fill(dollars);
+}
+
+/** A perk's quick-value button: "Won't use", or a name starting "Half" / "Full". */
+export function perkChip(page: Page, perkName: string, chip: "Won't use" | 'Half' | 'Full') {
+  return page
+    .getByRole('group', { name: `${perkName}: quick values` })
+    .getByRole('button', { name: chip === "Won't use" ? chip : new RegExp(`^${chip} `) });
+}
+
 export function verdict(page: Page, cardId: string) {
   return page.getByTestId(`verdict-${cardId}`);
 }

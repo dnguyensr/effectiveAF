@@ -12,15 +12,15 @@
         "amex-platinum.uber-cash": "$140",
         "amex-platinum.uber-one": "$36",
         "amex-platinum.airline-fee": "$100",
-        "amex-platinum.clear": "$65.70",
-        "amex-platinum.walmart-plus": "$38.85",
+        "amex-platinum.clear": "$66",
+        "amex-platinum.walmart-plus": "$39",
         "amex-platinum.equinox": "$0",
         "amex-platinum.oura": "$20",
         "amex-platinum.global-entry": "$15"
       },
-      "nominal": "$3,024.40",
-      "realized": "$990.55",
-      "effective": "-$95.55",
+      "nominal": "$3,024",
+      "realized": "$991",
+      "effective": "-$96",
       "verdict": "pays-for-itself"
     },
     {
@@ -58,10 +58,10 @@
       "perks": {
         "chase-sapphire-reserve.travel": "$285",
         "chase-sapphire-reserve.the-edit": "$250",
-        "chase-sapphire-reserve.select-hotels-2026": "$62.50",
+        "chase-sapphire-reserve.select-hotels-2026": "$63",
         "chase-sapphire-reserve.dining": "$150",
         "chase-sapphire-reserve.stubhub": "$120",
-        "chase-sapphire-reserve.apple": "$129.60",
+        "chase-sapphire-reserve.apple": "$130",
         "chase-sapphire-reserve.doordash-promos": "$105",
         "chase-sapphire-reserve.dashpass": "$36",
         "chase-sapphire-reserve.lyft": "$30",
@@ -69,8 +69,8 @@
         "chase-sapphire-reserve.global-entry": "$15"
       },
       "nominal": "$2,784",
-      "realized": "$1,183.10",
-      "effective": "-$388.10",
+      "realized": "$1,184",
+      "effective": "-$389",
       "verdict": "pays-for-itself"
     },
     {
@@ -89,8 +89,8 @@
   ],
   "allCardsWallet": {
     "fees": "$2,505",
-    "realized": "$2,989.65",
-    "effective": "-$484.65",
+    "realized": "$2,991",
+    "effective": "-$486",
     "verdict": "pays-for-itself"
   }
 }

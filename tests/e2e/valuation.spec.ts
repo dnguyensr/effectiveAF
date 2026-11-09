@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, expect, selectTab, test, verdict } from './fixtures';
+import { addCards, expect, perkChip, selectTab, setFee, test, verdict } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
@@ -50,39 +50,65 @@ test('the slider works from the keyboard', async ({ page }) => {
   await expect(page.getByTestId('realized-capital-one-venture-x.travel')).toContainText('$297');
 });
 
-test("won't use keeps the value but counts $0; unticking restores it", async ({ page }) => {
+test("quick values: won't use is $0, half and full, and won't use again clears", async ({
+  page,
+}) => {
   await addCards(page, /Add American Express Gold Card/);
-  await page.getByRole('textbox', { name: /^Dunkin/ }).fill('84');
-  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $241/yr');
-  const wontUse = page.getByRole('checkbox', { name: "Won't use Dunkin' credit" });
-  await wontUse.check();
-  await expect(page.getByTestId('realized-amex-gold.dunkin')).toContainText("Won't use");
-  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
+  await perkChip(page, "Dunkin' credit", 'Full').click();
   await expect(page.getByRole('textbox', { name: /^Dunkin/ })).toHaveValue('84');
-  await wontUse.uncheck();
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $241/yr');
+  await perkChip(page, "Dunkin' credit", 'Half').click();
+  await expect(perkChip(page, "Dunkin' credit", 'Half')).toHaveAttribute('aria-pressed', 'true');
+  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $283/yr');
+  const wontUse = perkChip(page, "Dunkin' credit", "Won't use");
+  await wontUse.click();
+  await expect(page.getByTestId('realized-amex-gold.dunkin')).toContainText("Won't use");
+  await expect(page.getByRole('textbox', { name: /^Dunkin/ })).toHaveValue('0');
+  await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
+  await wontUse.click();
+  await expect(page.getByTestId('realized-amex-gold.dunkin')).toContainText('Not set');
 });
 
-test('presets: face value, travel & dining, clear', async ({ page }) => {
+test('presets: full, half, travel & dining, clear all', async ({ page }) => {
   await addCards(page, /Add American Express Platinum Card/);
   const bar = page.getByRole('group', { name: 'Quick-set Platinum Card credits' });
-  await bar.getByRole('button', { name: 'Face value', exact: true }).click();
-  await expect(verdict(page, 'amex-platinum')).toHaveText('Pays for itself (+$2,129.40)');
-  await bar.getByRole('button', { name: 'Travel & dining at face value' }).click();
+  await bar.getByRole('button', { name: 'Full value', exact: true }).click();
+  await expect(verdict(page, 'amex-platinum')).toHaveText('Pays for itself (+$2,129)');
+  await bar.getByRole('button', { name: 'Half value', exact: true }).click();
+  await expect(verdict(page, 'amex-platinum')).toHaveText('Pays for itself (+$618)');
+  await bar.getByRole('button', { name: 'Travel & dining at full value' }).click();
   await expect(verdict(page, 'amex-platinum')).toHaveText('Pays for itself (+$754)');
-  await expect(page.getByRole('checkbox', { name: "Won't use Equinox credit" })).toBeChecked();
-  await bar.getByRole('button', { name: 'Clear all' }).click();
+  await expect(perkChip(page, 'Equinox credit', "Won't use")).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await bar.getByRole('button', { name: 'Clear all (no value)' }).click();
   await expect(verdict(page, 'amex-platinum')).toHaveText('Costs $895/yr');
 });
 
-test('fee override shows a badge and can be reset', async ({ page }) => {
+test('fee is locked until unlocked; override shows a badge and can be reset', async ({ page }) => {
   await addCards(page, /Add American Express Platinum Card/);
   const fee = page.getByRole('textbox', { name: 'Platinum Card annual fee' });
-  await fee.fill('695');
+  await expect(fee).not.toBeEditable();
+  await setFee(page, 'Platinum Card', '695');
   await expect(page.getByText('Custom', { exact: true })).toBeVisible();
   await expect(page.getByTestId('summary-fees')).toHaveText('$695');
   await page.getByRole('button', { name: 'Use standard $895' }).click();
   await expect(fee).toHaveValue('895');
+  await page.getByRole('button', { name: 'Lock Platinum Card annual fee' }).click();
+  await expect(fee).not.toBeEditable();
+});
+
+test('the card header stays pinned while scrolling through its perks', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 700 });
+  await addCards(page, /Add American Express Platinum Card/);
+  const header = page.getByTestId('card-header-amex-platinum');
+  await page.getByRole('heading', { name: 'Oura Ring credit' }).scrollIntoViewIfNeeded();
+  await expect(header).toBeInViewport();
+  const box = await header.boundingBox();
+  expect(box?.y ?? -1).toBeGreaterThanOrEqual(-1);
+  expect(box?.y ?? 999).toBeLessThan(5);
+  await expect(header).toContainText('Costs $895/yr');
 });
 
 test('cards live in tabs; arrow keys switch; remove with undo', async ({ page }) => {

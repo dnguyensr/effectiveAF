@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import type { PerkSummary } from '../core/card-math';
 import { formatIsoDate } from '../core/dates';
-import { formatUsd } from '../core/money';
+import { formatUsd, toWholeDollars } from '../core/money';
 import { percentOfNominal, realizedCents } from '../core/valuation';
 import { MoneyInput } from './MoneyInput';
 import { useStore } from './store-context';
@@ -14,17 +14,21 @@ interface Props {
 }
 
 /**
- * One perk with its three states: not set (the starting state, $0), using (any value set with
- * the slider or dollar field) and won't use (an explicit $0 that remembers the last value).
+ * One perk with its three states: not set (the starting state, $0), using (a value set with the
+ * slider, the dollar field, or the Half / Full buttons) and won't use (an explicit $0; pressing
+ * it again clears the perk back to not set).
  */
 export function PerkRow({ cardId, summary, nextReset }: Props) {
   const store = useStore();
   const { perk, nominalCents, valuation, status } = summary;
   const domId = perk.id.replace(/\./g, '--');
 
-  // For "won't use", keep showing the remembered value in the controls.
+  // Value shown in the slider and dollar field (0 when not set or won't use).
   const shownCents = realizedCents(nominalCents, valuation && { ...valuation, enabled: true });
   const percent = percentOfNominal(shownCents, nominalCents);
+  const halfCents = toWholeDollars(nominalCents / 2);
+  const isFull = status === 'using' && summary.realizedCents === nominalCents;
+  const isHalf = status === 'using' && !isFull && summary.realizedCents === halfCents;
 
   return (
     <li class={`perk perk-${status}`} data-perk-id={perk.id}>
@@ -95,17 +99,37 @@ export function PerkRow({ cardId, summary, nextReset }: Props) {
           valueCents={shownCents}
           onCommit={(cents) => store.setPerkDollars(cardId, perk.id, cents ?? 0)}
         />
-        <label class="switch">
-          <input
-            type="checkbox"
-            checked={status === 'skipped'}
-            aria-label={`Won't use ${perk.name}`}
-            onChange={(e) => store.setPerkEnabled(cardId, perk.id, !e.currentTarget.checked)}
-          />
-          <span class="switch-label" aria-hidden="true">
-            Won't use
-          </span>
-        </label>
+      </div>
+      <div class="perk-quick" role="group" aria-label={`${perk.name}: quick values`}>
+        <button
+          type="button"
+          class="chip"
+          aria-pressed={status === 'skipped'}
+          title={status === 'skipped' ? 'Press again to clear (not set)' : 'Counts $0'}
+          onClick={() =>
+            status === 'skipped'
+              ? store.clearPerk(cardId, perk.id)
+              : store.skipPerk(cardId, perk.id)
+          }
+        >
+          Won't use
+        </button>
+        <button
+          type="button"
+          class="chip"
+          aria-pressed={isHalf}
+          onClick={() => store.setPerkPercent(cardId, perk.id, 50)}
+        >
+          Half ({formatUsd(halfCents)})
+        </button>
+        <button
+          type="button"
+          class="chip"
+          aria-pressed={isFull}
+          onClick={() => store.setPerkPercent(cardId, perk.id, 100)}
+        >
+          Full ({formatUsd(nominalCents)})
+        </button>
       </div>
     </li>
   );
