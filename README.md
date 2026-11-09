@@ -29,8 +29,8 @@ If the result is zero or below, the card pays for itself. If not, you'll see how
 Supported cards:
 
 - **American Express:** Platinum Card, Gold Card, Business Platinum Card, Blue Cash Preferred Card
-- **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business
-- **Capital One:** Venture X, Venture X Business
+- **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business, Ink Business Preferred, Ink Business Premier
+- **Capital One:** Venture X, Venture X Business, Venture
 - **Citi:** Strata Elite, Strata Premier Card
 - **Bank of America:** Premium Rewards Elite, Premium Rewards
 - **Wells Fargo:** Autograph Journey Card

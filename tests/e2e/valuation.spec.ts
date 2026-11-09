@@ -146,10 +146,10 @@ test('picker: issuer tabs and search', async ({ page }) => {
   await page.getByRole('button', { name: /^Value the cards I have/ }).click();
   const picker = page.getByRole('dialog', { name: 'Add a card' });
   await picker.getByRole('tab', { name: 'Chase' }).click();
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(5);
   await picker.getByRole('tab', { name: 'All' }).click();
   await picker.getByLabel('Search cards').fill('venture');
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(2);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);
   // Escape in a search box with text first clears it (browser behavior), then closes.
   await page.keyboard.press('Escape');
   if (await picker.isVisible()) await page.keyboard.press('Escape');

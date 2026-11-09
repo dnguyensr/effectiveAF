@@ -134,6 +134,26 @@ describe('break-even UI', () => {
     expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
   });
 
+  it('a rewards-only card explains it has no credits and relies on break-even', () => {
+    render(<App store={setup('chase-ink-business-premier')} />);
+    const panel = screen.getByRole('region', { name: 'Ink Business Premier' });
+    expect(within(panel).getByText(/^No recurring credits/)).toBeTruthy();
+    expect(within(panel).queryByRole('group', { name: /^Quick-set/ })).toBeNull();
+    // Only the pay-in-full question is left to answer.
+    expect(panel.textContent).toContain('1 of 1 not set yet');
+    const section = within(panel).getByRole('region', {
+      name: 'Making up the difference with rewards',
+    });
+    const row = (name: RegExp) =>
+      within(section).getByRole('rowheader', { name }).closest('tr') as HTMLElement;
+    // $195 against 2%: 5% -> 3¢ extra -> $6,500/yr -> $541.67 -> $542/mo;
+    // 2.5% -> 0.5¢ -> $39,000/yr -> $3,250/mo; 2% never beats a 2% card.
+    expect(row(/^Travel booked through Chase Travel/).textContent).toContain('$542/mo');
+    expect(row(/^Single purchases of \$5,000/).textContent).toContain('2.5%');
+    expect(row(/^Single purchases of \$5,000/).textContent).toContain('$3,250/mo');
+    expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
+  });
+
   it('says when a capped category would need more spend than its cap', () => {
     const store = setup('amex-gold');
     store.setBaselinePercent(3);

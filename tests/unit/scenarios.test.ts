@@ -36,7 +36,7 @@ function onlyUsing(c: CardDef, using: Record<string, PerkValuation>): CardUserSt
   return { perks };
 }
 
-describe('Tier 1 and Tier 2 cards at full value (hand-computed)', () => {
+describe('catalog cards at full value (hand-computed)', () => {
   it.each([
     // fee, then credits: Strata Elite 300 hotel + 200 splurge + 200 Blacklane + 30 Global Entry
     ['citi-strata-elite', 59500, 73000],
@@ -62,6 +62,12 @@ describe('Tier 1 and Tier 2 cards at full value (hand-computed)', () => {
     ['wells-fargo-autograph-journey', 9500, 5000],
     // 100 hotel ($50 twice a year)
     ['bilt-obsidian', 9500, 10000],
+    // Tier 3. 120 DoorDash promos ($10/mo) + 120 DashPass
+    ['chase-ink-business-preferred', 9500, 24000],
+    // No credits at all
+    ['chase-ink-business-premier', 19500, 0],
+    // 30 Global Entry ($120 every 4 years)
+    ['capital-one-venture', 9500, 3000],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');
@@ -72,6 +78,14 @@ describe('Tier 1 and Tier 2 cards at full value (hand-computed)', () => {
 });
 
 describe('perks with start and end dates', () => {
+  it('Ink Business Preferred: the DoorDash perks end after 2027', () => {
+    const c = card('chase-ink-business-preferred');
+    const face = (asOf: string) =>
+      summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, asOf).realizedCents;
+    expect(face('2027-12-31')).toBe(24000);
+    expect(face('2028-01-01')).toBe(0);
+  });
+
   it('Sapphire Reserve for Business: The Edit doubles and select hotels ends in 2027', () => {
     const c = card('chase-sapphire-reserve-business');
     const face = (asOf: string) =>

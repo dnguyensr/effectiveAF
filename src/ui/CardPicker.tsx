@@ -169,8 +169,10 @@ function PickerRow({ card, mode, status, selected, compareFull, onAdd, onToggle 
         {card.issuer && <span class="card-issuer">{card.issuer}</span>}
         <span class="picker-name">{card.name}</span>
         <span class="hint">
-          {formatUsd(card.annualFeeCents)} fee · {card.perks.length}{' '}
-          {card.perks.length === 1 ? 'perk' : 'perks'}
+          {formatUsd(card.annualFeeCents)} fee ·{' '}
+          {card.perks.length === 0 && !card.custom
+            ? 'rewards only, no credits'
+            : `${card.perks.length} ${card.perks.length === 1 ? 'perk' : 'perks'}`}
         </span>
       </div>
       {mode === 'wallet' ? (

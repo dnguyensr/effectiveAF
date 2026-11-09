@@ -211,8 +211,13 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
               />
             ))}
           </ul>
-        ) : (
+        ) : card.custom ? (
           <p class="hint">No perks yet. Add the credits and benefits this card gives you.</p>
+        ) : (
+          <p class="hint">
+            No recurring credits: this card's value comes from what it earns (see below). You can
+            add any benefit that matters to you, like cell phone protection, as your own perk.
+          </p>
         )}
 
         <div class="add-perk">

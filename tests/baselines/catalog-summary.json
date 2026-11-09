@@ -511,6 +511,52 @@
     ]
   },
   {
+    "id": "chase-ink-business-preferred",
+    "name": "Chase Ink Business Preferred",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "chase-ink-business-preferred.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ink-business-preferred.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "delivery-membership",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      }
+    ],
+    "totalNominal": "$240",
+    "rewardsCurrency": "Ultimate Rewards points",
+    "earnRates": [
+      "5x Lyft rides",
+      "3x Travel, shipping, internet, cable and phone, and social media and search ads",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "chase-ink-business-premier",
+    "name": "Chase Ink Business Premier",
+    "annualFee": "$195",
+    "lastVerified": "2026-11-09",
+    "perks": [],
+    "totalNominal": "$0",
+    "rewardsCurrency": "Cash back",
+    "earnRates": [
+      "5x Travel booked through Chase Travel",
+      "5x Lyft rides",
+      "2.5x Single purchases of $5,000 or more",
+      "2x Everything else"
+    ]
+  },
+  {
     "id": "capital-one-venture-x",
     "name": "Capital One Venture X",
     "annualFee": "$395",
@@ -579,6 +625,27 @@
     "earnRates": [
       "10x Hotels and rental cars via Capital One Business Travel",
       "5x Flights and vacation rentals via Capital One Business Travel",
+      "2x Everything else"
+    ]
+  },
+  {
+    "id": "capital-one-venture",
+    "name": "Capital One Venture",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "capital-one-venture.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$30",
+    "rewardsCurrency": "Capital One miles",
+    "earnRates": [
+      "5x Hotels, vacation rentals and rental cars on Capital One Travel",
       "2x Everything else"
     ]
   },

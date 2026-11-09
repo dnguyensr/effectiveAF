@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, expect, seriousViolations, test, waitForSaved } from './fixtures';
+import { addCards, compareCards, expect, seriousViolations, test, waitForSaved } from './fixtures';
 
 test('break-even spend responds to values and point value, and persists', async ({ page }) => {
   await page.goto('./');
@@ -41,6 +41,30 @@ test('cash-back cards show earn rates in % with no point value', async ({ page }
   await page.getByRole('slider', { name: /^Disney streaming credit/ }).fill('50');
   // $60 counted → $35 left → $35 / 0.04 / 12 = $72.92 → $73/mo
   await expect(supermarkets).toContainText('$73/mo');
+  expect(await seriousViolations(page)).toEqual([]);
+});
+
+test('a rewards-only card works in the wallet and the comparison', async ({ page }) => {
+  await page.goto('./');
+  await addCards(page, /Add Chase Ink Business Premier/);
+  const panel = page.getByRole('region', { name: 'Ink Business Premier' });
+  await expect(panel.getByText(/^No recurring credits/)).toBeVisible();
+  const large = panel.getByRole('row').filter({
+    has: page.getByRole('rowheader', { name: /^Single purchases of \$5,000/ }),
+  });
+  // $195 against 2%: 2.5% -> 0.5¢ extra -> $39,000 a year -> $3,250/mo
+  await expect(large).toContainText('$3,250/mo');
+  expect(await seriousViolations(page)).toEqual([]);
+
+  await page.getByRole('link', { name: 'Compare' }).click();
+  await compareCards(
+    page,
+    /Compare Chase Ink Business Premier/,
+    /Compare Chase Ink Business Preferred/,
+  );
+  await expect(page.getByTestId('compare-verdict-chase-ink-business-premier')).toContainText(
+    '$195',
+  );
   expect(await seriousViolations(page)).toEqual([]);
 });
 

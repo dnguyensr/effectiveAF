@@ -30,6 +30,14 @@
         "realized": "$2,320",
         "effective": "-$1,525"
       },
+      "chase-ink-business-preferred": {
+        "realized": "$240",
+        "effective": "-$145"
+      },
+      "chase-ink-business-premier": {
+        "realized": "$0",
+        "effective": "$195"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -37,6 +45,10 @@
       "capital-one-venture-x-business": {
         "realized": "$430",
         "effective": "-$35"
+      },
+      "capital-one-venture": {
+        "realized": "$30",
+        "effective": "$65"
       },
       "citi-strata-elite": {
         "realized": "$730",
@@ -96,6 +108,14 @@
         "realized": "$1,160",
         "effective": "-$365"
       },
+      "chase-ink-business-preferred": {
+        "realized": "$120",
+        "effective": "-$25"
+      },
+      "chase-ink-business-premier": {
+        "realized": "$0",
+        "effective": "$195"
+      },
       "capital-one-venture-x": {
         "realized": "$215",
         "effective": "$180"
@@ -103,6 +123,10 @@
       "capital-one-venture-x-business": {
         "realized": "$215",
         "effective": "$180"
+      },
+      "capital-one-venture": {
+        "realized": "$15",
+        "effective": "$80"
       },
       "citi-strata-elite": {
         "realized": "$365",
@@ -162,6 +186,14 @@
         "realized": "$1,500",
         "effective": "-$705"
       },
+      "chase-ink-business-preferred": {
+        "realized": "$120",
+        "effective": "-$25"
+      },
+      "chase-ink-business-premier": {
+        "realized": "$0",
+        "effective": "$195"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -169,6 +201,10 @@
       "capital-one-venture-x-business": {
         "realized": "$430",
         "effective": "-$35"
+      },
+      "capital-one-venture": {
+        "realized": "$30",
+        "effective": "$65"
       },
       "citi-strata-elite": {
         "realized": "$530",
@@ -228,6 +264,14 @@
         "realized": "$0",
         "effective": "$795"
       },
+      "chase-ink-business-preferred": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "chase-ink-business-premier": {
+        "realized": "$0",
+        "effective": "$195"
+      },
       "capital-one-venture-x": {
         "realized": "$0",
         "effective": "$395"
@@ -235,6 +279,10 @@
       "capital-one-venture-x-business": {
         "realized": "$0",
         "effective": "$395"
+      },
+      "capital-one-venture": {
+        "realized": "$0",
+        "effective": "$95"
       },
       "citi-strata-elite": {
         "realized": "$0",
