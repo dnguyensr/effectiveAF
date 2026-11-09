@@ -1,0 +1,93 @@
+{
+  "asOf": "2026-11-08",
+  "presets": {
+    "estimates": {
+      "amex-platinum": {
+        "realized": "$990.55",
+        "effective": "-$95.55"
+      },
+      "amex-gold": {
+        "realized": "$215",
+        "effective": "$110"
+      },
+      "chase-sapphire-preferred": {
+        "realized": "$216",
+        "effective": "-$121"
+      },
+      "chase-sapphire-reserve": {
+        "realized": "$1,183.10",
+        "effective": "-$388.10"
+      },
+      "capital-one-venture-x": {
+        "realized": "$385",
+        "effective": "$10"
+      }
+    },
+    "face": {
+      "amex-platinum": {
+        "realized": "$3,024.40",
+        "effective": "-$2,129.40"
+      },
+      "amex-gold": {
+        "realized": "$424",
+        "effective": "-$99"
+      },
+      "chase-sapphire-preferred": {
+        "realized": "$550",
+        "effective": "-$455"
+      },
+      "chase-sapphire-reserve": {
+        "realized": "$2,784",
+        "effective": "-$1,989"
+      },
+      "capital-one-venture-x": {
+        "realized": "$430",
+        "effective": "-$35"
+      }
+    },
+    "organic": {
+      "amex-platinum": {
+        "realized": "$670.70",
+        "effective": "$224.30"
+      },
+      "amex-gold": {
+        "realized": "$215",
+        "effective": "$110"
+      },
+      "chase-sapphire-preferred": {
+        "realized": "$126",
+        "effective": "-$31"
+      },
+      "chase-sapphire-reserve": {
+        "realized": "$897.50",
+        "effective": "-$102.50"
+      },
+      "capital-one-venture-x": {
+        "realized": "$385",
+        "effective": "$10"
+      }
+    },
+    "none": {
+      "amex-platinum": {
+        "realized": "$0",
+        "effective": "$895"
+      },
+      "amex-gold": {
+        "realized": "$0",
+        "effective": "$325"
+      },
+      "chase-sapphire-preferred": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "chase-sapphire-reserve": {
+        "realized": "$0",
+        "effective": "$795"
+      },
+      "capital-one-venture-x": {
+        "realized": "$0",
+        "effective": "$395"
+      }
+    }
+  }
+}

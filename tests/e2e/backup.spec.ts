@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { CURRENT_SCHEMA_VERSION } from '../../src/state/schema';
 import { addCard, expect, test, verdict, waitForSaved } from './fixtures';
 
 test('export, clear everything, import: identical result', async ({ page, browserName }) => {
@@ -19,7 +20,10 @@ test('export, clear everything, import: identical result', async ({ page, browse
   expect(download.suggestedFilename()).toBe('effectiveaf-backup-2026-11-08.json');
   const path = await download.path();
   const backup = readFileSync(path, 'utf8');
-  expect(JSON.parse(backup)).toMatchObject({ app: 'effectiveAF', schemaVersion: 1 });
+  expect(JSON.parse(backup)).toMatchObject({
+    app: 'effectiveAF',
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+  });
 
   await page.evaluate(() => localStorage.clear());
   await page.reload();

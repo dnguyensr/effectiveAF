@@ -10,6 +10,7 @@ import { describe, expect, it } from 'vitest';
 import { CATALOG } from '../../src/catalog';
 import { summarizeCard } from '../../src/core/card-math';
 import { formatUsd } from '../../src/core/money';
+import { applyPreset, PRESETS } from '../../src/core/presets';
 import { annualNominalCents } from '../../src/core/valuation';
 import { summarizeWallet } from '../../src/core/wallet-math';
 
@@ -68,5 +69,22 @@ describe('baselines', () => {
         },
       }),
     ).toMatchFileSnapshot('../baselines/default-valuations.json');
+  });
+
+  it('presets', async () => {
+    const result = Object.fromEntries(
+      PRESETS.map((preset) => [
+        preset.id,
+        Object.fromEntries(
+          CATALOG.map((card) => {
+            const s = summarizeCard(card, { perks: applyPreset(card, {}, preset.id) }, AS_OF);
+            return [card.id, { realized: usd(s.realizedCents), effective: usd(s.effectiveCents) }];
+          }),
+        ),
+      ]),
+    );
+    await expect(json({ asOf: AS_OF, presets: result })).toMatchFileSnapshot(
+      '../baselines/presets.json',
+    );
   });
 });

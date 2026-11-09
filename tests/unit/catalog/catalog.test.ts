@@ -39,8 +39,9 @@ describe('catalog', () => {
     it('has sane card fields', () => {
       expect(Number.isSafeInteger(card.annualFeeCents)).toBe(true);
       expect(card.annualFeeCents).toBeGreaterThanOrEqual(0);
-      expect(isRealDate(card.lastVerified)).toBe(true);
-      expect(card.sourceUrl).toMatch(/^https:\/\//);
+      expect(card.custom).toBeUndefined();
+      expect(isRealDate(card.lastVerified ?? '')).toBe(true);
+      expect(card.sourceUrl ?? '').toMatch(/^https:\/\//);
       expect(card.perks.length).toBeGreaterThan(0);
     });
 

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createEmptyState } from '../../../src/state/migrations';
+import { CURRENT_SCHEMA_VERSION } from '../../../src/state/schema';
 import {
   CORRUPT_KEY_PREFIX,
   createDebouncedSaver,
@@ -55,7 +56,9 @@ describe('saveState', () => {
   it('writes JSON and reports success', () => {
     const storage = memoryStorage();
     expect(saveState(storage, createEmptyState(NOW))).toBe(true);
-    expect(JSON.parse(storage.data.get(STORAGE_KEY) ?? '')).toMatchObject({ schemaVersion: 1 });
+    expect(JSON.parse(storage.data.get(STORAGE_KEY) ?? '')).toMatchObject({
+      schemaVersion: CURRENT_SCHEMA_VERSION,
+    });
   });
 
   it('reports failure instead of throwing', () => {

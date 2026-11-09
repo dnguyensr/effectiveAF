@@ -50,7 +50,7 @@ describe('import rejects', () => {
     ['empty text', '', 'invalid-json'],
     ['truncated JSON', exportState(sample).slice(0, 50), 'invalid-json'],
     ['a JSON array', '[]', 'not-an-object'],
-    ['a newer version', '{"schemaVersion": 2}', 'newer-version'],
+    ['a newer version', '{"schemaVersion": 99}', 'newer-version'],
     ['HTML in a number field', fixture('bad-imports/html-in-fee.json'), 'invalid-shape'],
     ['a __proto__ key', fixture('bad-imports/proto-pollution.json'), 'invalid-shape'],
     [

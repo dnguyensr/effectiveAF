@@ -1,0 +1,44 @@
+{
+  "app": "effectiveAF",
+  "schemaVersion": 2,
+  "catalogVersion": "2026-11-08",
+  "wallet": ["amex-gold", "custom-citi01"],
+  "cards": {
+    "amex-gold": {
+      "perks": {
+        "amex-gold.dining": { "mode": "percent", "percent": 100, "enabled": true },
+        "amex-gold.my-lounge": { "mode": "dollars", "cents": 5000, "enabled": true }
+      },
+      "customPerks": [
+        {
+          "id": "amex-gold.my-lounge",
+          "name": "Lounge access",
+          "cadence": "annual",
+          "amountPerPeriodCents": 10000
+        }
+      ]
+    },
+    "custom-citi01": {
+      "perks": {},
+      "customPerks": [
+        {
+          "id": "custom-citi01.my-hotel",
+          "name": "Annual hotel benefit",
+          "cadence": "annual",
+          "amountPerPeriodCents": 10000
+        },
+        {
+          "id": "custom-citi01.my-grocery",
+          "name": "Grocery credit",
+          "cadence": "monthly",
+          "amountPerPeriodCents": 500
+        }
+      ]
+    }
+  },
+  "customCards": [
+    { "id": "custom-citi01", "issuer": "Citi", "name": "Strata Premier", "annualFeeCents": 9500 },
+    { "id": "custom-unused", "issuer": "", "name": "Old store card", "annualFeeCents": 0 }
+  ],
+  "updatedAt": "2026-11-08T12:00:00.000Z"
+}

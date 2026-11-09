@@ -13,8 +13,11 @@ import { CURRENT_SCHEMA_VERSION, UserStateSchema, type UserState } from './schem
 export type StateObject = Record<string, unknown>;
 export type Migration = (state: StateObject) => StateObject;
 
-/** Keyed by the version a migration upgrades FROM. Empty while only v1 exists. */
-export const MIGRATIONS: Readonly<Record<number, Migration>> = {};
+/** Keyed by the version a migration upgrades FROM. */
+export const MIGRATIONS: Readonly<Record<number, Migration>> = {
+  // v2 adds user-defined cards (and optional customPerks per card, which need no change).
+  1: (state) => ({ ...state, customCards: [] }),
+};
 
 function isPlainObject(value: unknown): value is StateObject {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -76,6 +79,7 @@ export function createEmptyState(updatedAt: string): UserState {
     catalogVersion: CATALOG_VERSION,
     wallet: [],
     cards: {},
+    customCards: [],
     updatedAt,
   };
 }

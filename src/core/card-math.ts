@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import type { CardDef, PerkDef } from '../catalog/types';
+import type { CardDef, CustomPerkInput, PerkDef } from '../catalog/types';
 import {
   annualNominalCents,
   isPerkAvailable,
@@ -11,6 +11,8 @@ import {
 export interface CardUserState {
   feeOverrideCents?: number | undefined;
   perks: Record<string, PerkValuation>;
+  /** Perks or benefits the user added to this card. */
+  customPerks?: CustomPerkInput[] | undefined;
 }
 
 export type Verdict = 'pays-for-itself' | 'costs';

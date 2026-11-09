@@ -3,6 +3,8 @@ import { useState } from 'preact/hooks';
 import type { CardSummary } from '../core/card-math';
 import { formatIsoDate } from '../core/dates';
 import { formatUsd } from '../core/money';
+import { PRESETS } from '../core/presets';
+import { CustomPerkForm } from './CustomForms';
 import { MoneyInput } from './MoneyInput';
 import { PerkRow } from './PerkRow';
 import { useStore } from './store-context';
@@ -31,7 +33,7 @@ export function CardPanel({ summary, onRemove, initiallyOpen = false }: Props) {
             aria-controls={bodyId}
             onClick={() => setOpen(!open)}
           >
-            <span class="card-issuer">{card.issuer}</span>
+            {card.issuer && <span class="card-issuer">{card.issuer}</span>}
             <span class="card-name" id={`card-${card.id}-title`}>
               {card.name}
             </span>
@@ -55,7 +57,7 @@ export function CardPanel({ summary, onRemove, initiallyOpen = false }: Props) {
         <div class="card-body" id={bodyId}>
           <div class="fee-row">
             <label class="fee-label" for={`fee-${card.id}`}>
-              Annual fee you pay
+              {card.custom ? 'Annual fee' : 'Annual fee you pay'}
             </label>
             <MoneyInput
               id={`fee-${card.id}`}
@@ -77,13 +79,40 @@ export function CardPanel({ summary, onRemove, initiallyOpen = false }: Props) {
               </>
             )}
           </div>
-          <p class="hint">Change this for a retention offer, waived fee or grandfathered rate.</p>
+          {!card.custom && (
+            <p class="hint">Change this for a retention offer, waived fee or grandfathered rate.</p>
+          )}
 
-          <ul class="perk-list">
-            {summary.perks.map((p) => (
-              <PerkRow key={p.perk.id} cardId={card.id} summary={p} />
-            ))}
-          </ul>
+          {card.perks.some((p) => !p.custom) && (
+            <div class="preset-bar" role="group" aria-label={`Quick-set ${card.name} credits`}>
+              <span class="preset-label">Quick set:</span>
+              {PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  class="btn btn-small"
+                  title={preset.description}
+                  onClick={() => store.applyPreset(card.id, preset.id)}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {summary.perks.length > 0 ? (
+            <ul class="perk-list">
+              {summary.perks.map((p) => (
+                <PerkRow key={p.perk.id} cardId={card.id} summary={p} />
+              ))}
+            </ul>
+          ) : (
+            <p class="hint">No perks yet. Add the credits and benefits this card gives you.</p>
+          )}
+
+          <div class="add-perk">
+            <CustomPerkForm cardId={card.id} cardName={card.name} />
+          </div>
 
           <div class="card-actions">
             <button type="button" class="btn" onClick={() => store.resetCard(card.id)}>
@@ -93,12 +122,16 @@ export function CardPanel({ summary, onRemove, initiallyOpen = false }: Props) {
               Remove card
             </button>
           </div>
-          <p class="source">
-            Card data checked {formatIsoDate(card.lastVerified)} ·{' '}
-            <a href={card.sourceUrl} target="_blank" rel="noopener noreferrer">
-              {card.issuer} card page
-            </a>
-          </p>
+          {card.lastVerified && card.sourceUrl ? (
+            <p class="source">
+              Card data checked {formatIsoDate(card.lastVerified)} ·{' '}
+              <a href={card.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {card.issuer} card page
+              </a>
+            </p>
+          ) : (
+            <p class="source">A card you created.</p>
+          )}
         </div>
       )}
     </section>

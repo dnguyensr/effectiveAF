@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useEffect, useState } from 'preact/hooks';
-import { findCard } from '../catalog';
+import { PRESETS, type PresetId } from '../core/presets';
 import { messageFor } from '../state/errors';
 import type { Store } from '../state/store';
 import { AddCards } from './AddCards';
@@ -83,7 +83,11 @@ export function App({ store }: { store: Store }) {
               type="button"
               class="btn"
               onClick={() => {
-                if (confirm('Reset every card to the standard fees and typical values?')) {
+                if (
+                  confirm(
+                    'Reset every card to the standard fees and starting estimates? Perks you added are kept.',
+                  )
+                ) {
                   store.resetAll();
                 }
               }}
@@ -91,12 +95,13 @@ export function App({ store }: { store: Store }) {
               Reset all values
             </button>
           )}
+          {summary.cards.length > 1 && <WalletPreset store={store} />}
         </section>
       </main>
 
       {removed && (
         <div class="toast" role="status">
-          <span>Removed {findCard(removed.cardId)?.name ?? 'card'}.</span>
+          <span>Removed {store.findCard(removed.cardId)?.name ?? 'card'}.</span>
           <button
             type="button"
             class="link-button"
@@ -125,6 +130,38 @@ export function App({ store }: { store: Store }) {
         </p>
       </footer>
     </StoreContext.Provider>
+  );
+}
+
+function WalletPreset({ store }: { store: Store }) {
+  const [preset, setPreset] = useState<PresetId>('estimates');
+  const chosen = PRESETS.find((p) => p.id === preset);
+  return (
+    <div class="wallet-preset">
+      <label for="wallet-preset">Set every card to</label>
+      <select
+        id="wallet-preset"
+        value={preset}
+        onChange={(e) => setPreset(e.currentTarget.value as PresetId)}
+      >
+        {PRESETS.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.label}
+          </option>
+        ))}
+      </select>
+      <button
+        type="button"
+        class="btn"
+        onClick={() => {
+          if (confirm(`Set every card to “${chosen?.label}”? ${chosen?.description}`)) {
+            store.applyPresetToWallet(preset);
+          }
+        }}
+      >
+        Apply
+      </button>
+    </div>
   );
 }
 

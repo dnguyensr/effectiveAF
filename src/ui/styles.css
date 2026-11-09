@@ -728,3 +728,92 @@ p {
     transition: none !important;
   }
 }
+
+/* Phase 2: presets and custom cards/perks */
+.btn-dashed {
+  border-style: dashed;
+  background: transparent;
+  color: var(--accent);
+}
+
+.preset-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.preset-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.add-perk {
+  margin-top: 10px;
+}
+
+.add-custom-form {
+  margin-top: 10px;
+}
+
+.add-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-row > label {
+  flex: 0 0 8.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-row > input[type='text'],
+.inline-form select,
+.wallet-preset select {
+  font: inherit;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  min-width: 0;
+  flex: 1 1 12ch;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.wallet-preset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.wallet-preset select {
+  flex: 0 1 auto;
+}

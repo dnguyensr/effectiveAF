@@ -7,10 +7,11 @@
  * the app has passed through here.
  */
 import * as z from 'zod/mini';
+import { CADENCES, type CustomCardInput, type CustomPerkInput } from '../catalog/types';
 import type { CardUserState } from '../core/card-math';
 import type { PerkValuation } from '../core/valuation';
 
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 /** Lowercase slug segments joined by "." or "-". Rejects "__proto__", "constructor" etc. */
 export const ID_PATTERN = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
@@ -29,9 +30,42 @@ const PerkValuationSchema = z.discriminatedUnion('mode', [
   z.object({ mode: z.literal('dollars'), cents: Cents, enabled: z.boolean() }),
 ]);
 
+export const MAX_CUSTOM_CARDS = 20;
+export const MAX_CUSTOM_PERKS_PER_CARD = 30;
+export const MAX_NAME_LENGTH = 60;
+
+/** User-typed text: trimmed, non-empty unless allowEmpty, bounded. Rendered escaped by Preact. */
+const Text = (allowEmpty = false) =>
+  z.string().check(
+    z.maxLength(MAX_NAME_LENGTH),
+    z.refine((s) => s === s.trim() && (allowEmpty || s.length > 0), 'must be trimmed text'),
+  );
+
+const uniqueIds = <T extends { id: string }>(items: T[]) =>
+  new Set(items.map((i) => i.id)).size === items.length;
+
+const CustomPerkSchema = z.object({
+  id: Id,
+  name: Text(),
+  cadence: z.enum(CADENCES),
+  amountPerPeriodCents: z.int().check(z.minimum(1), z.maximum(MAX_CENTS)),
+});
+
+const CustomCardSchema = z.object({
+  id: Id,
+  issuer: Text(true),
+  name: Text(),
+  annualFeeCents: Cents,
+});
+
 const CardUserStateSchema = z.object({
   feeOverrideCents: z.optional(Cents),
   perks: z.record(Id, PerkValuationSchema),
+  customPerks: z.optional(
+    z
+      .array(CustomPerkSchema)
+      .check(z.maxLength(MAX_CUSTOM_PERKS_PER_CARD), z.refine(uniqueIds, 'duplicate perk IDs')),
+  ),
 });
 
 export const UserStateSchema = z.object({
@@ -42,6 +76,9 @@ export const UserStateSchema = z.object({
     z.refine((ids) => new Set(ids).size === ids.length, 'wallet contains duplicate cards'),
   ),
   cards: z.record(Id, CardUserStateSchema),
+  customCards: z
+    .array(CustomCardSchema)
+    .check(z.maxLength(MAX_CUSTOM_CARDS), z.refine(uniqueIds, 'duplicate custom card IDs')),
   updatedAt: z.string().check(z.maxLength(40)),
 });
 
@@ -52,3 +89,5 @@ type Assert<T extends true> = T;
 type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
 export type _ValuationMatches = Assert<Same<z.infer<typeof PerkValuationSchema>, PerkValuation>>;
 export type _CardStateMatches = Assert<Same<z.infer<typeof CardUserStateSchema>, CardUserState>>;
+export type _CustomPerkMatches = Assert<Same<z.infer<typeof CustomPerkSchema>, CustomPerkInput>>;
+export type _CustomCardMatches = Assert<Same<z.infer<typeof CustomCardSchema>, CustomCardInput>>;

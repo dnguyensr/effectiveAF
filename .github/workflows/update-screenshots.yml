@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  # To start CI afterwards: pushes made with GITHUB_TOKEN do not trigger workflows.
+  actions: write
 
 jobs:
   update:
@@ -38,3 +40,12 @@ jobs:
             git commit -m "Update screenshot baselines"
             git push
           fi
+      - name: Re-run CI on the updated branch
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/dispatches" \
+            -d "{\"ref\":\"$GITHUB_REF_NAME\"}"

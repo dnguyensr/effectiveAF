@@ -33,8 +33,24 @@ export function PerkRow({ cardId, summary }: Props) {
             <span class="tag tag-cadence">{perk.cadenceLabel}</span>
             {perk.requiresEnrollment && <span class="tag">Enrollment required</span>}
             {perk.endsOn && <span class="tag">Ends {formatIsoDate(perk.endsOn)}</span>}
+            {perk.custom && <span class="tag tag-custom">Yours</span>}
           </div>
-          <p class="perk-desc">{perk.description}</p>
+          <p class="perk-desc">
+            {perk.description}
+            {perk.custom && (
+              <>
+                {' '}
+                <button
+                  type="button"
+                  class="link-button"
+                  aria-label={`Delete ${perk.name}`}
+                  onClick={() => store.removeCustomPerk(cardId, perk.id)}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </p>
         </div>
         <div class="perk-value" data-testid={`realized-${perk.id}`}>
           <strong>{formatUsd(enabled ? summary.realizedCents : 0)}</strong>
