@@ -35,8 +35,11 @@ export function annualNominalCents(
 }
 
 /** True while the perk is offered on `asOf` (ISO yyyy-mm-dd; string compare is safe). */
-export function isPerkAvailable(perk: Pick<PerkDef, 'endsOn'>, asOf: string): boolean {
-  return perk.endsOn === undefined || asOf <= perk.endsOn;
+export function isPerkAvailable(perk: Pick<PerkDef, 'startsOn' | 'endsOn'>, asOf: string): boolean {
+  return (
+    (perk.startsOn === undefined || asOf >= perk.startsOn) &&
+    (perk.endsOn === undefined || asOf <= perk.endsOn)
+  );
 }
 
 function finiteOr0(n: number): number {

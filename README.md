@@ -81,7 +81,7 @@ Three kinds of baseline are committed and checked in CI:
 
 Card definitions live in `src/catalog/cards/`. Every change must:
 
-1. Come from the issuer's own benefits page, with `sourceUrl` pointing to it.
+1. Come from the issuer's own benefits page, with `sourceUrl` pointing to it. Many issuer pages lazy-load their benefits; `npm run catalog:fetch -- <url>` saves the fully rendered text to `notes/issuer-pages/` (gitignored) for checking.
 2. Update `lastVerified` to the date you checked.
 3. Give each perk a `kind` (it decides which comparison row it lines up in) and keep `earnRates` current.
 4. Include regenerated calculation baselines (`npm run baselines:update`), with the diff explained in the PR.

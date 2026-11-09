@@ -191,6 +191,13 @@
         "annualNominal": "$1,000"
       },
       {
+        "id": "amex-business-platinum.chatgpt",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "kind": "business-software",
+        "annualNominal": "$300"
+      },
+      {
         "id": "amex-business-platinum.adobe",
         "cadence": "annual",
         "perPeriod": "$250",
@@ -219,11 +226,11 @@
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$3,129",
+    "totalNominal": "$3,429",
     "rewardsCurrency": "Membership Rewards points",
     "earnRates": [
       "5x Flights and prepaid hotels on Amex Travel",
-      "1.5x Single purchases of $5,000 or more",
+      "2x Key business categories and purchases of $5,000 or more",
       "1x Everything else"
     ]
   },
@@ -402,6 +409,13 @@
         "annualNominal": "$500"
       },
       {
+        "id": "chase-sapphire-reserve-business.the-edit-2027",
+        "cadence": "annual",
+        "perPeriod": "$500",
+        "kind": "hotel",
+        "annualNominal": "$500"
+      },
+      {
         "id": "chase-sapphire-reserve-business.select-hotels-2026",
         "cadence": "annual",
         "perPeriod": "$250",
@@ -431,6 +445,22 @@
         "annualNominal": "$100"
       },
       {
+        "id": "chase-sapphire-reserve-business.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$25",
+        "kind": "food-delivery",
+        "annualNominal": "$300",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "delivery-membership",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
         "id": "chase-sapphire-reserve-business.lyft",
         "cadence": "monthly",
         "perPeriod": "$10",
@@ -446,10 +476,11 @@
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$1,900",
+    "totalNominal": "$2,820",
     "rewardsCurrency": "Ultimate Rewards points",
     "earnRates": [
       "8x Travel booked through Chase Travel",
+      "5x Lyft rides",
       "4x Flights and hotels booked directly",
       "3x Social media and search advertising",
       "1x Everything else"

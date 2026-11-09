@@ -13,8 +13,8 @@ export const amexBusinessPlatinum: CardDef = {
   earnRates: [
     { category: 'Flights and prepaid hotels on Amex Travel', multiplier: 5 },
     {
-      category: 'Single purchases of $5,000 or more',
-      multiplier: 1.5,
+      category: 'Key business categories and purchases of $5,000 or more',
+      multiplier: 2,
       note: 'up to $2 million a year',
     },
     { category: 'Everything else', multiplier: 1 },
@@ -22,6 +22,9 @@ export const amexBusinessPlatinum: CardDef = {
   notes: [
     'Spending $250,000+ in a year unlocks more credits the following year (flights, Amex One AP fees); not counted here.',
     'Employee Platinum cards cost $400 each per year.',
+    'From Jan 1, 2027, Fine Hotels + Resorts bookings need a 2-night minimum for the hotel credit (The Hotel Collection already does).',
+    'From Feb 17, 2027, the wireless credit applies at select providers only.',
+    'Also includes Centurion Lounge, Priority Pass and Delta Sky Club access, and ZO membership (not counted as credits).',
   ],
   perks: [
     {
@@ -96,6 +99,18 @@ export const amexBusinessPlatinum: CardDef = {
       resetBasis: 'calendar-year',
       cadenceLabel: '$1,000 / year after $5,000 spend',
       requiresEnrollment: true,
+    },
+    {
+      id: 'amex-business-platinum.chatgpt',
+      name: 'ChatGPT Business credit',
+      description: 'U.S. purchases of ChatGPT Business (auto-renewing subscription).',
+      category: 'business',
+      kind: 'business-software',
+      cadence: 'annual',
+      amountPerPeriodCents: 30000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$300 / year',
+      requiresEnrollment: false,
     },
     {
       id: 'amex-business-platinum.adobe',

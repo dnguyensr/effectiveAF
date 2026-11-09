@@ -74,6 +74,8 @@ export interface PerkDef {
   /** Short human cadence, e.g. "$25 / month". */
   cadenceLabel: string;
   requiresEnrollment: boolean;
+  /** ISO date (inclusive). Before this date the perk isn't offered yet (e.g. an announced increase). */
+  startsOn?: string;
   /** ISO date (inclusive). After this date the perk is treated as gone. */
   endsOn?: string;
   /** True for perks the user created. */

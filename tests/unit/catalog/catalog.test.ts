@@ -64,6 +64,8 @@ describe('catalog', () => {
       }
       expect(annualNominalCents(perk)).toBeGreaterThan(0);
       if (perk.endsOn !== undefined) expect(isRealDate(perk.endsOn)).toBe(true);
+      if (perk.startsOn !== undefined) expect(isRealDate(perk.startsOn)).toBe(true);
+      if (perk.startsOn && perk.endsOn) expect(perk.startsOn <= perk.endsOn).toBe(true);
     });
   });
 

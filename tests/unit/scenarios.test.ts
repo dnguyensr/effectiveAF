@@ -43,11 +43,11 @@ describe('Tier 1 cards at full value (hand-computed)', () => {
     // 300 airline + 150 lifestyle + 30 Global Entry
     ['bofa-premium-rewards-elite', 55000, 48000],
     // 600 hotel + 200 airline + 219 CLEAR+ + 200 Hilton + 150 Dell + 1,000 Dell bonus
-    // + 250 Adobe + 360 Indeed + 120 wireless + 30 Global Entry
-    ['amex-business-platinum', 89500, 312900],
+    // + 300 ChatGPT Business + 250 Adobe + 360 Indeed + 120 wireless + 30 Global Entry
+    ['amex-business-platinum', 89500, 342900],
     // 300 travel + 500 The Edit + 250 select hotels + 400 ZipRecruiter + 200 Google Workspace
-    // + 100 gift cards + 120 Lyft + 30 Global Entry
-    ['chase-sapphire-reserve-business', 79500, 190000],
+    // + 100 gift cards + 300 DoorDash promos ($25/mo) + 120 DashPass + 120 Lyft + 30 Global Entry
+    ['chase-sapphire-reserve-business', 79500, 232000],
     // 300 travel + 100 anniversary miles + 30 Global Entry
     ['capital-one-venture-x-business', 39500, 43000],
     // 400 hotel + 200 Bilt Cash
@@ -58,6 +58,17 @@ describe('Tier 1 cards at full value (hand-computed)', () => {
     expect(s.feeCents).toBe(fee);
     expect(s.realizedCents).toBe(face);
     expect(s.effectiveCents).toBe(fee - face);
+  });
+});
+
+describe('perks with start and end dates', () => {
+  it('Sapphire Reserve for Business: The Edit doubles and select hotels ends in 2027', () => {
+    const c = card('chase-sapphire-reserve-business');
+    const face = (asOf: string) =>
+      summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, asOf).realizedCents;
+    // Nov 2026: 2,320 (above). Jan 2027: − 250 select hotels + 500 more The Edit = 2,570.
+    expect(face('2026-12-31')).toBe(232000);
+    expect(face('2027-01-01')).toBe(257000);
   });
 });
 

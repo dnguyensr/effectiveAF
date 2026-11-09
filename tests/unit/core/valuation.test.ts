@@ -38,6 +38,14 @@ describe('isPerkAvailable', () => {
     expect(isPerkAvailable({}, '2099-01-01')).toBe(true);
   });
 
+  it('is not available before its start date', () => {
+    expect(isPerkAvailable({ startsOn: '2027-01-01' }, '2026-12-31')).toBe(false);
+    expect(isPerkAvailable({ startsOn: '2027-01-01' }, '2027-01-01')).toBe(true);
+    expect(isPerkAvailable({ startsOn: '2027-01-01', endsOn: '2027-12-31' }, '2028-01-01')).toBe(
+      false,
+    );
+  });
+
   it('is available up to and including the end date', () => {
     expect(isPerkAvailable({ endsOn: '2026-12-31' }, '2026-12-30')).toBe(true);
     expect(isPerkAvailable({ endsOn: '2026-12-31' }, '2026-12-31')).toBe(true);
