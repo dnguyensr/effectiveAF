@@ -24,6 +24,8 @@ If the result is zero or below, the card pays for itself. If not, you'll see how
 - **Your own perks and cards:** add credits we don't list, or value non-credit benefits like lounge access; create cards that aren't in the catalog.
 - **Break-even spend:** for a card that still costs money, how much you'd need to spend each month in one of its bonus categories to beat your everyday card (1–3% cash back, your choice), and flags categories where that would exceed a spending cap.
 - **Forum summary:** a Markdown table to paste when asking whether to keep a card.
+- **Spreadsheet export:** a CSV file with a row per credit and a negative row per annual fee, so each card's rows add up to its net value.
+- **Options menu** (next to My wallet and Compare): summary, export, back up, restore, clear all values, and _Start over_, which erases everything (with Undo until you reload).
 - **Works offline** after the first visit, and can be installed to your home screen.
 
 Supported cards:
@@ -42,7 +44,7 @@ You can also add any card yourself, with your own credits and benefits.
 
 - No accounts, no bank logins, no tracking or analytics.
 - Everything runs in your browser. Your valuations are saved in your browser's local storage on your device and are never sent anywhere.
-- Clearing your browser data erases them. Use **Back up or restore** in the app to download a file you can restore later or on another device.
+- Clearing your browser data erases them. Use **Options → Back up** to download a file, and **Options → Restore from backup** to load it later or on another device.
 
 ## Disclaimer
 

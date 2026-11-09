@@ -1,5 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, compareCards, expect, seriousViolations, test, waitForSaved } from './fixtures';
+import {
+  addCards,
+  chooseOption,
+  compareCards,
+  expect,
+  seriousViolations,
+  test,
+  waitForSaved,
+} from './fixtures';
 
 test('break-even spend responds to values and point value, and persists', async ({ page }) => {
   await page.goto('./');
@@ -71,7 +79,7 @@ test('a rewards-only card works in the wallet and the comparison', async ({ page
 test('the forum summary lists every card and the total', async ({ page }) => {
   await page.goto('./');
   await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);
-  await page.getByRole('button', { name: 'Copy summary for forums' }).click();
+  await chooseOption(page, 'Copy summary for forums');
   const text = page.getByRole('dialog', { name: 'Share a summary' }).getByLabel('Summary text');
   await expect(text).toHaveValue(
     // "\*" marks a result not yet confirmed as paid in full.
@@ -85,7 +93,7 @@ test('copy the summary to the clipboard', async ({ page, context, browserName })
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('./');
   await addCards(page, /Add American Express Gold Card/);
-  await page.getByRole('button', { name: 'Copy summary for forums' }).click();
+  await chooseOption(page, 'Copy summary for forums');
   const dialog = page.getByRole('dialog', { name: 'Share a summary' });
   await dialog.getByRole('button', { name: 'Copy to clipboard' }).click();
   await expect(dialog.getByText('Copied to clipboard.')).toBeVisible();

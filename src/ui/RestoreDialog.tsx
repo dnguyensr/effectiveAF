@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useLayoutEffect, useRef, useState } from 'preact/hooks';
-import {
-  backupFileName,
-  exportState,
-  MAX_IMPORT_CHARS,
-  parseImport,
-  type ImportResult,
-} from '../state/import-export';
+import { MAX_IMPORT_CHARS, parseImport, type ImportResult } from '../state/import-export';
 import { useStore } from './store-context';
 
 interface Props {
@@ -14,7 +8,8 @@ interface Props {
   onClose: () => void;
 }
 
-export function BackupDialog({ open, onClose }: Props) {
+/** Restores a backup file or pasted backup text, after showing what it contains. */
+export function RestoreDialog({ open, onClose }: Props) {
   const store = useStore();
   const ref = useRef<HTMLDialogElement>(null);
   const [pasted, setPasted] = useState('');
@@ -47,18 +42,6 @@ export function BackupDialog({ open, onClose }: Props) {
     onClose();
   }
 
-  const backupJson = exportState(store.state.value);
-
-  function download() {
-    const blob = new Blob([backupJson], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = backupFileName(store.asOf);
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-
   async function onFile(file: File | undefined) {
     if (!file) return;
     if (file.size > MAX_IMPORT_CHARS) {
@@ -71,22 +54,13 @@ export function BackupDialog({ open, onClose }: Props) {
   }
 
   return (
-    <dialog ref={ref} class="dialog" aria-labelledby="backup-title" onClose={handleClose}>
-      <h2 id="backup-title">Back up or restore</h2>
+    <dialog ref={ref} class="dialog" aria-labelledby="restore-title" onClose={handleClose}>
+      <h2 id="restore-title">Restore from backup</h2>
 
-      <section aria-labelledby="backup-save-title">
-        <h3 id="backup-save-title">Back up</h3>
+      <section key={formKey}>
         <p class="hint">
-          Your data lives only in this browser. Download a backup to keep it safe or move it to
-          another device.
+          Choose a backup file you downloaded with Options → Back up, or paste its text.
         </p>
-        <button type="button" class="btn btn-primary" onClick={download}>
-          Download backup file
-        </button>
-      </section>
-
-      <section key={formKey} aria-labelledby="backup-restore-title">
-        <h3 id="backup-restore-title">Restore</h3>
         <label class="file-label">
           Choose a backup file
           <input

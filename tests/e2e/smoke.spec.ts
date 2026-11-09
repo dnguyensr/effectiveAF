@@ -48,7 +48,7 @@ test.describe('accessibility (axe)', () => {
     expect(await seriousViolations(page)).toEqual([]);
   });
 
-  test('card picker and backup dialogs', async ({ page, browserName }) => {
+  test('card picker, options menu and restore dialog', async ({ page, browserName }) => {
     // Playwright's Firefox build crashes the page when axe runs inside an open modal <dialog>.
     test.skip(
       browserName === 'firefox',
@@ -58,7 +58,9 @@ test.describe('accessibility (axe)', () => {
     await page.getByRole('button', { name: /^Value the cards I have/ }).click();
     expect(await seriousViolations(page)).toEqual([]);
     await page.keyboard.press('Escape');
-    await page.getByRole('button', { name: 'Back up or restore' }).click();
+    await page.getByRole('button', { name: 'Options' }).click();
+    expect(await seriousViolations(page)).toEqual([]);
+    await page.getByRole('button', { name: 'Restore from backup…' }).click();
     await page.getByLabel('Or paste backup text').fill('nope');
     await page.getByRole('button', { name: 'Check backup' }).click();
     expect(await seriousViolations(page)).toEqual([]);

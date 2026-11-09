@@ -195,6 +195,7 @@ describe('share dialog', () => {
     const writeText = vi.fn(() => Promise.resolve());
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
 
+    fireEvent.click(screen.getByRole('button', { name: 'Options' }));
     fireEvent.click(screen.getByRole('button', { name: 'Copy summary for forums' }));
     const dialog = screen.getByRole('dialog', { name: 'Share a summary' });
     const text = (within(dialog).getByLabelText('Summary text') as HTMLTextAreaElement).value;
@@ -215,6 +216,7 @@ describe('share dialog', () => {
       value: { writeText: () => Promise.reject(new Error('denied')) },
       configurable: true,
     });
+    fireEvent.click(screen.getByRole('button', { name: 'Options' }));
     fireEvent.click(screen.getByRole('button', { name: 'Copy summary for forums' }));
     fireEvent.click(screen.getByRole('button', { name: 'Copy to clipboard' }));
     expect(await screen.findByText(/select the text and copy it/)).toBeTruthy();

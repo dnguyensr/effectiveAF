@@ -27,6 +27,7 @@ import { upcomingResets } from '../core/resets';
 import { annualNominalCents } from '../core/valuation';
 import { summarizeWallet } from '../core/wallet-math';
 import type { StateErrorCode } from './errors';
+import { createEmptyState } from './migrations';
 import {
   MAX_CENTS,
   MAX_COMPARE,
@@ -476,6 +477,16 @@ export function createStore({
 
     replaceState(next: UserState) {
       commit(next);
+    },
+
+    /**
+     * Erases everything: wallet, comparison, values, custom cards and perks, and settings.
+     * Returns what was there, so the caller can offer Undo (via replaceState).
+     */
+    startOver(): UserState {
+      const previous = state.value;
+      commit(createEmptyState(now().toISOString()));
+      return previous;
     },
 
     flush() {

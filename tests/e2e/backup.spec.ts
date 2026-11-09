@@ -2,7 +2,16 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CURRENT_SCHEMA_VERSION } from '../../src/state/schema';
-import { addCards, expect, selectTab, setFee, test, verdict, waitForSaved } from './fixtures';
+import {
+  addCards,
+  chooseOption,
+  expect,
+  selectTab,
+  setFee,
+  test,
+  verdict,
+  waitForSaved,
+} from './fixtures';
 
 test('export, clear everything, import: identical result', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'Mobile WebKit does not expose downloads to Playwright');
@@ -13,9 +22,8 @@ test('export, clear everything, import: identical result', async ({ page, browse
   await waitForSaved(page, "s.cards['amex-gold']?.feeOverrideCents === 0");
   const before = await page.getByTestId('summary-effective').textContent();
 
-  await page.getByRole('button', { name: 'Back up or restore' }).click();
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download backup file' }).click();
+  await chooseOption(page, 'Back up');
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('effectiveaf-backup-2026-11-08.json');
   const path = await download.path();
@@ -29,7 +37,7 @@ test('export, clear everything, import: identical result', async ({ page, browse
   await page.reload();
   await expect(page.getByText(/Your wallet is empty/)).toBeVisible();
 
-  await page.getByRole('button', { name: 'Back up or restore' }).click();
+  await chooseOption(page, 'Restore from backup…');
   await page.getByLabel('Choose a backup file').setInputFiles({
     name: 'backup.json',
     mimeType: 'application/json',
@@ -48,8 +56,8 @@ test('export, clear everything, import: identical result', async ({ page, browse
 test('pasted backups are validated before anything changes', async ({ page }) => {
   await page.goto('./');
   await addCards(page, /Add Capital One Venture X$/);
-  await page.getByRole('button', { name: 'Back up or restore' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Back up or restore' });
+  await chooseOption(page, 'Restore from backup…');
+  const dialog = page.getByRole('dialog', { name: 'Restore from backup' });
   await expect(dialog).toBeVisible();
 
   const paste = dialog.getByLabel('Or paste backup text');
@@ -70,14 +78,14 @@ test('pasted backups are validated before anything changes', async ({ page }) =>
   await expect(verdict(page, 'capital-one-venture-x')).toHaveText('Costs $395/yr');
 });
 
-test('Escape closes the dialog', async ({ page }) => {
+test('Escape closes the restore dialog', async ({ page }) => {
   await page.goto('./');
-  await page.getByRole('button', { name: 'Back up or restore' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Back up or restore' });
+  await chooseOption(page, 'Restore from backup…');
+  const dialog = page.getByRole('dialog', { name: 'Restore from backup' });
   await expect(dialog).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   // And it can be opened again.
-  await page.getByRole('button', { name: 'Back up or restore' }).click();
+  await chooseOption(page, 'Restore from backup…');
   await expect(dialog).toBeVisible();
 });

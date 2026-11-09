@@ -1,5 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, expect, perkChip, selectTab, setFee, test, verdict } from './fixtures';
+import {
+  addCards,
+  chooseOption,
+  expect,
+  perkChip,
+  selectTab,
+  setFee,
+  test,
+  verdict,
+} from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
@@ -135,10 +144,10 @@ test('clear all values asks first', async ({ page }) => {
   await addCards(page, /Add American Express Gold Card/);
   await page.getByRole('slider', { name: /^Dining credit/ }).fill('100');
   page.once('dialog', (d) => void d.dismiss());
-  await page.getByRole('button', { name: 'Clear all values' }).click();
+  await chooseOption(page, 'Clear all values');
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $205/yr');
   page.once('dialog', (d) => void d.accept());
-  await page.getByRole('button', { name: 'Clear all values' }).click();
+  await chooseOption(page, 'Clear all values');
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
 });
 
