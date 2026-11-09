@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useLayoutEffect, useRef, useState } from 'preact/hooks';
 import {
   backupFileName,
   exportState,
@@ -20,14 +20,15 @@ export function BackupDialog({ open, onClose }: Props) {
   const [pasted, setPasted] = useState('');
   const [checked, setChecked] = useState<ImportResult | null>(null);
   const [restored, setRestored] = useState(false);
+  // Bumped on close to remount the restore form, which also clears the file input.
+  const [formKey, setFormKey] = useState(0);
 
-  useEffect(() => {
+  // Layout effect: open the dialog in the same tick it renders, so nothing can interact with
+  // a half-open dialog.
+  useLayoutEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
     if (open && !dialog.open) {
-      setPasted('');
-      setChecked(null);
-      setRestored(false);
       if (typeof dialog.showModal === 'function') dialog.showModal();
       else dialog.setAttribute('open', '');
     } else if (!open && dialog.open) {
@@ -35,6 +36,16 @@ export function BackupDialog({ open, onClose }: Props) {
       else dialog.removeAttribute('open');
     }
   }, [open]);
+
+  // Clear the form when the dialog closes (Close button, Escape), never while it's opening:
+  // resetting on open raced with a file being chosen and could wipe it.
+  function handleClose() {
+    setPasted('');
+    setChecked(null);
+    setRestored(false);
+    setFormKey((k) => k + 1);
+    onClose();
+  }
 
   const backupJson = exportState(store.state.value);
 
@@ -60,7 +71,7 @@ export function BackupDialog({ open, onClose }: Props) {
   }
 
   return (
-    <dialog ref={ref} class="dialog" aria-labelledby="backup-title" onClose={onClose}>
+    <dialog ref={ref} class="dialog" aria-labelledby="backup-title" onClose={handleClose}>
       <h2 id="backup-title">Back up or restore</h2>
 
       <section aria-labelledby="backup-save-title">
@@ -74,7 +85,7 @@ export function BackupDialog({ open, onClose }: Props) {
         </button>
       </section>
 
-      <section aria-labelledby="backup-restore-title">
+      <section key={formKey} aria-labelledby="backup-restore-title">
         <h3 id="backup-restore-title">Restore</h3>
         <label class="file-label">
           Choose a backup file
@@ -138,7 +149,7 @@ export function BackupDialog({ open, onClose }: Props) {
       </section>
 
       <div class="dialog-actions">
-        <button type="button" class="btn" onClick={onClose}>
+        <button type="button" class="btn" onClick={handleClose}>
           Close
         </button>
       </div>

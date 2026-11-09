@@ -274,6 +274,18 @@ describe('Backup dialog', () => {
     expect(await screen.findByText(/This backup has 1 card and 0 saved values/)).toBeTruthy();
   });
 
+  it('clears the restore form on close, not on open', () => {
+    renderApp();
+    openDialog();
+    fireEvent.input(screen.getByLabelText('Or paste backup text'), { target: { value: 'nope' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Check backup' }));
+    expect(screen.getByRole('alert')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    openDialog();
+    expect((screen.getByLabelText('Or paste backup text') as HTMLTextAreaElement).value).toBe('');
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
   it('refuses an oversized file without reading it', async () => {
     renderApp();
     openDialog();
