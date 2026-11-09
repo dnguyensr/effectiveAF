@@ -212,6 +212,17 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
 
         <BreakEven summary={summary} />
 
+        {card.notes && card.notes.length > 0 && (
+          <details class="card-notes">
+            <summary>Good to know</summary>
+            <ul>
+              {card.notes.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+          </details>
+        )}
+
         <div class="card-actions">
           <button type="button" class="btn" onClick={() => store.resetCard(card.id)}>
             Clear this card

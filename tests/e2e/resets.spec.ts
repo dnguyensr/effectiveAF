@@ -3,7 +3,7 @@ import { addCards, expect, selectTab, seriousViolations, test, waitForSaved } fr
 
 test('reset dates, anniversary month and the "use it before it resets" list', async ({ page }) => {
   await page.goto('./');
-  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X/);
+  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);
 
   await selectTab(page, /Gold Card/);
   const dining = page.locator('li', { has: page.getByRole('heading', { name: 'Dining credit' }) });

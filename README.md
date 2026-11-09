@@ -28,11 +28,14 @@ If the result is zero or below, the card pays for itself. If not, you'll see how
 
 Supported cards:
 
-- American Express Platinum Card
-- American Express Gold Card
-- Chase Sapphire Preferred
-- Chase Sapphire Reserve
-- Capital One Venture X
+- **American Express:** Platinum Card, Gold Card, Business Platinum Card
+- **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business
+- **Capital One:** Venture X, Venture X Business
+- **Citi:** Strata Elite
+- **Bank of America:** Premium Rewards Elite
+- **Bilt:** Palladium Card
+
+You can also add any card yourself, with your own credits and benefits.
 
 ## Privacy
 

@@ -29,7 +29,7 @@ test('break-even spend responds to values and point value, and persists', async 
 
 test('the forum summary lists every card and the total', async ({ page }) => {
   await page.goto('./');
-  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X/);
+  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);
   await page.getByRole('button', { name: 'Copy summary for forums' }).click();
   const text = page.getByRole('dialog', { name: 'Share a summary' }).getByLabel('Summary text');
   await expect(text).toHaveValue(

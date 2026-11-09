@@ -28,7 +28,7 @@ test('changes survive a reload, and the wallet opens directly', async ({ page })
 
 test('a second tab sees saved data after loading', async ({ page, context }) => {
   await page.goto('./');
-  await addCards(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X$/);
   await waitForSaved(page, "s.wallet.includes('capital-one-venture-x')");
   const other = await context.newPage();
   await other.clock.setFixedTime(new Date('2026-11-08T12:00:00'));
@@ -38,7 +38,7 @@ test('a second tab sees saved data after loading', async ({ page, context }) => 
 
 test('pending changes are saved when the page is hidden', async ({ page }) => {
   await page.goto('./');
-  await addCards(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X$/);
   await page.evaluate(() => window.dispatchEvent(new Event('pagehide')));
   const saved = await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY);
   expect(JSON.parse(saved ?? '{}').wallet).toEqual(['capital-one-venture-x']);
@@ -105,7 +105,7 @@ test('works when the browser blocks storage', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./');
   await expect(page.getByRole('status')).toContainText("isn't letting effectiveAF save");
-  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X/);
+  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);
   await selectTab(page, /Gold Card/);
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
   await page.getByRole('button', { name: /^Theme:/ }).click();

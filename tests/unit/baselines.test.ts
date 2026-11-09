@@ -16,6 +16,15 @@ import { summarizeWallet } from '../../src/core/wallet-math';
 import { parseState } from '../../src/state/migrations';
 
 const AS_OF = '2026-11-08';
+/** The cards that existed in schema v1; the migration baseline covers exactly these. */
+const V1_CARDS = [
+  'amex-platinum',
+  'amex-gold',
+  'chase-sapphire-preferred',
+  'chase-sapphire-reserve',
+  'capital-one-venture-x',
+];
+const V1_CATALOG = CATALOG.filter((c) => V1_CARDS.includes(c.id));
 const usd = (cents: number) => formatUsd(cents);
 const json = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
 
@@ -48,11 +57,11 @@ describe('baselines', () => {
     const migrated = parseState({
       schemaVersion: 1,
       catalogVersion: '2026-11-08',
-      wallet: CATALOG.map((c) => c.id),
+      wallet: V1_CARDS,
       cards: {},
       updatedAt: '2026-11-08T12:00:00.000Z',
     });
-    const cards = CATALOG.map((card) => {
+    const cards = V1_CATALOG.map((card) => {
       const s = summarizeCard(card, migrated.cards[card.id], AS_OF);
       return {
         id: card.id,
@@ -64,12 +73,7 @@ describe('baselines', () => {
         verdict: s.verdict,
       };
     });
-    const wallet = summarizeWallet(
-      CATALOG,
-      CATALOG.map((c) => c.id),
-      migrated.cards,
-      AS_OF,
-    );
+    const wallet = summarizeWallet(CATALOG, V1_CARDS, migrated.cards, AS_OF);
     await expect(
       json({
         asOf: AS_OF,

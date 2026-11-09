@@ -29,7 +29,7 @@ test('create a custom card with a perk, add a benefit to a catalog card, reload'
   await cardForm.getByLabel('Annual fee').fill('95');
   await cardForm.getByRole('button', { name: 'Create card' }).click();
   await picker.getByRole('tab', { name: 'All' }).click();
-  await picker.getByRole('button', { name: /Add Capital One Venture X/ }).click();
+  await picker.getByRole('button', { name: /Add Capital One Venture X$/ }).click();
   await picker.getByRole('button', { name: 'Close' }).click();
 
   await selectTab(page, /Strata Premier/);

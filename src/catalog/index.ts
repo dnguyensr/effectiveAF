@@ -1,20 +1,33 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+import { amexBusinessPlatinum } from './cards/amex-business-platinum';
 import { amexGold } from './cards/amex-gold';
 import { amexPlatinum } from './cards/amex-platinum';
+import { biltPalladium } from './cards/bilt-palladium';
+import { bofaPremiumRewardsElite } from './cards/bofa-premium-rewards-elite';
 import { capitalOneVentureX } from './cards/capital-one-venture-x';
+import { capitalOneVentureXBusiness } from './cards/capital-one-venture-x-business';
 import { chaseSapphirePreferred } from './cards/chase-sapphire-preferred';
 import { chaseSapphireReserve } from './cards/chase-sapphire-reserve';
+import { chaseSapphireReserveBusiness } from './cards/chase-sapphire-reserve-business';
+import { citiStrataElite } from './cards/citi-strata-elite';
 import type { CardDef } from './types';
 
 /** Bump whenever card data changes, so saved sessions record which data they were made with. */
-export const CATALOG_VERSION = '2026-11-08';
+export const CATALOG_VERSION = '2026-11-09';
 
+/** Grouped by issuer; the picker's issuer tabs follow this order. */
 export const CATALOG: readonly CardDef[] = [
   amexPlatinum,
   amexGold,
+  amexBusinessPlatinum,
   chaseSapphirePreferred,
   chaseSapphireReserve,
+  chaseSapphireReserveBusiness,
   capitalOneVentureX,
+  capitalOneVentureXBusiness,
+  citiStrataElite,
+  bofaPremiumRewardsElite,
+  biltPalladium,
 ];
 
 const byId = new Map(CATALOG.map((card) => [card.id, card]));

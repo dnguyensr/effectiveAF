@@ -32,7 +32,7 @@ test.describe('accessibility (axe)', () => {
 
   test('wallet: tabs, a set perk, a skipped perk, a custom fee', async ({ page }) => {
     await page.goto('./');
-    await addCards(page, /Add American Express Platinum Card/, /Add Chase Sapphire Reserve/);
+    await addCards(page, /Add American Express Platinum Card/, /Add Chase Sapphire Reserve$/);
     await page.getByRole('tab', { name: /Platinum Card/ }).click();
     await page.getByRole('slider', { name: /^Resy dining credit/ }).fill('50');
     await perkChip(page, 'Equinox credit', "Won't use").click();
@@ -100,8 +100,8 @@ test('no horizontal page scrolling at phone width', async ({ page }) => {
     page,
     /Add American Express Platinum Card/,
     /Add American Express Gold Card/,
-    /Add Chase Sapphire Reserve/,
-    /Add Capital One Venture X/,
+    /Add Chase Sapphire Reserve$/,
+    /Add Capital One Venture X$/,
   );
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

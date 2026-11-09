@@ -1,4 +1,10 @@
 {
+  "src/catalog/cards/amex-business-platinum.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/amex-gold.ts": {
     "lines": 100,
     "branches": 100,
@@ -6,6 +12,24 @@
     "statements": 100
   },
   "src/catalog/cards/amex-platinum.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/bilt-palladium.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/bofa-premium-rewards-elite.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/capital-one-venture-x-business.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -23,7 +47,19 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/chase-sapphire-reserve-business.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/chase-sapphire-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/citi-strata-elite.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,

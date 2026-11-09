@@ -6,7 +6,9 @@ test('a card can be one you have or one you are considering', async ({ page }) =
   await page.getByRole('button', { name: /^Value the cards I have/ }).click();
   const picker = page.getByRole('dialog', { name: 'Add a card' });
   await picker.getByRole('button', { name: /^Add American Express Gold Card/ }).click();
-  await picker.getByRole('button', { name: 'Considering: add Chase Sapphire Reserve' }).click();
+  await picker
+    .getByRole('button', { name: 'Considering: add Chase Sapphire Reserve', exact: true })
+    .click();
   await picker.getByRole('button', { name: 'Close' }).click();
 
   await expect(page.getByTestId('verdict-chase-sapphire-reserve')).toHaveText('Would cost $795/yr');

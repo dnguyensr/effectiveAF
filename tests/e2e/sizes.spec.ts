@@ -80,7 +80,7 @@ for (const [device, viewport] of [
       expect(await measure(page), 'card picker').toEqual([]);
       await page.keyboard.press('Escape');
 
-      await addCards(page, /Add American Express Platinum Card/, /Add Capital One Venture X/);
+      await addCards(page, /Add American Express Platinum Card/, /Add Capital One Venture X$/);
       await page.getByRole('tab', { name: /Platinum/ }).click();
       await page.getByRole('slider', { name: /^Hotel credit/ }).fill('50');
       expect(await measure(page), 'wallet').toEqual([]);
@@ -89,7 +89,7 @@ for (const [device, viewport] of [
       await compareCards(
         page,
         /Compare American Express Gold Card/,
-        /Compare Chase Sapphire Reserve/,
+        /Compare Chase Sapphire Reserve$/,
       );
       expect(await measure(page), 'comparison').toEqual([]);
     });

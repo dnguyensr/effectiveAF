@@ -9,8 +9,8 @@ test('lines up three cards by kind of credit, with gaps and totals', async ({ pa
   await compareCards(
     page,
     /Compare American Express Platinum Card/,
-    /Compare Chase Sapphire Reserve/,
-    /Compare Capital One Venture X/,
+    /Compare Chase Sapphire Reserve$/,
+    /Compare Capital One Venture X$/,
   );
   await expect(page).toHaveURL(/#compare$/);
   const table = page.getByRole('table');
@@ -35,7 +35,7 @@ test('lines up three cards by kind of credit, with gaps and totals', async ({ pa
 });
 
 test('values set in the comparison carry over to the wallet', async ({ page }) => {
-  await compareCards(page, /Compare American Express Gold Card/, /Compare Capital One Venture X/);
+  await compareCards(page, /Compare American Express Gold Card/, /Compare Capital One Venture X$/);
   await page.getByRole('button', { name: 'Set my values for Gold Card' }).click();
   const editor = page.getByRole('dialog', { name: 'Your values: Gold Card' });
   await editor.getByRole('button', { name: 'Full value', exact: true }).click();
@@ -55,8 +55,8 @@ test('at phone width the table scrolls sideways, not the page', async ({ page })
     page,
     /Compare American Express Platinum Card/,
     /Compare American Express Gold Card/,
-    /Compare Chase Sapphire Reserve/,
-    /Compare Capital One Venture X/,
+    /Compare Chase Sapphire Reserve$/,
+    /Compare Capital One Venture X$/,
   );
   const pageOverflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,

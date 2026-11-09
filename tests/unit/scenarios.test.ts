@@ -8,6 +8,7 @@ import { findCard } from '../../src/catalog';
 import type { CardDef } from '../../src/catalog/types';
 import { summarizeCard, type CardUserState } from '../../src/core/card-math';
 import type { PerkValuation } from '../../src/core/valuation';
+import { applyPreset } from '../../src/core/presets';
 import { parseState } from '../../src/state/migrations';
 
 /** The card state a v1 user who held `cardId` and changed nothing has after migrating. */
@@ -34,6 +35,31 @@ function onlyUsing(c: CardDef, using: Record<string, PerkValuation>): CardUserSt
     perks[p.id] = using[p.id] ?? { mode: 'percent', percent: 0, enabled: false };
   return { perks };
 }
+
+describe('Tier 1 cards at full value (hand-computed)', () => {
+  it.each([
+    // fee, then credits: Strata Elite 300 hotel + 200 splurge + 200 Blacklane + 30 Global Entry
+    ['citi-strata-elite', 59500, 73000],
+    // 300 airline + 150 lifestyle + 30 Global Entry
+    ['bofa-premium-rewards-elite', 55000, 48000],
+    // 600 hotel + 200 airline + 219 CLEAR+ + 200 Hilton + 150 Dell + 1,000 Dell bonus
+    // + 250 Adobe + 360 Indeed + 120 wireless + 30 Global Entry
+    ['amex-business-platinum', 89500, 312900],
+    // 300 travel + 500 The Edit + 250 select hotels + 400 ZipRecruiter + 200 Google Workspace
+    // + 100 gift cards + 120 Lyft + 30 Global Entry
+    ['chase-sapphire-reserve-business', 79500, 190000],
+    // 300 travel + 100 anniversary miles + 30 Global Entry
+    ['capital-one-venture-x-business', 39500, 43000],
+    // 400 hotel + 200 Bilt Cash
+    ['bilt-palladium', 49500, 60000],
+  ])('%s: fee %d, face value %d', (id, fee, face) => {
+    const c = card(id);
+    const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');
+    expect(s.feeCents).toBe(fee);
+    expect(s.realizedCents).toBe(face);
+    expect(s.effectiveCents).toBe(fee - face);
+  });
+});
 
 describe('hand-computed scenarios', () => {
   it('a brand-new card counts nothing: the full fee is the cost', () => {

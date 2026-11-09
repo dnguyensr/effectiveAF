@@ -143,6 +143,91 @@
     ]
   },
   {
+    "id": "amex-business-platinum",
+    "name": "American Express Business Platinum Card",
+    "annualFee": "$895",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "amex-business-platinum.hotel",
+        "cadence": "semiannual",
+        "perPeriod": "$300",
+        "kind": "hotel",
+        "annualNominal": "$600"
+      },
+      {
+        "id": "amex-business-platinum.airline-fee",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-business-platinum.clear",
+        "cadence": "annual",
+        "perPeriod": "$219",
+        "kind": "airport-security",
+        "annualNominal": "$219"
+      },
+      {
+        "id": "amex-business-platinum.hilton",
+        "cadence": "quarterly",
+        "perPeriod": "$50",
+        "kind": "hotel",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-business-platinum.dell",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "electronics",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "amex-business-platinum.dell-bonus",
+        "cadence": "annual",
+        "perPeriod": "$1,000",
+        "kind": "electronics",
+        "annualNominal": "$1,000"
+      },
+      {
+        "id": "amex-business-platinum.adobe",
+        "cadence": "annual",
+        "perPeriod": "$250",
+        "kind": "business-software",
+        "annualNominal": "$250"
+      },
+      {
+        "id": "amex-business-platinum.indeed",
+        "cadence": "quarterly",
+        "perPeriod": "$90",
+        "kind": "hiring",
+        "annualNominal": "$360"
+      },
+      {
+        "id": "amex-business-platinum.wireless",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "wireless",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "amex-business-platinum.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$3,129",
+    "rewardsCurrency": "Membership Rewards points",
+    "earnRates": [
+      "5x Flights and prepaid hotels on Amex Travel",
+      "1.5x Single purchases of $5,000 or more",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "chase-sapphire-preferred",
     "name": "Chase Sapphire Preferred",
     "annualFee": "$95",
@@ -297,6 +382,80 @@
     ]
   },
   {
+    "id": "chase-sapphire-reserve-business",
+    "name": "Chase Sapphire Reserve for Business",
+    "annualFee": "$795",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "chase-sapphire-reserve-business.travel",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "kind": "travel-general",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.the-edit",
+        "cadence": "annual",
+        "perPeriod": "$500",
+        "kind": "hotel",
+        "annualNominal": "$500"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.select-hotels-2026",
+        "cadence": "annual",
+        "perPeriod": "$250",
+        "kind": "hotel",
+        "annualNominal": "$250",
+        "endsOn": "2026-12-31"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.ziprecruiter",
+        "cadence": "semiannual",
+        "perPeriod": "$200",
+        "kind": "hiring",
+        "annualNominal": "$400"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.google-workspace",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "business-software",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.gift-cards",
+        "cadence": "semiannual",
+        "perPeriod": "$50",
+        "kind": "retail",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.lyft",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "rideshare",
+        "annualNominal": "$120",
+        "endsOn": "2027-09-30"
+      },
+      {
+        "id": "chase-sapphire-reserve-business.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$1,900",
+    "rewardsCurrency": "Ultimate Rewards points",
+    "earnRates": [
+      "8x Travel booked through Chase Travel",
+      "4x Flights and hotels booked directly",
+      "3x Social media and search advertising",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "capital-one-venture-x",
     "name": "Capital One Venture X",
     "annualFee": "$395",
@@ -329,6 +488,153 @@
     "earnRates": [
       "10x Hotels and rental cars via Capital One Travel",
       "5x Flights and vacation rentals via Capital One Travel",
+      "2x Everything else"
+    ]
+  },
+  {
+    "id": "capital-one-venture-x-business",
+    "name": "Capital One Venture X Business",
+    "annualFee": "$395",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "capital-one-venture-x-business.travel",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "kind": "travel-general",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "capital-one-venture-x-business.anniversary-miles",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "bonus-miles",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "capital-one-venture-x-business.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$430",
+    "rewardsCurrency": "Capital One miles",
+    "earnRates": [
+      "10x Hotels and rental cars via Capital One Business Travel",
+      "5x Flights and vacation rentals via Capital One Business Travel",
+      "2x Everything else"
+    ]
+  },
+  {
+    "id": "citi-strata-elite",
+    "name": "Citi Strata Elite",
+    "annualFee": "$595",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "citi-strata-elite.hotel",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "kind": "hotel",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "citi-strata-elite.splurge",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "flexible",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "citi-strata-elite.blacklane",
+        "cadence": "semiannual",
+        "perPeriod": "$100",
+        "kind": "car-service",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "citi-strata-elite.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$730",
+    "rewardsCurrency": "ThankYou Points",
+    "earnRates": [
+      "12x Hotels, car rentals and attractions via Citi Travel",
+      "6x Air travel via Citi Travel",
+      "6x Restaurants on \"Citi Nights\"",
+      "3x Restaurants",
+      "1.5x Everything else"
+    ]
+  },
+  {
+    "id": "bofa-premium-rewards-elite",
+    "name": "Bank of America Premium Rewards Elite",
+    "annualFee": "$550",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "bofa-premium-rewards-elite.airline",
+        "cadence": "annual",
+        "perPeriod": "$300",
+        "kind": "airline-fees",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "bofa-premium-rewards-elite.lifestyle",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "flexible",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "bofa-premium-rewards-elite.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$480",
+    "rewardsCurrency": "Bank of America points",
+    "earnRates": [
+      "2x Travel and dining",
+      "1.5x Everything else"
+    ]
+  },
+  {
+    "id": "bilt-palladium",
+    "name": "Bilt Palladium Card",
+    "annualFee": "$495",
+    "lastVerified": "2026-11-09",
+    "perks": [
+      {
+        "id": "bilt-palladium.hotel",
+        "cadence": "semiannual",
+        "perPeriod": "$200",
+        "kind": "hotel",
+        "annualNominal": "$400"
+      },
+      {
+        "id": "bilt-palladium.bilt-cash",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "flexible",
+        "annualNominal": "$200"
+      }
+    ],
+    "totalNominal": "$600",
+    "rewardsCurrency": "Bilt Points",
+    "earnRates": [
+      "5x Bilt partner restaurants",
+      "4x Hotels via Bilt Travel",
+      "4x Lyft",
+      "3x Flights via Bilt Travel",
       "2x Everything else"
     ]
   }

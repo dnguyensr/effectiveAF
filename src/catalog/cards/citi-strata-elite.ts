@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import type { CardDef } from '../types';
+
+export const citiStrataElite: CardDef = {
+  id: 'citi-strata-elite',
+  issuer: 'Citi',
+  name: 'Strata Elite',
+  annualFeeCents: 59500,
+  lastVerified: '2026-11-09',
+  sourceUrl: 'https://www.citi.com/credit-cards/citi-strata-elite-credit-card',
+  rewardsCurrency: 'ThankYou Points',
+  earnRates: [
+    { category: 'Hotels, car rentals and attractions via Citi Travel', multiplier: 12 },
+    { category: 'Air travel via Citi Travel', multiplier: 6 },
+    { category: 'Restaurants on "Citi Nights"', multiplier: 6, note: 'Fri–Sat, 6 PM–6 AM ET' },
+    { category: 'Restaurants', multiplier: 3 },
+    { category: 'Everything else', multiplier: 1.5 },
+  ],
+  notes: [
+    'Citigold clients get a $145 annual credit toward the fee; set your own fee if that applies to you.',
+    'Also includes Priority Pass Select and 4 American Airlines Admirals Club passes a year (not counted as credits).',
+  ],
+  perks: [
+    {
+      id: 'citi-strata-elite.hotel',
+      name: 'Annual hotel benefit',
+      description:
+        '$300 off one hotel stay of 2+ nights booked through cititravel.com, applied at booking.',
+      category: 'travel',
+      kind: 'hotel',
+      cadence: 'annual',
+      amountPerPeriodCents: 30000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$300 / year',
+      requiresEnrollment: false,
+    },
+    {
+      id: 'citi-strata-elite.splurge',
+      name: 'Splurge credit',
+      description:
+        'Up to 2 of: 1stDibs, American Airlines, Best Buy, Future Personal Training, Live Nation. Register first; exclusions apply.',
+      category: 'retail',
+      kind: 'flexible',
+      cadence: 'annual',
+      amountPerPeriodCents: 20000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$200 / year',
+      requiresEnrollment: true,
+    },
+    {
+      id: 'citi-strata-elite.blacklane',
+      name: 'Blacklane credit',
+      description: 'Chauffeur rides with Blacklane (Jan–Jun and Jul–Dec).',
+      category: 'travel',
+      kind: 'car-service',
+      cadence: 'semiannual',
+      amountPerPeriodCents: 10000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$100 / half-year',
+      requiresEnrollment: false,
+    },
+    {
+      id: 'citi-strata-elite.global-entry',
+      name: 'Global Entry / TSA PreCheck credit',
+      description: 'Application fee charged to the card, once every 4 years.',
+      category: 'travel',
+      kind: 'trusted-traveler',
+      cadence: 'every-4-years',
+      amountPerPeriodCents: 12000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '$120 / 4 years',
+      requiresEnrollment: false,
+    },
+  ],
+};

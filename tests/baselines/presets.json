@@ -10,6 +10,10 @@
         "realized": "$424",
         "effective": "-$99"
       },
+      "amex-business-platinum": {
+        "realized": "$3,129",
+        "effective": "-$2,234"
+      },
       "chase-sapphire-preferred": {
         "realized": "$550",
         "effective": "-$455"
@@ -18,9 +22,29 @@
         "realized": "$2,784",
         "effective": "-$1,989"
       },
+      "chase-sapphire-reserve-business": {
+        "realized": "$1,900",
+        "effective": "-$1,105"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
+      },
+      "capital-one-venture-x-business": {
+        "realized": "$430",
+        "effective": "-$35"
+      },
+      "citi-strata-elite": {
+        "realized": "$730",
+        "effective": "-$135"
+      },
+      "bofa-premium-rewards-elite": {
+        "realized": "$480",
+        "effective": "$70"
+      },
+      "bilt-palladium": {
+        "realized": "$600",
+        "effective": "-$105"
       }
     },
     "half": {
@@ -32,6 +56,10 @@
         "realized": "$212",
         "effective": "$113"
       },
+      "amex-business-platinum": {
+        "realized": "$1,565",
+        "effective": "-$670"
+      },
       "chase-sapphire-preferred": {
         "realized": "$275",
         "effective": "-$180"
@@ -40,9 +68,29 @@
         "realized": "$1,392",
         "effective": "-$597"
       },
+      "chase-sapphire-reserve-business": {
+        "realized": "$950",
+        "effective": "-$155"
+      },
       "capital-one-venture-x": {
         "realized": "$215",
         "effective": "$180"
+      },
+      "capital-one-venture-x-business": {
+        "realized": "$215",
+        "effective": "$180"
+      },
+      "citi-strata-elite": {
+        "realized": "$365",
+        "effective": "$230"
+      },
+      "bofa-premium-rewards-elite": {
+        "realized": "$240",
+        "effective": "$310"
+      },
+      "bilt-palladium": {
+        "realized": "$300",
+        "effective": "$195"
       }
     },
     "travel-dining": {
@@ -54,6 +102,10 @@
         "realized": "$424",
         "effective": "-$99"
       },
+      "amex-business-platinum": {
+        "realized": "$1,249",
+        "effective": "-$354"
+      },
       "chase-sapphire-preferred": {
         "realized": "$250",
         "effective": "-$155"
@@ -62,9 +114,29 @@
         "realized": "$1,920",
         "effective": "-$1,125"
       },
+      "chase-sapphire-reserve-business": {
+        "realized": "$1,200",
+        "effective": "-$405"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
+      },
+      "capital-one-venture-x-business": {
+        "realized": "$430",
+        "effective": "-$35"
+      },
+      "citi-strata-elite": {
+        "realized": "$530",
+        "effective": "$65"
+      },
+      "bofa-premium-rewards-elite": {
+        "realized": "$330",
+        "effective": "$220"
+      },
+      "bilt-palladium": {
+        "realized": "$400",
+        "effective": "$95"
       }
     },
     "clear": {
@@ -76,6 +148,10 @@
         "realized": "$0",
         "effective": "$325"
       },
+      "amex-business-platinum": {
+        "realized": "$0",
+        "effective": "$895"
+      },
       "chase-sapphire-preferred": {
         "realized": "$0",
         "effective": "$95"
@@ -84,9 +160,29 @@
         "realized": "$0",
         "effective": "$795"
       },
+      "chase-sapphire-reserve-business": {
+        "realized": "$0",
+        "effective": "$795"
+      },
       "capital-one-venture-x": {
         "realized": "$0",
         "effective": "$395"
+      },
+      "capital-one-venture-x-business": {
+        "realized": "$0",
+        "effective": "$395"
+      },
+      "citi-strata-elite": {
+        "realized": "$0",
+        "effective": "$595"
+      },
+      "bofa-premium-rewards-elite": {
+        "realized": "$0",
+        "effective": "$550"
+      },
+      "bilt-palladium": {
+        "realized": "$0",
+        "effective": "$495"
       }
     }
   }

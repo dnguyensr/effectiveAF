@@ -46,8 +46,8 @@ for (const scheme of ['light', 'dark'] as const) {
       await compareCards(
         page,
         /Compare American Express Platinum Card/,
-        /Compare Chase Sapphire Reserve/,
-        /Compare Capital One Venture X/,
+        /Compare Chase Sapphire Reserve$/,
+        /Compare Capital One Venture X$/,
       );
       await snap(page, testInfo, `compare-${scheme}.png`);
     });

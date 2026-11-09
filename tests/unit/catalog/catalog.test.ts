@@ -10,13 +10,19 @@ const isRealDate = (iso: string) =>
   ISO_DATE.test(iso) && new Date(`${iso}T00:00:00Z`).toISOString().startsWith(iso);
 
 describe('catalog', () => {
-  it('contains the five Phase 1 cards', () => {
+  it('contains the Phase 1 and Tier 1 cards, grouped by issuer', () => {
     expect(CATALOG.map((c) => c.id)).toEqual([
       'amex-platinum',
       'amex-gold',
+      'amex-business-platinum',
       'chase-sapphire-preferred',
       'chase-sapphire-reserve',
+      'chase-sapphire-reserve-business',
       'capital-one-venture-x',
+      'capital-one-venture-x-business',
+      'citi-strata-elite',
+      'bofa-premium-rewards-elite',
+      'bilt-palladium',
     ]);
   });
 

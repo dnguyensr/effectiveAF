@@ -19,6 +19,8 @@ export type PerkCategory =
   | 'rideshare'
   | 'wellness'
   | 'membership'
+  /** Credits for running a business: software, hiring, wireless, equipment. */
+  | 'business'
   /** Added by the user: their own credit or a non-credit benefit (lounge access, insurance...). */
   | 'custom';
 
@@ -33,6 +35,7 @@ export const KINDS = [
   { id: 'trusted-traveler', label: 'Global Entry / TSA PreCheck', group: 'Travel' },
   { id: 'airport-security', label: 'CLEAR+', group: 'Travel' },
   { id: 'bonus-miles', label: 'Anniversary bonus', group: 'Travel' },
+  { id: 'car-service', label: 'Car service', group: 'Travel' },
   { id: 'dining', label: 'Dining credits', group: 'Dining' },
   { id: 'food-delivery', label: 'Delivery promos', group: 'Dining' },
   { id: 'delivery-membership', label: 'Delivery membership', group: 'Dining' },
@@ -42,6 +45,11 @@ export const KINDS = [
   { id: 'events', label: 'Event tickets', group: 'Entertainment' },
   { id: 'retail', label: 'Retail credits', group: 'Shopping' },
   { id: 'shopping-membership', label: 'Shopping membership', group: 'Shopping' },
+  { id: 'flexible', label: 'Choose-your-own credits', group: 'Shopping' },
+  { id: 'business-software', label: 'Business software', group: 'Business' },
+  { id: 'hiring', label: 'Hiring', group: 'Business' },
+  { id: 'wireless', label: 'Wireless bill', group: 'Business' },
+  { id: 'electronics', label: 'Computers & electronics', group: 'Business' },
   { id: 'fitness', label: 'Fitness', group: 'Wellness' },
   { id: 'wearables', label: 'Wearables', group: 'Wellness' },
   { id: 'custom', label: 'Your perks', group: 'Yours' },
@@ -84,6 +92,8 @@ export interface CardDef {
   sourceUrl?: string;
   /** True for cards the user created. */
   custom?: boolean;
+  /** Short "good to know" notes: quirks and conditions that affect the card's value. */
+  notes?: readonly string[];
   /** Rewards currency, e.g. "Membership Rewards points" (catalog cards only). */
   rewardsCurrency?: string;
   /** Points or miles per dollar by spending category, highest first (catalog cards only). */

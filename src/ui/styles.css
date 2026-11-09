@@ -1393,3 +1393,30 @@ td .unset-note {
 .warn-note {
   color: var(--warn);
 }
+
+.card-notes {
+  margin-top: 14px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.card-notes summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--target);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card-notes ul {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.card-notes li + li {
+  margin-top: 6px;
+}

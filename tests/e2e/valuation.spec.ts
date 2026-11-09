@@ -27,7 +27,7 @@ test('slider sets a value and updates card, tab and summary', async ({ page }) =
 });
 
 test('typing dollars moves the slider and is capped at face value', async ({ page }) => {
-  await addCards(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X$/);
   const travel = page.getByRole('textbox', { name: /^Capital One Travel credit/ });
   const slider = page.getByRole('slider', { name: /^Capital One Travel credit/ });
   await travel.fill('150');
@@ -40,7 +40,7 @@ test('typing dollars moves the slider and is capped at face value', async ({ pag
 });
 
 test('the slider works from the keyboard', async ({ page }) => {
-  await addCards(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X$/);
   const slider = page.getByRole('slider', { name: /^Capital One Travel credit/ });
   await slider.focus();
   await page.keyboard.press('End');
@@ -112,7 +112,7 @@ test('the card header stays pinned while scrolling through its perks', async ({ 
 });
 
 test('cards live in tabs; arrow keys switch; remove with undo', async ({ page }) => {
-  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X/);
+  await addCards(page, /Add American Express Gold Card/, /Add Capital One Venture X$/);
   await expect(page.getByRole('tab')).toHaveCount(2);
   await selectTab(page, /Gold Card/);
   await page.getByRole('slider', { name: /^Dining credit/ }).fill('100');
@@ -146,10 +146,10 @@ test('picker: issuer tabs and search', async ({ page }) => {
   await page.getByRole('button', { name: /^Value the cards I have/ }).click();
   const picker = page.getByRole('dialog', { name: 'Add a card' });
   await picker.getByRole('tab', { name: 'Chase' }).click();
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(2);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);
   await picker.getByRole('tab', { name: 'All' }).click();
   await picker.getByLabel('Search cards').fill('venture');
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(1);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(2);
   // Escape in a search box with text first clears it (browser behavior), then closes.
   await page.keyboard.press('Escape');
   if (await picker.isVisible()) await page.keyboard.press('Escape');

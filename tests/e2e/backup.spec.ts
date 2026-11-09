@@ -47,7 +47,7 @@ test('export, clear everything, import: identical result', async ({ page, browse
 
 test('pasted backups are validated before anything changes', async ({ page }) => {
   await page.goto('./');
-  await addCards(page, /Add Capital One Venture X/);
+  await addCards(page, /Add Capital One Venture X$/);
   await page.getByRole('button', { name: 'Back up or restore' }).click();
   const dialog = page.getByRole('dialog', { name: 'Back up or restore' });
   await expect(dialog).toBeVisible();

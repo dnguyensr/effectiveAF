@@ -47,7 +47,7 @@ describe('custom perks', () => {
     const store = renderApp();
     click(/^Value the cards I have/);
     const picker = screen.getByRole('dialog', { name: 'Add a card' });
-    click(/Add Capital One Venture X/, picker);
+    click(/Add Capital One Venture X$/, picker);
     click('Close', picker);
     return store;
   }

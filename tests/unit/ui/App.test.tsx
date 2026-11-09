@@ -66,8 +66,17 @@ describe('first visit', () => {
       within(picker)
         .getAllByRole('tab')
         .map((t) => t.textContent),
-    ).toEqual(['All', 'American Express', 'Chase', 'Capital One', 'Your cards']);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(5);
+    ).toEqual([
+      'All',
+      'American Express',
+      'Chase',
+      'Capital One',
+      'Citi',
+      'Bank of America',
+      'Bilt',
+      'Your cards',
+    ]);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(11);
   });
 
   it('"Compare cards" goes to the comparison and opens the picker there', () => {
@@ -94,7 +103,7 @@ describe('card picker', () => {
     click(/^Value the cards I have/);
     const picker = dialog('Add a card');
     clickTab('Chase', picker);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(2);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(3);
     const chase = within(picker).getByRole('tab', { name: 'Chase' });
     fireEvent.keyDown(chase, { key: 'ArrowRight' });
     expect(
@@ -112,7 +121,7 @@ describe('card picker', () => {
     fireEvent.keyDown(document.activeElement as HTMLElement, { key: 'a' });
     clickTab('All', picker);
     fireEvent.input(within(picker).getByLabelText('Search cards'), { target: { value: 'sapph' } });
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(2);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(3);
     fireEvent.input(within(picker).getByLabelText('Search cards'), { target: { value: 'zzz' } });
     expect(within(picker).getByText('No cards match.')).toBeTruthy();
   });
@@ -140,7 +149,7 @@ describe('wallet', () => {
   });
 
   it('shows one card at a time in tabs, switchable by click and arrow keys', () => {
-    walletWith(/Add American Express Gold Card/, /Add Capital One Venture X/);
+    walletWith(/Add American Express Gold Card/, /Add Capital One Venture X$/);
     const tabs = screen.getAllByRole('tab');
     expect(tabs.map((t) => t.getAttribute('aria-selected'))).toEqual(['false', 'true']);
     expect(screen.getByRole('tabpanel').textContent).toContain('Venture X');
@@ -253,7 +262,7 @@ describe('wallet', () => {
   });
 
   it('quick-sets a card and every card at once', () => {
-    walletWith(/Add American Express Platinum Card/, /Add Capital One Venture X/);
+    walletWith(/Add American Express Platinum Card/, /Add Capital One Venture X$/);
     fireEvent.click(screen.getByRole('tab', { name: /Platinum Card/ }));
     const bar = screen.getByRole('group', { name: 'Quick-set Platinum Card credits' });
     click('Full value', bar);
@@ -282,7 +291,7 @@ describe('wallet', () => {
   it('removes a card with undo, and lets the undo toast expire', () => {
     vi.useFakeTimers();
     try {
-      walletWith(/Add American Express Gold Card/, /Add Capital One Venture X/);
+      walletWith(/Add American Express Gold Card/, /Add Capital One Venture X$/);
       click('Remove from wallet');
       expect(screen.queryByRole('tab', { name: /Venture X/ })).toBeNull();
       expect(screen.getByRole('status').textContent).toContain('Removed Venture X.');
@@ -323,8 +332,15 @@ describe('wallet', () => {
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
   });
 
+  it("shows a card's good-to-know notes", () => {
+    walletWith(/Add Bilt Palladium Card/);
+    const notes = screen.getByText('Good to know').closest('details') as HTMLElement;
+    expect(within(notes).getAllByRole('listitem').length).toBeGreaterThan(1);
+    expect(notes.textContent).toContain('only one Bilt card');
+  });
+
   it('shows source, verification date, end dates and enrollment', () => {
-    walletWith(/Add Chase Sapphire Reserve/);
+    walletWith(/Add Chase Sapphire Reserve$/);
     const link = screen.getByRole('link', { name: 'Chase card page' });
     expect(link.getAttribute('rel')).toContain('noopener');
     expect(screen.getByText(/Card data checked Nov 8, 2026/)).toBeTruthy();
@@ -369,7 +385,7 @@ describe('compare', () => {
   });
 
   it('lines up credits by kind with "not offered" gaps and per-card totals', () => {
-    compareWith(/Compare American Express Platinum Card/, /Compare Capital One Venture X/);
+    compareWith(/Compare American Express Platinum Card/, /Compare Capital One Venture X$/);
     const table = screen.getByRole('table');
     const headers = within(table)
       .getAllByRole('columnheader')
@@ -391,7 +407,7 @@ describe('compare', () => {
   });
 
   it('values a compared card in a dialog and adds it to the wallet', () => {
-    compareWith(/Compare Capital One Venture X/);
+    compareWith(/Compare Capital One Venture X$/);
     expect(screen.getByText(/Add at least one more card/)).toBeTruthy();
     click('Set my values for Venture X');
     const editor = dialog('Your values: Venture X');
