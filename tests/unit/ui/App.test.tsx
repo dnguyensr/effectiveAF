@@ -143,9 +143,9 @@ describe('wallet', () => {
   it('starts every card at its full fee with every credit not set', () => {
     walletWith(/Add American Express Gold Card/);
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
-    expect(screen.getByText(/4 of 4 not set yet/)).toBeTruthy();
+    expect(screen.getByText(/5 of 5 not set yet/)).toBeTruthy();
     expect(screen.getByTestId('realized-amex-gold.dining').textContent).toContain('Not set');
-    expect(screen.getByRole('tab', { name: /Gold Card/ }).textContent).toContain('4 not set');
+    expect(screen.getByRole('tab', { name: /Gold Card/ }).textContent).toContain('5 not set');
   });
 
   it('shows one card at a time in tabs, switchable by click and arrow keys', () => {
@@ -170,7 +170,7 @@ describe('wallet', () => {
     expect(dollars.value).toBe('120');
     expect(screen.getByTestId('realized-amex-gold.dining').textContent).toContain('$120');
     expect(verdict('amex-gold')).toBe('Costs $205/yr');
-    expect(screen.getByText(/3 of 4 not set yet/)).toBeTruthy();
+    expect(screen.getByText(/4 of 5 not set yet/)).toBeTruthy();
 
     fireEvent.input(dollars, { target: { value: '30' } });
     expect(slider.value).toBe('25');
@@ -201,12 +201,12 @@ describe('wallet', () => {
     expect(screen.getByTestId('realized-amex-gold.dining').textContent).toContain("Won't use");
     expect(dollars.value).toBe('0');
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
-    expect(screen.getByText(/3 of 4 not set yet/)).toBeTruthy();
+    expect(screen.getByText(/4 of 5 not set yet/)).toBeTruthy();
 
     // Pressing it again clears the perk back to not set.
     fireEvent.click(wontUse);
     expect(wontUse.getAttribute('aria-pressed')).toBe('false');
-    expect(screen.getByText(/4 of 4 not set yet/)).toBeTruthy();
+    expect(screen.getByText(/5 of 5 not set yet/)).toBeTruthy();
 
     // Any slider move counts as using it again.
     fireEvent.click(wontUse);
@@ -332,6 +332,23 @@ describe('wallet', () => {
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
   });
 
+  it('tells users to confirm terms, and flags card data older than 90 days', () => {
+    walletWith(/Add Capital One Venture X$/);
+    const source = screen.getByText(/Card data checked/);
+    expect(source.textContent).toContain(
+      'confirm them on the Capital One card page before you apply',
+    );
+    expect(screen.queryByText('May be out of date')).toBeNull();
+    cleanup();
+
+    // The same card viewed more than 90 days after it was checked.
+    const later = createStore({ storage: undefined, now: () => new Date('2027-03-01T12:00:00') });
+    later.addCard('capital-one-venture-x');
+    history.replaceState(null, '', '/#wallet');
+    render(<App store={later} />);
+    expect(screen.getByText('May be out of date')).toBeTruthy();
+  });
+
   it("shows a card's good-to-know notes", () => {
     walletWith(/Add Bilt Palladium Card/);
     const notes = screen.getByText('Good to know').closest('details') as HTMLElement;
@@ -399,7 +416,7 @@ describe('compare', () => {
     expect(row('Global Entry / TSA PreCheck').textContent).not.toContain('Not offered');
     expect(row('Annual fee').textContent).toContain('$895');
     expect(row('Face value of credits').textContent).toContain('$3,024');
-    expect(screen.getByTestId('compare-value-amex-platinum').textContent).toContain('12 not set');
+    expect(screen.getByTestId('compare-value-amex-platinum').textContent).toContain('13 not set');
     expect(screen.getByTestId('compare-verdict-capital-one-venture-x').textContent).toBe(
       'Costs $395/yr',
     );

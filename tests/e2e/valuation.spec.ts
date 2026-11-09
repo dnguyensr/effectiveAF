@@ -9,7 +9,7 @@ test('first visit: choose, add a card, nothing is assumed', async ({ page }) => 
   await expect(page.getByRole('heading', { name: 'What would you like to do?' })).toBeVisible();
   await addCards(page, /Add American Express Gold Card/);
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
-  await expect(page.getByText('4 of 4 not set yet')).toBeVisible();
+  await expect(page.getByText('5 of 5 not set yet')).toBeVisible();
   await expect(page.getByTestId('realized-amex-gold.dining')).toContainText('Not set');
   await expect(page.getByTestId('summary-effective')).toHaveText('Costs $325/yr');
   await expect(page).toHaveURL(/#wallet$/);
@@ -22,7 +22,7 @@ test('slider sets a value and updates card, tab and summary', async ({ page }) =
   await expect(page.getByRole('textbox', { name: /^Resy dining credit/ })).toHaveValue('400');
   await expect(verdict(page, 'amex-platinum')).toHaveText('Costs $495/yr');
   await expect(page.getByRole('tab', { name: /Platinum Card/ })).toContainText('$495/yr');
-  await expect(page.getByRole('tab', { name: /Platinum Card/ })).toContainText('11 not set');
+  await expect(page.getByRole('tab', { name: /Platinum Card/ })).toContainText('12 not set');
   await expect(page.getByTestId('summary-realized')).toHaveText('$400');
 });
 

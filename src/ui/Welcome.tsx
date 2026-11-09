@@ -27,6 +27,8 @@ export function Welcome({ onValueCards, onCompare }: Props) {
       </div>
       <p class="hint">
         Nothing is filled in for you: every credit starts at $0 until you decide what it's worth.
+        Card credits come from issuers' public pages and change often; always confirm the current
+        terms with the issuer before you apply, renew or cancel.
       </p>
     </section>
   );

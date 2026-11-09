@@ -1420,3 +1420,69 @@ td .unset-note {
 .card-notes li + li {
   margin-top: 6px;
 }
+
+.tag-stale {
+  color: var(--warn);
+  border-color: currentColor;
+}
+
+/* Pay-in-full asterisk and question */
+.verdict-wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.pay-asterisk {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.asterisk-button {
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: var(--target);
+  min-height: var(--target);
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--warn);
+  cursor: pointer;
+}
+
+.asterisk-button:hover {
+  background: var(--warn-bg);
+}
+
+.pay-note {
+  display: block;
+  flex-basis: 100%;
+  max-width: 36rem;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--warn);
+  border-radius: 8px;
+  background: var(--warn-bg);
+  color: var(--text);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  text-align: left;
+}
+
+.pay-question {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.pay-question-text {
+  font-weight: 600;
+  margin-bottom: 8px;
+}

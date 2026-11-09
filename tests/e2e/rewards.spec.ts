@@ -33,7 +33,8 @@ test('the forum summary lists every card and the total', async ({ page }) => {
   await page.getByRole('button', { name: 'Copy summary for forums' }).click();
   const text = page.getByRole('dialog', { name: 'Share a summary' }).getByLabel('Summary text');
   await expect(text).toHaveValue(
-    /\| American Express Gold Card \| \$325 \| \$0 of \$424 \| Costs \$325\/yr \|/,
+    // "\*" marks a result not yet confirmed as paid in full.
+    /\| American Express Gold Card \| \$325 \| \$0 of \$424 \| Costs \$325\/yr\\\* \|/,
   );
   await expect(text).toHaveValue(/\| \*\*Total\*\* \| \*\*\$720\*\*/);
 });
@@ -48,7 +49,6 @@ test('copy the summary to the clipboard', async ({ page, context, browserName })
   await dialog.getByRole('button', { name: 'Copy to clipboard' }).click();
   await expect(dialog.getByText('Copied to clipboard.')).toBeVisible();
   const copied = await page.evaluate(() => navigator.clipboard.readText());
-  expect(copied).toContain(
-    '_Calculated with effectiveAF: https://dnguyensr.github.io/effectiveAF/_',
-  );
+  expect(copied).toContain('Calculated with effectiveAF: https://dnguyensr.github.io/effectiveAF/');
+  expect(copied).toContain('check current terms');
 });

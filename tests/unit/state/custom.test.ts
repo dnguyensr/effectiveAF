@@ -128,7 +128,7 @@ describe('store: presets', () => {
     expect(store.summary.value.cards[0]?.realizedCents).toBe(302400);
     store.applyPreset('amex-platinum', 'clear');
     expect(store.summary.value.cards[0]?.realizedCents).toBe(0);
-    expect(store.summary.value.cards[0]?.unsetCount).toBe(12);
+    expect(store.summary.value.cards[0]?.unsetCount).toBe(13);
     store.applyPreset('nope', 'face');
   });
 

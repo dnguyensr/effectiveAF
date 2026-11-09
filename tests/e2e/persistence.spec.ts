@@ -58,7 +58,8 @@ test('a v1 user keeps their numbers after the upgrade', async ({ page }) => {
   );
   await page.goto('./');
   await expect(verdict(page, 'capital-one-venture-x')).toHaveText('Costs $10/yr');
-  await expect(page.getByText(/not set yet/)).toHaveCount(0);
+  // Every credit carried over from v1; only the newer pay-in-full question is open.
+  await expect(page.getByText('1 of 4 not set yet')).toBeVisible();
 });
 
 test.describe('saved data from every schema version loads', () => {

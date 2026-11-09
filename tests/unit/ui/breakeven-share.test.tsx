@@ -146,7 +146,7 @@ describe('share dialog', () => {
     const dialog = screen.getByRole('dialog', { name: 'Share a summary' });
     const text = (within(dialog).getByLabelText('Summary text') as HTMLTextAreaElement).value;
     expect(text).toContain(
-      '| American Express Gold Card | $325 | $424 of $424 | Pays for itself (+$99) |',
+      '| American Express Gold Card | $325 | $424 of $424 | Pays for itself (+$99)\\* |',
     );
     fireEvent.focus(within(dialog).getByLabelText('Summary text'));
     fireEvent.click(within(dialog).getByRole('button', { name: 'Copy to clipboard' }));

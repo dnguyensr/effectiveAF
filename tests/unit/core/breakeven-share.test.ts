@@ -7,7 +7,7 @@ import { breakEven } from '../../../src/core/breakeven';
 import { summarizeCard } from '../../../src/core/card-math';
 import { applyPreset } from '../../../src/core/presets';
 import { customCardDef } from '../../../src/core/resolve';
-import { walletMarkdown } from '../../../src/core/share';
+import { PAY_IN_FULL_FOOTNOTE, walletMarkdown } from '../../../src/core/share';
 import { summarizeWallet } from '../../../src/core/wallet-math';
 
 const rates = (id: string) => (findCard(id) as CardDef).earnRates ?? [];
@@ -114,8 +114,9 @@ describe('walletMarkdown', () => {
             'amex-platinum.resy': { mode: 'percent', percent: 50, enabled: true },
             'amex-platinum.equinox': { mode: 'percent', percent: 0, enabled: false },
           },
+          paysInFull: false,
         },
-        'amex-gold': { perks: applyPreset(gold, {}, 'face') },
+        'amex-gold': { perks: applyPreset(gold, {}, 'face'), paysInFull: true },
       },
       '2026-11-08',
     );
@@ -125,16 +126,18 @@ describe('walletMarkdown', () => {
         '',
         '| Card | Annual fee | Credits I actually use | Effective cost |',
         '|---|--:|--:|---|',
-        '| American Express Platinum Card | $895 | $200 of $3,024 | Costs $695/yr |',
+        '| American Express Platinum Card | $895 | $200 of $3,024 | Costs $695/yr\\* |',
         '| American Express Gold Card | $325 | $424 of $424 | Pays for itself (+$99) |',
-        '| Pipe \\| Card | $0 | $0 of $0 | Pays for itself (+$0) |',
-        '| **Total** | **$1,220** | **$624** | **Costs $596/yr** |',
+        '| Pipe \\| Card | $0 | $0 of $0 | Pays for itself (+$0)\\* |',
+        '| **Total** | **$1,220** | **$624** | **Costs $596/yr**\\* |',
         '',
-        "**Platinum Card:** using Resy dining credit ($200); won't use Equinox credit; 10 not valued yet.",
+        "**Platinum Card:** using Resy dining credit ($200); won't use Equinox credit; 10 not valued yet; I don't always pay it in full.",
         "**Gold Card:** using Dining credit ($120), Uber Cash ($120), Resy dining credit ($100), Dunkin' credit ($84).",
         '**Pipe \\| Card:** using no credits.',
         '',
-        '_Calculated with effectiveAF: https://dnguyensr.github.io/effectiveAF/_',
+        PAY_IN_FULL_FOOTNOTE,
+        '',
+        "_Calculated with effectiveAF: https://dnguyensr.github.io/effectiveAF/. Credit amounts come from issuers' public pages and change often; check current terms._",
         '',
       ].join('\n'),
     );
@@ -149,8 +152,8 @@ describe('walletMarkdown', () => {
     const vx = findCard('capital-one-venture-x') as CardDef;
     const s = summarizeCard(vx, undefined, '2026-11-08');
     const md = walletMarkdown(summarizeWallet([vx], [vx.id], {}, '2026-11-08'), '2026-11-08');
-    expect(md).toContain(`| Capital One Venture X | $395 | $0 of ${'$430'} | Costs $395/yr |`);
-    expect(s.unsetCount).toBe(3);
+    expect(md).toContain(`| Capital One Venture X | $395 | $0 of ${'$430'} | Costs $395/yr\\* |`);
+    expect(s.unsetCount).toBe(4);
     expect(md).toContain('**Venture X:** using no credits; 3 not valued yet.');
   });
 });

@@ -7,6 +7,7 @@ import { annualNominalCents } from '../core/valuation';
 import { CardPanel } from './CardPanel';
 import { Modal } from './Modal';
 import { useStore } from './store-context';
+import { PayInFullNote } from './PayInFullNote';
 import { VerdictPill } from './VerdictPill';
 
 /** Cards side by side, like a car-trim sheet: rows are kinds of perk, "—" means none. */
@@ -38,7 +39,8 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
         <>
           <p class="hint">
             Similar credits share a row; “—” means the card doesn't have one. Your value and
-            effective cost use the values you set for each card.
+            effective cost use the values you set for each card. Credits change often, so confirm
+            the current terms on each issuer's site before deciding.
           </p>
           <div class="compare-scroll" role="region" aria-label="Comparison table" tabIndex={0}>
             <table class="compare">
@@ -162,6 +164,9 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
                         considering={c.ownership === 'considering'}
                         testId={`compare-verdict-${c.card.id}`}
                       />
+                      {c.paysInFull !== true && (
+                        <PayInFullNote id={`${c.card.id}-compare`} paysInFull={c.paysInFull} />
+                      )}
                     </td>
                   ))}
                 </tr>

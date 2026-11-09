@@ -66,7 +66,7 @@ describe('hand-computed scenarios', () => {
     const s = summarizeCard(card('amex-platinum'), undefined, '2026-11-08');
     expect(s.realizedCents).toBe(0);
     expect(s.effectiveCents).toBe(89500);
-    expect(s.unsetCount).toBe(12);
+    expect(s.unsetCount).toBe(13);
   });
 
   it('Platinum face value totals $3,024 (whole dollars)', () => {

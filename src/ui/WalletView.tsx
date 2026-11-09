@@ -70,6 +70,12 @@ export function WalletView({ activeCardId, onSelect, onAddCard }: Props) {
                     {c.verdict === 'costs'
                       ? `${formatUsd(c.effectiveCents)}/yr`
                       : `+${formatUsd(-c.effectiveCents)}`}
+                    {c.paysInFull !== true && (
+                      <>
+                        <span aria-hidden="true">*</span>
+                        <span class="visually-hidden"> (assumes paying in full)</span>
+                      </>
+                    )}
                   </span>
                   {c.ownership === 'considering' && (
                     <span class="tag tag-considering">Considering</span>

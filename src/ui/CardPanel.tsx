@@ -4,10 +4,14 @@ import type { CardSummary } from '../core/card-math';
 import { formatIsoDate } from '../core/dates';
 import { formatUsd } from '../core/money';
 import { PRESETS } from '../core/presets';
-import { nextResetDate } from '../core/resets';
+import { daysBetween, nextResetDate } from '../core/resets';
+
+/** Matches the monthly catalog staleness check in CI. */
+const STALE_AFTER_DAYS = 90;
 import { BreakEven } from './BreakEven';
 import { CustomPerkForm } from './CustomForms';
 import { MoneyInput } from './MoneyInput';
+import { INTEREST_WARNING, PayInFullNote } from './PayInFullNote';
 import { PerkRow } from './PerkRow';
 import { useStore } from './store-context';
 import { VerdictPill } from './VerdictPill';
@@ -62,12 +66,17 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
           ) : (
             <span />
           )}
-          <VerdictPill
-            effectiveCents={summary.effectiveCents}
-            verdict={summary.verdict}
-            considering={considering}
-            testId={`verdict-${card.id}`}
-          />
+          <span class="verdict-wrap">
+            <VerdictPill
+              effectiveCents={summary.effectiveCents}
+              verdict={summary.verdict}
+              considering={considering}
+              testId={`verdict-${card.id}`}
+            />
+            {summary.paysInFull !== true && (
+              <PayInFullNote id={`${card.id}-header`} paysInFull={summary.paysInFull} />
+            )}
+          </span>
         </div>
         <p class="card-stats">
           {formatUsd(summary.feeCents)} fee · {formatUsd(summary.realizedCents)} of{' '}
@@ -75,7 +84,7 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
           {summary.unsetCount > 0 && (
             <span class="unset-note">
               {' '}
-              · {summary.unsetCount} of {summary.perks.length} not set yet
+              · {summary.unsetCount} of {summary.itemCount} not set yet
             </span>
           )}
         </p>
@@ -233,12 +242,60 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
             </button>
           )}
         </div>
+        <div class="pay-question" role="group" aria-labelledby={`pay-q-${card.id}`}>
+          <p id={`pay-q-${card.id}`} class="pay-question-text">
+            Will you pay this card's statement balance in full every month?
+          </p>
+          <div class="ownership">
+            <button
+              type="button"
+              class="chip"
+              aria-pressed={summary.paysInFull === true}
+              onClick={() => store.setPaysInFull(card.id, true)}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              class="chip"
+              aria-pressed={summary.paysInFull === false}
+              onClick={() => store.setPaysInFull(card.id, false)}
+            >
+              Not always
+            </button>
+            {summary.paysInFull !== undefined &&
+              inWallet &&
+              store.state.value.wallet.length > 1 && (
+                <button
+                  type="button"
+                  class="link-button"
+                  onClick={() => store.applyPaysInFullToWallet(summary.paysInFull === true)}
+                >
+                  Use this answer for all my cards
+                </button>
+              )}
+          </div>
+          {summary.paysInFull === false && (
+            <p class="hint warn-note">
+              The results above assume paying in full. {INTEREST_WARNING} Paying the balance in full
+              matters more than any card's credits.
+            </p>
+          )}
+        </div>
+
         {card.lastVerified && card.sourceUrl ? (
           <p class="source">
-            Card data checked {formatIsoDate(card.lastVerified)} ·{' '}
+            {daysBetween(card.lastVerified, store.asOf) > STALE_AFTER_DAYS && (
+              <>
+                <span class="tag tag-stale">May be out of date</span>{' '}
+              </>
+            )}
+            Card data checked {formatIsoDate(card.lastVerified)}. Credits and terms change often, so
+            confirm them on the{' '}
             <a href={card.sourceUrl} target="_blank" rel="noopener noreferrer">
               {card.issuer} card page
-            </a>
+            </a>{' '}
+            before you apply, renew or cancel.
           </p>
         ) : (
           <p class="source">A card you created.</p>

@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import type { WalletSummary as Summary } from '../core/wallet-math';
 import { formatUsd } from '../core/money';
+import { PayInFullNote } from './PayInFullNote';
 import { verdictText } from './VerdictPill';
 
 export function WalletSummary({ summary }: { summary: Summary }) {
+  const unconfirmed = summary.cards.filter((c) => c.ownership === 'have' && c.paysInFull !== true);
   return (
     <section class="summary" aria-labelledby="summary-title">
       <h2 id="summary-title" class="visually-hidden">
@@ -22,8 +24,17 @@ export function WalletSummary({ summary }: { summary: Summary }) {
         </div>
         <div>
           <dt>Effective cost</dt>
-          <dd data-testid="summary-effective" class={summary.verdict === 'costs' ? 'bad' : 'good'}>
-            {verdictText(summary.effectiveCents, summary.verdict)}
+          <dd class={summary.verdict === 'costs' ? 'bad' : 'good'}>
+            <span data-testid="summary-effective">
+              {verdictText(summary.effectiveCents, summary.verdict)}
+            </span>
+            {unconfirmed.length > 0 && (
+              <PayInFullNote
+                id="wallet-summary"
+                paysInFull={unconfirmed.some((c) => c.paysInFull === false) ? false : undefined}
+                subject="some of your cards"
+              />
+            )}
           </dd>
         </div>
       </dl>

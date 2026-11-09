@@ -98,9 +98,9 @@ describe('forum summary', () => {
     );
     const md = walletMarkdown(w, '2026-11-08');
     expect(md).toContain(
-      '| Capital One Venture X _(considering)_ | $395 | $0 of $430 | Would cost $395/yr |',
+      '| Capital One Venture X _(considering)_ | $395 | $0 of $430 | Would cost $395/yr\\* |',
     );
-    expect(md).toContain('| **Total, cards I have** | **$325** | **$0** | **Costs $325/yr** |');
+    expect(md).toContain('| **Total, cards I have** | **$325** | **$0** | **Costs $325/yr**\\* |');
     expect(md).toContain('**Venture X (considering):** using no credits; 3 not valued yet.');
   });
 

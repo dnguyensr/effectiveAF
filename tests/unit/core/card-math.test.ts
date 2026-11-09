@@ -69,14 +69,14 @@ describe('summarizeCard', () => {
     expect(s.effectiveCents).toBe(25000);
     expect(s.verdict).toBe('costs');
     expect(s.perks.map((p) => p.status)).toEqual(['unset', 'unset']);
-    expect(s.unsetCount).toBe(2);
+    expect(s.unsetCount).toBe(3);
   });
 
   it('totals the values the user set', () => {
     const s = summarizeCard(testCard, valued, '2026-11-08');
     expect(s.realizedCents).toBe(6000 + 10000);
     expect(s.effectiveCents).toBe(9000);
-    expect(s.unsetCount).toBe(0);
+    expect(s.unsetCount).toBe(1);
   });
 
   it('drops expired perks from the list and every total', () => {
@@ -104,7 +104,7 @@ describe('summarizeCard', () => {
     expect(s.effectiveCents).toBe(-7000);
     expect(s.verdict).toBe('pays-for-itself');
     expect(s.perks.map((p) => p.status)).toEqual(['using', 'skipped']);
-    expect(s.unsetCount).toBe(0);
+    expect(s.unsetCount).toBe(1);
   });
 
   it('does not flag an override equal to the catalog fee', () => {

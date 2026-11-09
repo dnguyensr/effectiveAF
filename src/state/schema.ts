@@ -67,6 +67,7 @@ const CustomCardSchema = z.object({
 
 const CardUserStateSchema = z.object({
   ownership: z.optional(z.enum(['have', 'considering'])),
+  paysInFull: z.optional(z.boolean()),
   feeOverrideCents: z.optional(Cents),
   anniversaryMonth: z.optional(z.int().check(z.minimum(1), z.maximum(12))),
   pointValueCents: z.optional(

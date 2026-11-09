@@ -158,6 +158,7 @@ export function createStore({
       ...(cs?.anniversaryMonth !== undefined ? { anniversaryMonth: cs.anniversaryMonth } : {}),
       ...(cs?.pointValueCents !== undefined ? { pointValueCents: cs.pointValueCents } : {}),
       ...(cs?.ownership !== undefined ? { ownership: cs.ownership } : {}),
+      ...(cs?.paysInFull !== undefined ? { paysInFull: cs.paysInFull } : {}),
     };
     return Object.keys(kept).length > 1 ? kept : undefined;
   }
@@ -237,6 +238,27 @@ export function createStore({
       if (ownership !== undefined) {
         const cs = next.cards[cardId] ?? { perks: {} };
         next = withCard(next, cardId, withOwnership(cs, ownership));
+      }
+      commit(next);
+    },
+
+    /** Will the user pay this card in full every month? null clears the answer. */
+    setPaysInFull(cardId: string, paysInFull: boolean | null) {
+      if (!findCard(cardId)) return;
+      updateCard(cardId, (cs) => {
+        if (paysInFull === null) delete cs.paysInFull;
+        else cs.paysInFull = paysInFull;
+        return cs;
+      });
+    },
+
+    /** Gives every card in the wallet the same pay-in-full answer. */
+    applyPaysInFullToWallet(paysInFull: boolean) {
+      let next: Omit<UserState, 'updatedAt'> = state.value;
+      for (const cardId of state.value.wallet) {
+        if (!findCard(cardId)) continue;
+        const cs = next.cards[cardId] ?? { perks: {} };
+        next = withCard(next, cardId, { ...cs, paysInFull });
       }
       commit(next);
     },

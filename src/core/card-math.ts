@@ -17,6 +17,11 @@ export type Ownership = 'have' | 'considering';
 export interface CardUserState {
   /** Defaults to "have". */
   ownership?: Ownership | undefined;
+  /**
+   * Whether the user will pay this card's statement balance in full every month. Unanswered
+   * (undefined) counts as one more thing not set yet. All results assume paying in full.
+   */
+  paysInFull?: boolean | undefined;
   feeOverrideCents?: number | undefined;
   perks: Record<string, PerkValuation>;
   /** Month (1-12) the account was opened; anchors cardmember-year resets. */
@@ -48,8 +53,15 @@ export interface CardSummary {
   verdict: Verdict;
   /** Perks still offered on `asOf`; expired ones are left out of every total. */
   perks: PerkSummary[];
-  /** How many of `perks` the user hasn't valued yet. */
+  /**
+   * Things still to decide: perks not valued yet, plus the pay-in-full question if unanswered
+   * (treated like a credit that can only cost you).
+   */
   unsetCount: number;
+  /** Total number of things to decide: every perk plus the pay-in-full question. */
+  itemCount: number;
+  /** true: pays in full; false: not always; undefined: not answered yet. */
+  paysInFull: boolean | undefined;
   ownership: Ownership;
 }
 
@@ -91,7 +103,11 @@ export function summarizeCard(
     effectiveCents,
     verdict: verdictFor(effectiveCents),
     perks,
-    unsetCount: perks.filter((p) => p.status === 'unset').length,
+    unsetCount:
+      perks.filter((p) => p.status === 'unset').length +
+      (userState?.paysInFull === undefined ? 1 : 0),
+    itemCount: perks.length + 1,
+    paysInFull: userState?.paysInFull,
     ownership: userState?.ownership ?? 'have',
   };
 }

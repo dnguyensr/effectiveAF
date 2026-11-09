@@ -100,7 +100,7 @@ describe('presets', () => {
     const s = total('face');
     expect(s.realizedCents).toBe(302400);
     expect(s.effectiveCents).toBe(-212900);
-    expect(s.unsetCount).toBe(0);
+    expect(s.unsetCount).toBe(1);
   });
 
   it('half value: every credit at 50%, rounded per credit, pays for itself by $618', () => {
@@ -121,7 +121,7 @@ describe('presets', () => {
     expect(new Set(skipped)).toEqual(
       new Set(['entertainment', 'retail', 'membership', 'wellness']),
     );
-    expect(s.unsetCount).toBe(0);
+    expect(s.unsetCount).toBe(1);
   });
 
   it('clear: everything back to not set, the full fee is the cost', () => {
@@ -132,7 +132,7 @@ describe('presets', () => {
     );
     expect(s.realizedCents).toBe(0);
     expect(s.effectiveCents).toBe(89500);
-    expect(s.unsetCount).toBe(platinum.perks.length);
+    expect(s.unsetCount).toBe(platinum.perks.length + 1);
   });
 
   it('never touches custom perks or entries for other perks', () => {
