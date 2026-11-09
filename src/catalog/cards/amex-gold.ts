@@ -8,6 +8,13 @@ export const amexGold: CardDef = {
   annualFeeCents: 32500,
   lastVerified: '2026-11-08',
   sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/gold-card/',
+  rewardsCurrency: 'Membership Rewards points',
+  earnRates: [
+    { category: 'Restaurants worldwide', multiplier: 4, note: 'up to $50,000 a year' },
+    { category: 'U.S. supermarkets', multiplier: 4, note: 'up to $25,000 a year' },
+    { category: 'Flights booked directly with airlines or Amex Travel', multiplier: 3 },
+    { category: 'Everything else', multiplier: 1 },
+  ],
   perks: [
     {
       id: 'amex-gold.dining',

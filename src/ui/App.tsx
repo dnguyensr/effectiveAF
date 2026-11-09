@@ -6,6 +6,7 @@ import { BackupDialog } from './BackupDialog';
 import { CardPicker, type PickerMode } from './CardPicker';
 import { CompareView } from './CompareView';
 import { useHashRoute, type Route } from './navigation';
+import { ShareDialog } from './ShareDialog';
 import { StoreContext } from './store-context';
 import { ThemeToggle } from './ThemeToggle';
 import { WalletView } from './WalletView';
@@ -17,6 +18,7 @@ export function App({ store }: { store: Store }) {
   const [route, go] = useHashRoute();
   const [picker, setPicker] = useState<PickerMode | null>(null);
   const [backupOpen, setBackupOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const { wallet, compare, customCards } = store.state.value;
@@ -71,6 +73,11 @@ export function App({ store }: { store: Store }) {
             Back up or restore
           </button>
           {view === 'wallet' && wallet.length > 0 && (
+            <button type="button" class="btn" onClick={() => setShareOpen(true)}>
+              Copy summary for forums
+            </button>
+          )}
+          {view === 'wallet' && wallet.length > 0 && (
             <button
               type="button"
               class="btn"
@@ -93,6 +100,7 @@ export function App({ store }: { store: Store }) {
         onAdded={setActiveCard}
       />
       <BackupDialog open={backupOpen} onClose={() => setBackupOpen(false)} />
+      <ShareDialog open={shareOpen} onClose={() => setShareOpen(false)} />
 
       <footer class="site-footer">
         <p>

@@ -6,3 +6,4 @@ notes
 temp
 tests/baselines
 package-lock.json
+scripts/sw

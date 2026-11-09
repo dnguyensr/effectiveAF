@@ -84,6 +84,17 @@ export interface CardDef {
   sourceUrl?: string;
   /** True for cards the user created. */
   custom?: boolean;
+  /** Rewards currency, e.g. "Membership Rewards points" (catalog cards only). */
+  rewardsCurrency?: string;
+  /** Points or miles per dollar by spending category, highest first (catalog cards only). */
+  earnRates?: readonly EarnRate[];
+}
+
+export interface EarnRate {
+  category: string;
+  /** Points or miles per dollar. */
+  multiplier: number;
+  note?: string;
 }
 
 /** A perk or benefit the user adds, to a catalog card or their own card. Stored in user state. */

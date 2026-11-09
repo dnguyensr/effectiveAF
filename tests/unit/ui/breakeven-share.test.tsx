@@ -1,0 +1,136 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/preact';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { parseImport } from '../../../src/state/import-export';
+import { createEmptyState } from '../../../src/state/migrations';
+import { createStore } from '../../../src/state/store';
+import { App } from '../../../src/ui/App';
+import { FIXED_NOW, memoryStorage } from '../helpers';
+
+function setup(...cards: string[]) {
+  let n = 0;
+  const store = createStore({
+    storage: memoryStorage(),
+    now: () => FIXED_NOW,
+    saveDelayMs: 0,
+    randomId: () => `t${++n}`,
+  });
+  for (const id of cards) store.addCard(id);
+  return store;
+}
+
+beforeEach(() => {
+  history.replaceState(null, '', '/#wallet');
+});
+
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
+
+describe('store: point value', () => {
+  it('sets, rounds, validates and clears; clearing a card keeps it', () => {
+    const store = setup('amex-gold');
+    store.setPointValue('amex-gold', 1.256);
+    expect(store.state.value.cards['amex-gold']?.pointValueCents).toBe(1.26);
+    store.setPointValue('amex-gold', 9);
+    expect(store.state.value.cards['amex-gold']?.pointValueCents).toBeUndefined();
+    store.setPointValue('amex-gold', 1.5);
+    store.applyPreset('amex-gold', 'face');
+    store.resetCard('amex-gold');
+    expect(store.state.value.cards['amex-gold']).toEqual({ perks: {}, pointValueCents: 1.5 });
+    store.setPointValue('amex-gold', null);
+    expect(store.state.value.cards['amex-gold']).toEqual({ perks: {} });
+    store.setPointValue('amex-gold', Number.NaN);
+    store.setPointValue('nope', 1);
+    expect(store.state.value.cards.nope).toBeUndefined();
+  });
+
+  it('validates the point value in saved data', () => {
+    const withValue = (v: unknown) =>
+      parseImport(
+        JSON.stringify({
+          ...createEmptyState('x'),
+          cards: { 'amex-gold': { perks: {}, pointValueCents: v } },
+        }),
+      ).ok;
+    expect(withValue(1.5)).toBe(true);
+    expect(withValue(0.05)).toBe(false);
+    expect(withValue(6)).toBe(false);
+    expect(withValue('1')).toBe(false);
+  });
+});
+
+describe('break-even UI', () => {
+  it('shows monthly spend per category, updating with the point value', () => {
+    render(<App store={setup('capital-one-venture-x')} />);
+    const section = screen.getByRole('region', { name: 'Making up the difference with rewards' });
+    const row = (name: RegExp) =>
+      within(section).getByRole('rowheader', { name }).closest('tr') as HTMLElement;
+    expect(row(/^Hotels and rental cars/).textContent).toContain('$412/mo');
+    expect(row(/^Everything else/).textContent).toContain('No better than 2% cash back');
+
+    const input = within(section).getByLabelText('Capital One miles worth');
+    fireEvent.input(input, { target: { value: '' } });
+    expect((input as HTMLInputElement).value).toBe('');
+    fireEvent.input(input, { target: { value: '1.5' } });
+    // 2x × 1.5¢ = 3¢ − 2¢ = 1¢ → $395 / 0.01 / 12 = $3,291.67 → $3,292
+    expect(row(/^Everything else/).textContent).toContain('$3,292/mo');
+    fireEvent.input(input, { target: { value: '50' } });
+    expect(row(/^Everything else/).textContent).toContain('No better than 2% cash back');
+    fireEvent.blur(input);
+    expect((input as HTMLInputElement).value).toBe('1');
+  });
+
+  it('says the card already pays for itself, and is absent for custom cards', () => {
+    const store = setup('amex-gold');
+    store.applyPreset('amex-gold', 'face');
+    render(<App store={store} />);
+    expect(screen.getByText(/already pays for itself from credits alone/)).toBeTruthy();
+    cleanup();
+
+    const custom = setup();
+    const id = custom.addCustomCard({ issuer: '', name: 'Mine', annualFeeCents: 9500 }) as string;
+    custom.addCard(id);
+    render(<App store={custom} />);
+    expect(
+      screen.queryByRole('region', { name: 'Making up the difference with rewards' }),
+    ).toBeNull();
+  });
+});
+
+describe('share dialog', () => {
+  it('shows the Markdown summary and copies it', async () => {
+    const store = setup('amex-gold');
+    act(() => {
+      store.applyPreset('amex-gold', 'face');
+    });
+    render(<App store={store} />);
+    const writeText = vi.fn(() => Promise.resolve());
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Copy summary for forums' }));
+    const dialog = screen.getByRole('dialog', { name: 'Share a summary' });
+    const text = (within(dialog).getByLabelText('Summary text') as HTMLTextAreaElement).value;
+    expect(text).toContain(
+      '| American Express Gold Card | $325 | $424 of $424 | Pays for itself (+$99) |',
+    );
+    fireEvent.focus(within(dialog).getByLabelText('Summary text'));
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Copy to clipboard' }));
+    expect(writeText).toHaveBeenCalledWith(text);
+    expect(await within(dialog).findByText('Copied to clipboard.')).toBeTruthy();
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
+    expect(screen.queryByRole('dialog', { name: 'Share a summary' })).toBeNull();
+  });
+
+  it('tells the user to copy by hand if the clipboard is refused', async () => {
+    render(<App store={setup('amex-gold')} />);
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: () => Promise.reject(new Error('denied')) },
+      configurable: true,
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Copy summary for forums' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Copy to clipboard' }));
+    expect(await screen.findByText(/select the text and copy it/)).toBeTruthy();
+  });
+});

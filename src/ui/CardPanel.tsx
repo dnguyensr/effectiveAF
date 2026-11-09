@@ -4,6 +4,7 @@ import { formatIsoDate } from '../core/dates';
 import { formatUsd } from '../core/money';
 import { PRESETS } from '../core/presets';
 import { nextResetDate } from '../core/resets';
+import { BreakEven } from './BreakEven';
 import { CustomPerkForm } from './CustomForms';
 import { MoneyInput } from './MoneyInput';
 import { PerkRow } from './PerkRow';
@@ -163,6 +164,8 @@ export function CardPanel({ summary, onRemove, showTitle = true }: Props) {
         <div class="add-perk">
           <CustomPerkForm cardId={card.id} cardName={card.name} />
         </div>
+
+        <BreakEven summary={summary} />
 
         <div class="card-actions">
           <button type="button" class="btn" onClick={() => store.resetCard(card.id)}>

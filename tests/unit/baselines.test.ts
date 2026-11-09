@@ -30,10 +30,13 @@ describe('baselines', () => {
         id: p.id,
         cadence: p.cadence,
         perPeriod: usd(p.amountPerPeriodCents),
+        kind: p.kind,
         annualNominal: usd(annualNominalCents(p)),
         ...(p.endsOn ? { endsOn: p.endsOn } : {}),
       })),
       totalNominal: usd(card.perks.reduce((s, p) => s + annualNominalCents(p), 0)),
+      rewardsCurrency: card.rewardsCurrency,
+      earnRates: card.earnRates?.map((r) => `${r.multiplier}x ${r.category}`),
     }));
     await expect(json(summary)).toMatchFileSnapshot('../baselines/catalog-summary.json');
   });

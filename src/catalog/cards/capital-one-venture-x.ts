@@ -8,6 +8,12 @@ export const capitalOneVentureX: CardDef = {
   annualFeeCents: 39500,
   lastVerified: '2026-11-08',
   sourceUrl: 'https://www.capitalone.com/credit-cards/venture-x/',
+  rewardsCurrency: 'Capital One miles',
+  earnRates: [
+    { category: 'Hotels and rental cars via Capital One Travel', multiplier: 10 },
+    { category: 'Flights and vacation rentals via Capital One Travel', multiplier: 5 },
+    { category: 'Everything else', multiplier: 2 },
+  ],
   perks: [
     {
       id: 'capital-one-venture-x.travel',

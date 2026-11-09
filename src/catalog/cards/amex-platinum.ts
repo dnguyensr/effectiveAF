@@ -8,6 +8,16 @@ export const amexPlatinum: CardDef = {
   annualFeeCents: 89500,
   lastVerified: '2026-11-08',
   sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/platinum/',
+  rewardsCurrency: 'Membership Rewards points',
+  earnRates: [
+    {
+      category: 'Flights booked directly with airlines or Amex Travel',
+      multiplier: 5,
+      note: 'up to $500,000 a year',
+    },
+    { category: 'Prepaid hotels on Amex Travel', multiplier: 5 },
+    { category: 'Everything else', multiplier: 1 },
+  ],
   perks: [
     {
       id: 'amex-platinum.hotel',

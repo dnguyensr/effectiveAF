@@ -15,6 +15,8 @@ export interface CardUserState {
   perks: Record<string, PerkValuation>;
   /** Month (1-12) the account was opened; anchors cardmember-year resets. */
   anniversaryMonth?: number | undefined;
+  /** What the user thinks one point or mile is worth, in cents (for break-even). */
+  pointValueCents?: number | undefined;
   /** Perks or benefits the user added to this card. */
   customPerks?: CustomPerkInput[] | undefined;
 }

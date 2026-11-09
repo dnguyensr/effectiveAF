@@ -9,6 +9,7 @@ import type { Cadence, CardDef } from '../catalog/types';
 import { summarizeCard, type CardSummary, type CardUserState } from '../core/card-math';
 import { localIsoDate } from '../core/dates';
 import { clamp } from '../core/money';
+import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
 import { applyPreset, type PresetId } from '../core/presets';
 import { resolveCards } from '../core/resolve';
 import { upcomingResets } from '../core/resets';
@@ -129,14 +130,18 @@ export function createStore({
     commit(withCard(state.value, cardId, fn({ ...current, perks: { ...current.perks } })));
   }
 
-  /** What clearing leaves behind: facts about the account (custom perks, anniversary month). */
+  /**
+   * What clearing leaves behind: facts and settings about the account (custom perks, anniversary
+   * month, point value), not valuations.
+   */
   function resetState(cs: CardUserState | undefined): CardUserState | undefined {
-    if (!cs?.customPerks?.length && cs?.anniversaryMonth === undefined) return undefined;
-    return {
+    const kept: CardUserState = {
       perks: {},
-      ...(cs.customPerks?.length ? { customPerks: cs.customPerks } : {}),
-      ...(cs.anniversaryMonth !== undefined ? { anniversaryMonth: cs.anniversaryMonth } : {}),
+      ...(cs?.customPerks?.length ? { customPerks: cs.customPerks } : {}),
+      ...(cs?.anniversaryMonth !== undefined ? { anniversaryMonth: cs.anniversaryMonth } : {}),
+      ...(cs?.pointValueCents !== undefined ? { pointValueCents: cs.pointValueCents } : {}),
     };
+    return Object.keys(kept).length > 1 ? kept : undefined;
   }
 
   function findCard(cardId: string): CardDef | undefined {
@@ -266,6 +271,24 @@ export function createStore({
           delete cs.anniversaryMonth;
         } else {
           cs.anniversaryMonth = month;
+        }
+        return cs;
+      });
+    },
+
+    /** Cents per point/mile for break-even math; null (or out of range) clears it. */
+    setPointValue(cardId: string, cents: number | null) {
+      if (!findCard(cardId)) return;
+      updateCard(cardId, (cs) => {
+        if (
+          cents === null ||
+          !Number.isFinite(cents) ||
+          cents < MIN_POINT_VALUE_CENTS ||
+          cents > MAX_POINT_VALUE_CENTS
+        ) {
+          delete cs.pointValueCents;
+        } else {
+          cs.pointValueCents = Math.round(cents * 100) / 100;
         }
         return cs;
       });

@@ -8,6 +8,13 @@ export const chaseSapphirePreferred: CardDef = {
   annualFeeCents: 9500,
   lastVerified: '2026-11-08',
   sourceUrl: 'https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred',
+  rewardsCurrency: 'Ultimate Rewards points',
+  earnRates: [
+    { category: 'Travel booked through Chase Travel', multiplier: 5 },
+    { category: 'Dining', multiplier: 3 },
+    { category: 'Other travel', multiplier: 2 },
+    { category: 'Everything else', multiplier: 1 },
+  ],
   perks: [
     {
       id: 'chase-sapphire-preferred.hotel',

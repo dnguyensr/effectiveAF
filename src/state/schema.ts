@@ -8,6 +8,7 @@
  */
 import * as z from 'zod/mini';
 import { CADENCES, type CustomCardInput, type CustomPerkInput } from '../catalog/types';
+import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../core/breakeven';
 import type { CardUserState } from '../core/card-math';
 import type { PerkValuation } from '../core/valuation';
 
@@ -62,6 +63,9 @@ const CustomCardSchema = z.object({
 const CardUserStateSchema = z.object({
   feeOverrideCents: z.optional(Cents),
   anniversaryMonth: z.optional(z.int().check(z.minimum(1), z.maximum(12))),
+  pointValueCents: z.optional(
+    z.number().check(z.minimum(MIN_POINT_VALUE_CENTS), z.maximum(MAX_POINT_VALUE_CENTS)),
+  ),
   perks: z.record(Id, PerkValuationSchema),
   customPerks: z.optional(
     z

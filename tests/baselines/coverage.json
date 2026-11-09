@@ -41,6 +41,12 @@
     "functions": 100,
     "statements": 100
   },
+  "src/core/breakeven.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/core/card-math.ts": {
     "lines": 100,
     "branches": 100,
@@ -71,7 +77,19 @@
     "functions": 100,
     "statements": 100
   },
+  "src/core/resets.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/core/resolve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/share.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -120,10 +138,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.14,
-    "branches": 93.58,
-    "functions": 98.33,
-    "statements": 98.63
+    "lines": 99.24,
+    "branches": 95,
+    "functions": 98.48,
+    "statements": 98.78
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -133,7 +151,7 @@
   },
   "src/ui/App.tsx": {
     "lines": 100,
-    "branches": 97.05,
+    "branches": 97.29,
     "functions": 100,
     "statements": 100
   },
@@ -142,6 +160,12 @@
     "branches": 83.33,
     "functions": 90.9,
     "statements": 89.58
+  },
+  "src/ui/BreakEven.tsx": {
+    "lines": 100,
+    "branches": 95.45,
+    "functions": 100,
+    "statements": 100
   },
   "src/ui/CardPanel.tsx": {
     "lines": 100,
@@ -187,7 +211,19 @@
   },
   "src/ui/PerkRow.tsx": {
     "lines": 100,
-    "branches": 94.44,
+    "branches": 95.45,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/ResettingSoon.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/ShareDialog.tsx": {
+    "lines": 100,
+    "branches": 100,
     "functions": 100,
     "statements": 100
   },

@@ -9,76 +9,94 @@
         "id": "amex-platinum.hotel",
         "cadence": "semiannual",
         "perPeriod": "$300",
+        "kind": "hotel",
         "annualNominal": "$600"
       },
       {
         "id": "amex-platinum.resy",
         "cadence": "quarterly",
         "perPeriod": "$100",
+        "kind": "dining",
         "annualNominal": "$400"
       },
       {
         "id": "amex-platinum.digital-entertainment",
         "cadence": "monthly",
         "perPeriod": "$25",
+        "kind": "streaming",
         "annualNominal": "$300"
       },
       {
         "id": "amex-platinum.lululemon",
         "cadence": "quarterly",
         "perPeriod": "$75",
+        "kind": "retail",
         "annualNominal": "$300"
       },
       {
         "id": "amex-platinum.uber-cash",
         "cadence": "monthly",
         "perPeriod": "$15",
+        "kind": "rideshare",
         "annualNominal": "$200"
       },
       {
         "id": "amex-platinum.uber-one",
         "cadence": "annual",
         "perPeriod": "$120",
+        "kind": "rideshare-membership",
         "annualNominal": "$120"
       },
       {
         "id": "amex-platinum.airline-fee",
         "cadence": "annual",
         "perPeriod": "$200",
+        "kind": "airline-fees",
         "annualNominal": "$200"
       },
       {
         "id": "amex-platinum.clear",
         "cadence": "annual",
         "perPeriod": "$219",
+        "kind": "airport-security",
         "annualNominal": "$219"
       },
       {
         "id": "amex-platinum.walmart-plus",
         "cadence": "monthly",
         "perPeriod": "$12.95",
+        "kind": "shopping-membership",
         "annualNominal": "$155.40"
       },
       {
         "id": "amex-platinum.equinox",
         "cadence": "annual",
         "perPeriod": "$300",
+        "kind": "fitness",
         "annualNominal": "$300"
       },
       {
         "id": "amex-platinum.oura",
         "cadence": "annual",
         "perPeriod": "$200",
+        "kind": "wearables",
         "annualNominal": "$200"
       },
       {
         "id": "amex-platinum.global-entry",
         "cadence": "every-4-years",
         "perPeriod": "$120",
+        "kind": "trusted-traveler",
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$3,024.40"
+    "totalNominal": "$3,024.40",
+    "rewardsCurrency": "Membership Rewards points",
+    "earnRates": [
+      "5x Flights booked directly with airlines or Amex Travel",
+      "5x Prepaid hotels on Amex Travel",
+      "1x Everything else"
+    ]
   },
   {
     "id": "amex-gold",
@@ -90,28 +108,39 @@
         "id": "amex-gold.dining",
         "cadence": "monthly",
         "perPeriod": "$10",
+        "kind": "dining",
         "annualNominal": "$120"
       },
       {
         "id": "amex-gold.uber-cash",
         "cadence": "monthly",
         "perPeriod": "$10",
+        "kind": "rideshare",
         "annualNominal": "$120"
       },
       {
         "id": "amex-gold.resy",
         "cadence": "semiannual",
         "perPeriod": "$50",
+        "kind": "dining",
         "annualNominal": "$100"
       },
       {
         "id": "amex-gold.dunkin",
         "cadence": "monthly",
         "perPeriod": "$7",
+        "kind": "dining",
         "annualNominal": "$84"
       }
     ],
-    "totalNominal": "$424"
+    "totalNominal": "$424",
+    "rewardsCurrency": "Membership Rewards points",
+    "earnRates": [
+      "4x Restaurants worldwide",
+      "4x U.S. supermarkets",
+      "3x Flights booked directly with airlines or Amex Travel",
+      "1x Everything else"
+    ]
   },
   {
     "id": "chase-sapphire-preferred",
@@ -123,12 +152,14 @@
         "id": "chase-sapphire-preferred.hotel",
         "cadence": "annual",
         "perPeriod": "$100",
+        "kind": "hotel",
         "annualNominal": "$100"
       },
       {
         "id": "chase-sapphire-preferred.doordash-promo",
         "cadence": "monthly",
         "perPeriod": "$10",
+        "kind": "food-delivery",
         "annualNominal": "$120",
         "endsOn": "2029-12-31"
       },
@@ -136,6 +167,7 @@
         "id": "chase-sapphire-preferred.dashpass",
         "cadence": "annual",
         "perPeriod": "$120",
+        "kind": "delivery-membership",
         "annualNominal": "$120",
         "endsOn": "2029-12-31"
       },
@@ -143,6 +175,7 @@
         "id": "chase-sapphire-preferred.apple-tv",
         "cadence": "annual",
         "perPeriod": "$180",
+        "kind": "streaming",
         "annualNominal": "$180",
         "endsOn": "2026-12-31"
       },
@@ -150,10 +183,18 @@
         "id": "chase-sapphire-preferred.global-entry",
         "cadence": "every-4-years",
         "perPeriod": "$120",
+        "kind": "trusted-traveler",
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$550"
+    "totalNominal": "$550",
+    "rewardsCurrency": "Ultimate Rewards points",
+    "earnRates": [
+      "5x Travel booked through Chase Travel",
+      "3x Dining",
+      "2x Other travel",
+      "1x Everything else"
+    ]
   },
   {
     "id": "chase-sapphire-reserve",
@@ -165,18 +206,21 @@
         "id": "chase-sapphire-reserve.travel",
         "cadence": "annual",
         "perPeriod": "$300",
+        "kind": "travel-general",
         "annualNominal": "$300"
       },
       {
         "id": "chase-sapphire-reserve.the-edit",
         "cadence": "annual",
         "perPeriod": "$500",
+        "kind": "hotel",
         "annualNominal": "$500"
       },
       {
         "id": "chase-sapphire-reserve.select-hotels-2026",
         "cadence": "annual",
         "perPeriod": "$250",
+        "kind": "hotel",
         "annualNominal": "$250",
         "endsOn": "2026-12-31"
       },
@@ -184,12 +228,14 @@
         "id": "chase-sapphire-reserve.dining",
         "cadence": "semiannual",
         "perPeriod": "$150",
+        "kind": "dining",
         "annualNominal": "$300"
       },
       {
         "id": "chase-sapphire-reserve.stubhub",
         "cadence": "semiannual",
         "perPeriod": "$150",
+        "kind": "events",
         "annualNominal": "$300",
         "endsOn": "2027-12-31"
       },
@@ -197,6 +243,7 @@
         "id": "chase-sapphire-reserve.apple",
         "cadence": "annual",
         "perPeriod": "$324",
+        "kind": "streaming",
         "annualNominal": "$324",
         "endsOn": "2027-06-22"
       },
@@ -204,6 +251,7 @@
         "id": "chase-sapphire-reserve.doordash-promos",
         "cadence": "monthly",
         "perPeriod": "$35",
+        "kind": "food-delivery",
         "annualNominal": "$420",
         "endsOn": "2029-12-31"
       },
@@ -211,6 +259,7 @@
         "id": "chase-sapphire-reserve.dashpass",
         "cadence": "annual",
         "perPeriod": "$120",
+        "kind": "delivery-membership",
         "annualNominal": "$120",
         "endsOn": "2029-12-31"
       },
@@ -218,6 +267,7 @@
         "id": "chase-sapphire-reserve.lyft",
         "cadence": "monthly",
         "perPeriod": "$10",
+        "kind": "rideshare",
         "annualNominal": "$120",
         "endsOn": "2027-09-30"
       },
@@ -225,6 +275,7 @@
         "id": "chase-sapphire-reserve.peloton",
         "cadence": "monthly",
         "perPeriod": "$10",
+        "kind": "fitness",
         "annualNominal": "$120",
         "endsOn": "2027-12-31"
       },
@@ -232,10 +283,18 @@
         "id": "chase-sapphire-reserve.global-entry",
         "cadence": "every-4-years",
         "perPeriod": "$120",
+        "kind": "trusted-traveler",
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$2,784"
+    "totalNominal": "$2,784",
+    "rewardsCurrency": "Ultimate Rewards points",
+    "earnRates": [
+      "8x Travel booked through Chase Travel",
+      "4x Flights and hotels booked directly",
+      "3x Dining",
+      "1x Everything else"
+    ]
   },
   {
     "id": "capital-one-venture-x",
@@ -247,21 +306,30 @@
         "id": "capital-one-venture-x.travel",
         "cadence": "annual",
         "perPeriod": "$300",
+        "kind": "travel-general",
         "annualNominal": "$300"
       },
       {
         "id": "capital-one-venture-x.anniversary-miles",
         "cadence": "annual",
         "perPeriod": "$100",
+        "kind": "bonus-miles",
         "annualNominal": "$100"
       },
       {
         "id": "capital-one-venture-x.global-entry",
         "cadence": "every-4-years",
         "perPeriod": "$120",
+        "kind": "trusted-traveler",
         "annualNominal": "$30"
       }
     ],
-    "totalNominal": "$430"
+    "totalNominal": "$430",
+    "rewardsCurrency": "Capital One miles",
+    "earnRates": [
+      "10x Hotels and rental cars via Capital One Travel",
+      "5x Flights and vacation rentals via Capital One Travel",
+      "2x Everything else"
+    ]
   }
 ]
