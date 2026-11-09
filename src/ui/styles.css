@@ -1486,3 +1486,22 @@ td .unset-note {
   font-weight: 600;
   margin-bottom: 8px;
 }
+
+/*
+ * Wide screens: the comparison table breaks out of the 760px reading column and sizes itself
+ * to its cards (label column + ~210px per card), centered, never wider than the window.
+ * Smaller screens keep the sticky first column and sideways scrolling.
+ */
+@media (min-width: 800px) {
+  .compare-view .compare-scroll {
+    width: max(100%, min(calc(100vw - 48px), calc(170px + var(--compare-cols, 2) * 210px)));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .compare-view .compare tbody th[scope='row'],
+  .compare-view .compare thead th:first-child {
+    min-width: 150px;
+    max-width: 170px;
+  }
+}
