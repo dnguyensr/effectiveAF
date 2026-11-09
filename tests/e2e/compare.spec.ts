@@ -75,3 +75,29 @@ test('comparison has no serious accessibility problems', async ({ page }) => {
   );
   expect(await seriousViolations(page)).toEqual([]);
 });
+
+test('on a wide screen five cards fit without sideways scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await compareCards(
+    page,
+    /Compare American Express Platinum Card/,
+    /Compare Chase Sapphire Reserve$/,
+    /Compare Capital One Venture X$/,
+    /Compare Citi Strata Elite/,
+    /Compare American Express Business Platinum Card/,
+  );
+  const region = page.getByRole('region', { name: 'Comparison table' });
+  const { scroll, client, left, right } = await region.evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return { scroll: el.scrollWidth, client: el.clientWidth, left: r.left, right: r.right };
+  });
+  expect(scroll).toBeLessThanOrEqual(client);
+  // Wider than the 760px reading column, but inside the window.
+  expect(client).toBeGreaterThan(760);
+  expect(left).toBeGreaterThanOrEqual(0);
+  expect(right).toBeLessThanOrEqual(1440);
+  const pageOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(pageOverflow).toBeLessThanOrEqual(0);
+});

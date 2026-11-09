@@ -14,6 +14,10 @@
         "realized": "$3,429",
         "effective": "-$2,534"
       },
+      "amex-blue-cash-preferred": {
+        "realized": "$120",
+        "effective": "-$25"
+      },
       "chase-sapphire-preferred": {
         "realized": "$550",
         "effective": "-$455"
@@ -38,13 +42,29 @@
         "realized": "$730",
         "effective": "-$135"
       },
+      "citi-strata-premier": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
       "bofa-premium-rewards-elite": {
         "realized": "$480",
         "effective": "$70"
       },
+      "bofa-premium-rewards": {
+        "realized": "$125",
+        "effective": "-$30"
+      },
+      "wells-fargo-autograph-journey": {
+        "realized": "$50",
+        "effective": "$45"
+      },
       "bilt-palladium": {
         "realized": "$600",
         "effective": "-$105"
+      },
+      "bilt-obsidian": {
+        "realized": "$100",
+        "effective": "-$5"
       }
     },
     "half": {
@@ -59,6 +79,10 @@
       "amex-business-platinum": {
         "realized": "$1,715",
         "effective": "-$820"
+      },
+      "amex-blue-cash-preferred": {
+        "realized": "$60",
+        "effective": "$35"
       },
       "chase-sapphire-preferred": {
         "realized": "$275",
@@ -84,13 +108,29 @@
         "realized": "$365",
         "effective": "$230"
       },
+      "citi-strata-premier": {
+        "realized": "$50",
+        "effective": "$45"
+      },
       "bofa-premium-rewards-elite": {
         "realized": "$240",
         "effective": "$310"
       },
+      "bofa-premium-rewards": {
+        "realized": "$63",
+        "effective": "$32"
+      },
+      "wells-fargo-autograph-journey": {
+        "realized": "$25",
+        "effective": "$70"
+      },
       "bilt-palladium": {
         "realized": "$300",
         "effective": "$195"
+      },
+      "bilt-obsidian": {
+        "realized": "$50",
+        "effective": "$45"
       }
     },
     "travel-dining": {
@@ -105,6 +145,10 @@
       "amex-business-platinum": {
         "realized": "$1,249",
         "effective": "-$354"
+      },
+      "amex-blue-cash-preferred": {
+        "realized": "$0",
+        "effective": "$95"
       },
       "chase-sapphire-preferred": {
         "realized": "$250",
@@ -130,13 +174,29 @@
         "realized": "$530",
         "effective": "$65"
       },
+      "citi-strata-premier": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
       "bofa-premium-rewards-elite": {
         "realized": "$330",
         "effective": "$220"
       },
+      "bofa-premium-rewards": {
+        "realized": "$125",
+        "effective": "-$30"
+      },
+      "wells-fargo-autograph-journey": {
+        "realized": "$50",
+        "effective": "$45"
+      },
       "bilt-palladium": {
         "realized": "$400",
         "effective": "$95"
+      },
+      "bilt-obsidian": {
+        "realized": "$100",
+        "effective": "-$5"
       }
     },
     "clear": {
@@ -151,6 +211,10 @@
       "amex-business-platinum": {
         "realized": "$0",
         "effective": "$895"
+      },
+      "amex-blue-cash-preferred": {
+        "realized": "$0",
+        "effective": "$95"
       },
       "chase-sapphire-preferred": {
         "realized": "$0",
@@ -176,13 +240,29 @@
         "realized": "$0",
         "effective": "$595"
       },
+      "citi-strata-premier": {
+        "realized": "$0",
+        "effective": "$95"
+      },
       "bofa-premium-rewards-elite": {
         "realized": "$0",
         "effective": "$550"
       },
+      "bofa-premium-rewards": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "wells-fargo-autograph-journey": {
+        "realized": "$0",
+        "effective": "$95"
+      },
       "bilt-palladium": {
         "realized": "$0",
         "effective": "$495"
+      },
+      "bilt-obsidian": {
+        "realized": "$0",
+        "effective": "$95"
       }
     }
   }

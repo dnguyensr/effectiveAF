@@ -22,18 +22,19 @@ If the result is zero or below, the card pays for itself. If not, you'll see how
 - **My wallet:** your cards as tabs, a running total, and a _use it before it resets_ list of credits about to expire this month or period.
 - **Compare:** 2 to 5 cards side by side, like a car-trim sheet: similar credits share a row, and "—" means a card doesn't have one.
 - **Your own perks and cards:** add credits we don't list, or value non-credit benefits like lounge access; create cards that aren't in the catalog.
-- **Break-even spend:** for a card that still costs money, how much you'd need to spend each month in its bonus categories to beat a 2% cash-back card.
+- **Break-even spend:** for a card that still costs money, how much you'd need to spend each month in one of its bonus categories to beat your everyday card (1–3% cash back, your choice), and flags categories where that would exceed a spending cap.
 - **Forum summary:** a Markdown table to paste when asking whether to keep a card.
 - **Works offline** after the first visit, and can be installed to your home screen.
 
 Supported cards:
 
-- **American Express:** Platinum Card, Gold Card, Business Platinum Card
+- **American Express:** Platinum Card, Gold Card, Business Platinum Card, Blue Cash Preferred Card
 - **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business
 - **Capital One:** Venture X, Venture X Business
-- **Citi:** Strata Elite
-- **Bank of America:** Premium Rewards Elite
-- **Bilt:** Palladium Card
+- **Citi:** Strata Elite, Strata Premier Card
+- **Bank of America:** Premium Rewards Elite, Premium Rewards
+- **Wells Fargo:** Autograph Journey Card
+- **Bilt:** Palladium Card, Obsidian Card
 
 You can also add any card yourself, with your own credits and benefits.
 

@@ -43,9 +43,41 @@ describe('breakEven (hand-computed)', () => {
     // 4x × 1.5¢ = 6¢ − 2¢ = 4¢ → $325 / 0.04 = $8,125 a year → $677.08 → $678 a month
     const rows = breakEven(32500, rates('amex-gold'), 1.5);
     expect(rows?.[0]).toMatchObject({ extraCentsPerDollar: 4, monthlySpendDollars: 678 });
-    expect(rows?.[0]?.note).toBe('up to $50,000 a year');
+    expect(rows?.[0]).toMatchObject({ capDollarsPerYear: 50000, overCap: false });
+    expect(rows?.[0]?.note).toBeUndefined();
     // 1x × 1.5¢ = 1.5¢ < 2¢
     expect(rows?.at(-1)?.monthlySpendDollars).toBeNull();
+  });
+
+  it('flags a category whose break-even spend is over its yearly cap (hand-computed)', () => {
+    const capped = (capCentsPerYear: number) =>
+      breakEven(30000, [{ category: 'Groceries', multiplier: 6, capCentsPerYear }], 1)?.[0];
+    // 6% − 2% = 4¢ → $300 / 0.04 = $7,500 a year → $625 a month
+    // A $6,000 cap: $7,500 > $6,000, so it's out of reach.
+    expect(capped(600_000)).toMatchObject({
+      monthlySpendDollars: 625,
+      capDollarsPerYear: 6000,
+      overCap: true,
+    });
+    // Exactly at the cap ($625 × 12 = $7,500) still works.
+    expect(capped(750_000)).toMatchObject({ capDollarsPerYear: 7500, overCap: false });
+    // No cap, or a category that never beats the baseline, is never over.
+    expect(breakEven(30000, [{ category: 'X', multiplier: 6 }], 1)?.[0]).toMatchObject({
+      overCap: false,
+    });
+    expect(
+      breakEven(30000, [{ category: 'X', multiplier: 1, capCentsPerYear: 1 }], 1)?.[0],
+    ).toMatchObject({ monthlySpendDollars: null, overCap: false });
+  });
+
+  it('every capped catalog rate has a whole-dollar cap', () => {
+    for (const card of CATALOG)
+      for (const r of card.earnRates ?? [])
+        if (r.capCentsPerYear !== undefined) {
+          expect(Number.isSafeInteger(r.capCentsPerYear), card.id).toBe(true);
+          expect(r.capCentsPerYear % 100, card.id).toBe(0);
+          expect(r.capCentsPerYear, card.id).toBeGreaterThan(0);
+        }
   });
 
   it('avoids floating-point noise in the extra value', () => {

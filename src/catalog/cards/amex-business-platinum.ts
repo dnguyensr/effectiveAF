@@ -15,7 +15,7 @@ export const amexBusinessPlatinum: CardDef = {
     {
       category: 'Key business categories and purchases of $5,000 or more',
       multiplier: 2,
-      note: 'up to $2 million a year',
+      capCentsPerYear: 200_000_000,
     },
     { category: 'Everything else', multiplier: 1 },
   ],

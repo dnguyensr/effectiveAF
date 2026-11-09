@@ -16,7 +16,7 @@ export const chaseSapphireReserveBusiness: CardDef = {
     {
       category: 'Social media and search advertising',
       multiplier: 3,
-      note: 'up to $1 million a year',
+      capCentsPerYear: 100_000_000,
     },
     { category: 'Everything else', multiplier: 1 },
   ],

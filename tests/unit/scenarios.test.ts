@@ -36,7 +36,7 @@ function onlyUsing(c: CardDef, using: Record<string, PerkValuation>): CardUserSt
   return { perks };
 }
 
-describe('Tier 1 cards at full value (hand-computed)', () => {
+describe('Tier 1 and Tier 2 cards at full value (hand-computed)', () => {
   it.each([
     // fee, then credits: Strata Elite 300 hotel + 200 splurge + 200 Blacklane + 30 Global Entry
     ['citi-strata-elite', 59500, 73000],
@@ -52,6 +52,16 @@ describe('Tier 1 cards at full value (hand-computed)', () => {
     ['capital-one-venture-x-business', 39500, 43000],
     // 400 hotel + 200 Bilt Cash
     ['bilt-palladium', 49500, 60000],
+    // Tier 2. 120 Disney streaming ($10/mo)
+    ['amex-blue-cash-preferred', 9500, 12000],
+    // 100 hotel benefit
+    ['citi-strata-premier', 9500, 10000],
+    // 100 airline incidental + 25 Global Entry ($100 every 4 years)
+    ['bofa-premium-rewards', 9500, 12500],
+    // 50 airline credit
+    ['wells-fargo-autograph-journey', 9500, 5000],
+    // 100 hotel ($50 twice a year)
+    ['bilt-obsidian', 9500, 10000],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');

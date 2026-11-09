@@ -21,7 +21,12 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
   const span = columns.length + 1;
 
   return (
-    <section class="view" aria-labelledby="compare-title">
+    <section
+      class="view compare-view"
+      aria-labelledby="compare-title"
+      // Lets the table size itself to its number of cards on wide screens.
+      style={{ '--compare-cols': String(columns.length) }}
+    >
       <div class="view-head">
         <h2 id="compare-title" class="view-title">
           Compare cards

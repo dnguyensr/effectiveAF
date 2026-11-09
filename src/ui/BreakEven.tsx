@@ -22,7 +22,9 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
   const store = useStore();
   const { card } = summary;
   const saved = store.state.value.cards[card.id]?.pointValueCents;
-  const pointValue = saved ?? DEFAULT_POINT_VALUE_CENTS;
+  // Cash back is always worth face value: 6% is 6¢ per $1.
+  const cashBack = card.cashBack === true;
+  const pointValue = cashBack ? 1 : (saved ?? DEFAULT_POINT_VALUE_CENTS);
   const [draft, setDraft] = useState<string | null>(null);
   const rates = card.earnRates;
   if (!rates?.length) return null;
@@ -65,33 +67,35 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
               Robinhood Gold Card requires Robinhood Gold ($50 a year), so count that cost too.
             </p>
           )}
-          <div class="form-row">
-            <label for={inputId}>{card.rewardsCurrency ?? 'Points'} worth</label>
-            <span class="money-input">
-              <input
-                id={inputId}
-                type="text"
-                inputMode="decimal"
-                value={draft ?? String(pointValue)}
-                onInput={(e) => {
-                  const text = e.currentTarget.value;
-                  setDraft(text);
-                  const n = Number(text);
-                  if (text.trim() !== '' && Number.isFinite(n)) {
-                    store.setPointValue(
-                      card.id,
-                      n >= MIN_POINT_VALUE_CENTS && n <= MAX_POINT_VALUE_CENTS ? n : null,
-                    );
-                  }
-                }}
-                onBlur={() => setDraft(null)}
-              />
-              <span aria-hidden="true">¢</span>
-            </span>
-            <span class="hint">
-              each ({MIN_POINT_VALUE_CENTS}–{MAX_POINT_VALUE_CENTS}¢)
-            </span>
-          </div>
+          {!cashBack && (
+            <div class="form-row">
+              <label for={inputId}>{card.rewardsCurrency ?? 'Points'} worth</label>
+              <span class="money-input">
+                <input
+                  id={inputId}
+                  type="text"
+                  inputMode="decimal"
+                  value={draft ?? String(pointValue)}
+                  onInput={(e) => {
+                    const text = e.currentTarget.value;
+                    setDraft(text);
+                    const n = Number(text);
+                    if (text.trim() !== '' && Number.isFinite(n)) {
+                      store.setPointValue(
+                        card.id,
+                        n >= MIN_POINT_VALUE_CENTS && n <= MAX_POINT_VALUE_CENTS ? n : null,
+                      );
+                    }
+                  }}
+                  onBlur={() => setDraft(null)}
+                />
+                <span aria-hidden="true">¢</span>
+              </span>
+              <span class="hint">
+                each ({MIN_POINT_VALUE_CENTS}–{MAX_POINT_VALUE_CENTS}¢)
+              </span>
+            </div>
+          )}
           <table class="breakeven-table">
             <thead>
               <tr>
@@ -101,20 +105,29 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
-                <tr key={r.category}>
-                  <th scope="row">
-                    {r.category}
-                    {r.note && <span class="hint"> ({r.note})</span>}
-                  </th>
-                  <td>{r.multiplier}x</td>
-                  <td>
-                    {r.monthlySpendDollars === null
-                      ? `No better than your ${baseline}% card`
-                      : `${dollars.format(r.monthlySpendDollars)}/mo`}
-                  </td>
-                </tr>
-              ))}
+              {rows.map((r) => {
+                const cap =
+                  r.capDollarsPerYear === undefined
+                    ? undefined
+                    : `${dollars.format(r.capDollarsPerYear)} a year`;
+                const note = [cap && `up to ${cap}`, r.note].filter(Boolean).join(', ');
+                return (
+                  <tr key={r.category}>
+                    <th scope="row">
+                      {r.category}
+                      {note && <span class="hint"> ({note})</span>}
+                    </th>
+                    <td>{cashBack ? `${r.multiplier}%` : `${r.multiplier}x`}</td>
+                    <td>
+                      {r.monthlySpendDollars === null
+                        ? `No better than your ${baseline}% card`
+                        : r.overCap
+                          ? `More than the ${cap} cap`
+                          : `${dollars.format(r.monthlySpendDollars)}/mo`}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </>
