@@ -82,7 +82,7 @@ describe('first visit', () => {
       'Bilt',
       'Your cards',
     ]);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(19);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(34);
     expect(within(picker).getByText('$195 fee · rewards only, no credits')).toBeTruthy();
     expect(within(picker).getAllByText('$95 fee · 1 perk').length).toBeGreaterThan(0);
   });
@@ -111,7 +111,7 @@ describe('card picker', () => {
     click(/^Value the cards I have/);
     const picker = dialog('Add a card');
     clickTab('Chase', picker);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(5);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(12);
     const chase = within(picker).getByRole('tab', { name: 'Chase' });
     fireEvent.keyDown(chase, { key: 'ArrowRight' });
     expect(

@@ -26,7 +26,7 @@ test('lines up three cards by kind of credit, with gaps and totals', async ({ pa
   await expect(hotel).toContainText('The Edit hotel credit');
   await expect(hotel).toContainText('Select hotels credit (2026)');
   await expect(hotel.getByText('Not offered')).toHaveCount(1);
-  await expect(row('Airline fee credit').getByText('Not offered')).toHaveCount(2);
+  await expect(row('Airline credits').getByText('Not offered')).toHaveCount(2);
   await expect(row('Global Entry / TSA PreCheck').getByText('Not offered')).toHaveCount(0);
   await expect(row('Face value of credits')).toContainText('$2,784');
   await expect(page.getByTestId('compare-verdict-chase-sapphire-reserve')).toHaveText(

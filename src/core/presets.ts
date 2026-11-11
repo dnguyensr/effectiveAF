@@ -2,7 +2,8 @@
 /**
  * One-click valuation presets. They set every catalog perk on a card at once; perks the user
  * added themselves keep their values, since the user defined those deliberately. Nothing here
- * guesses at a "typical" value: presets are full value, half value, or a clean slate.
+ * guesses at a "typical" value: presets are full value, half value, or a clean slate. Perks the
+ * user values themselves (no face value) are only touched by "clear".
  */
 import type { CardDef, PerkCategory } from '../catalog/types';
 import type { PerkValuation } from './valuation';
@@ -48,7 +49,8 @@ export function applyPreset(
   }
 
   const next: Record<string, PerkValuation> = { ...current };
-  for (const perk of catalogPerks) {
+  // A user-valued perk (free night, companion fare) has no face value to take a share of.
+  for (const perk of catalogPerks.filter((p) => !p.userValued)) {
     if (preset === 'half') next[perk.id] = atPercent(50);
     else if (preset === 'face' || TRAVEL_DINING.has(perk.category)) next[perk.id] = atPercent(100);
     else next[perk.id] = WONT_USE;

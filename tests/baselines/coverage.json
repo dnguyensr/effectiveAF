@@ -11,7 +11,49 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/amex-delta-gold.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-delta-platinum.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-delta-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/amex-gold.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-hilton-aspire.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-hilton-business.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-hilton-surpass.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-marriott-brilliant.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -65,6 +107,24 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/chase-ihg-business.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-ihg-premier-select.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-ihg-premier.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/chase-ink-business-preferred.ts": {
     "lines": 100,
     "branches": 100,
@@ -72,6 +132,12 @@
     "statements": 100
   },
   "src/catalog/cards/chase-ink-business-premier.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-marriott-boundless.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -90,6 +156,30 @@
     "statements": 100
   },
   "src/catalog/cards/chase-sapphire-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-united-club.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-united-explorer.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-united-quest.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/citi-aadvantage-executive.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -228,10 +318,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.38,
-    "branches": 95.27,
+    "lines": 99.39,
+    "branches": 95.34,
     "functions": 98.75,
-    "statements": 98.51
+    "statements": 98.52
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -247,7 +337,7 @@
   },
   "src/ui/BreakEven.tsx": {
     "lines": 100,
-    "branches": 97.22,
+    "branches": 97.29,
     "functions": 100,
     "statements": 100
   },
@@ -265,7 +355,7 @@
   },
   "src/ui/CompareView.tsx": {
     "lines": 100,
-    "branches": 92.3,
+    "branches": 92.85,
     "functions": 100,
     "statements": 100
   },
@@ -307,13 +397,13 @@
   },
   "src/ui/PayInFullNote.tsx": {
     "lines": 100,
-    "branches": 88.88,
+    "branches": 92.3,
     "functions": 100,
     "statements": 100
   },
   "src/ui/PerkRow.tsx": {
     "lines": 100,
-    "branches": 96.77,
+    "branches": 97.43,
     "functions": 100,
     "statements": 100
   },

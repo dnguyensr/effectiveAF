@@ -24,7 +24,9 @@ export function BreakEven({ summary }: { summary: CardSummary }) {
   const saved = store.state.value.cards[card.id]?.pointValueCents;
   // Cash back is always worth face value: 6% is 6¢ per $1.
   const cashBack = card.cashBack === true;
-  const pointValue = cashBack ? 1 : (saved ?? DEFAULT_POINT_VALUE_CENTS);
+  const pointValue = cashBack
+    ? 1
+    : (saved ?? card.defaultPointValueCents ?? DEFAULT_POINT_VALUE_CENTS);
   const [draft, setDraft] = useState<string | null>(null);
   const rates = card.earnRates;
   if (!rates?.length) return null;

@@ -278,7 +278,9 @@ export function createStore({
     },
 
     setPerkPercent(cardId: string, perkId: string, percent: number) {
-      if (!findPerk(cardId, perkId)) return;
+      const perk = findPerk(cardId, perkId);
+      // A user-valued perk has no face value to take a percentage of; it's set in dollars.
+      if (!perk || perk.userValued) return;
       const safe = clamp(Math.round(Number.isFinite(percent) ? percent : 0), 0, 100);
       updateCard(cardId, (card) => {
         card.perks[perkId] = { mode: 'percent', percent: safe, enabled: true };

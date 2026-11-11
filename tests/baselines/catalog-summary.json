@@ -259,6 +259,271 @@
     ]
   },
   {
+    "id": "amex-hilton-aspire",
+    "name": "American Express Hilton Honors Aspire Card",
+    "annualFee": "$550",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-aspire.free-night",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "free-night",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "amex-hilton-aspire.resort",
+        "cadence": "semiannual",
+        "perPeriod": "$200",
+        "kind": "hotel",
+        "annualNominal": "$400"
+      },
+      {
+        "id": "amex-hilton-aspire.flight",
+        "cadence": "quarterly",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-hilton-aspire.clear",
+        "cadence": "annual",
+        "perPeriod": "$219",
+        "kind": "airport-security",
+        "annualNominal": "$219"
+      }
+    ],
+    "totalNominal": "$819",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "14x Hilton hotels and resorts",
+      "7x Flights and car rentals",
+      "7x U.S. restaurants",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "amex-hilton-surpass",
+    "name": "American Express Hilton Honors Surpass Card",
+    "annualFee": "$150",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-surpass.hilton",
+        "cadence": "quarterly",
+        "perPeriod": "$50",
+        "kind": "hotel",
+        "annualNominal": "$200"
+      }
+    ],
+    "totalNominal": "$200",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "12x Hilton hotels and resorts",
+      "6x U.S. restaurants",
+      "6x U.S. supermarkets",
+      "6x U.S. gas stations",
+      "4x U.S. online retail",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "amex-hilton-business",
+    "name": "American Express Hilton Honors Business Card",
+    "annualFee": "$195",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-business.hilton",
+        "cadence": "quarterly",
+        "perPeriod": "$60",
+        "kind": "hotel",
+        "annualNominal": "$240"
+      }
+    ],
+    "totalNominal": "$240",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "12x Hilton hotels and resorts",
+      "5x Everything else"
+    ]
+  },
+  {
+    "id": "amex-marriott-brilliant",
+    "name": "American Express Marriott Bonvoy Brilliant Card",
+    "annualFee": "$650",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-marriott-brilliant.free-night",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "free-night",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "amex-marriott-brilliant.dining",
+        "cadence": "monthly",
+        "perPeriod": "$25",
+        "kind": "dining",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "amex-marriott-brilliant.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$330",
+    "rewardsCurrency": "Marriott Bonvoy points",
+    "earnRates": [
+      "6x Marriott Bonvoy hotels",
+      "3x Restaurants worldwide",
+      "3x Flights booked directly with airlines",
+      "2x Everything else"
+    ]
+  },
+  {
+    "id": "amex-delta-reserve",
+    "name": "American Express Delta SkyMiles Reserve Card",
+    "annualFee": "$650",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-delta-reserve.companion",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "companion-fare",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "amex-delta-reserve.delta-stays",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "hotel",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-delta-reserve.resy",
+        "cadence": "monthly",
+        "perPeriod": "$20",
+        "kind": "dining",
+        "annualNominal": "$240"
+      },
+      {
+        "id": "amex-delta-reserve.rideshare",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "rideshare",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "amex-delta-reserve.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$590",
+    "rewardsCurrency": "Delta SkyMiles",
+    "earnRates": [
+      "3x Delta purchases",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "amex-delta-platinum",
+    "name": "American Express Delta SkyMiles Platinum Card",
+    "annualFee": "$350",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-delta-platinum.companion",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "companion-fare",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "amex-delta-platinum.delta-stays",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "hotel",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "amex-delta-platinum.resy",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "dining",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "amex-delta-platinum.rideshare",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "rideshare",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "amex-delta-platinum.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$420",
+    "rewardsCurrency": "Delta SkyMiles",
+    "earnRates": [
+      "3x Delta purchases",
+      "3x Hotels",
+      "2x U.S. restaurants",
+      "2x U.S. supermarkets",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "amex-delta-gold",
+    "name": "American Express Delta SkyMiles Gold Card",
+    "annualFee": "$150",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-delta-gold.flight-credit",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-delta-gold.delta-stays",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "amex-delta-gold.rideshare",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "rideshare",
+        "annualNominal": "$120"
+      }
+    ],
+    "totalNominal": "$420",
+    "rewardsCurrency": "Delta SkyMiles",
+    "earnRates": [
+      "2x Delta purchases",
+      "2x U.S. restaurants",
+      "2x U.S. supermarkets",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "chase-sapphire-preferred",
     "name": "Chase Sapphire Preferred",
     "annualFee": "$95",
@@ -557,6 +822,428 @@
     ]
   },
   {
+    "id": "chase-united-club",
+    "name": "Chase United Club Card",
+    "annualFee": "$695",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-united-club.renowned-hotels",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "hotel",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "chase-united-club.jsx",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "chase-united-club.rideshare",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "rideshare",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "chase-united-club.car-rental",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "car-rental",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-united-club.instacart",
+        "cadence": "annual",
+        "perPeriod": "$240",
+        "kind": "food-delivery",
+        "annualNominal": "$240"
+      }
+    ],
+    "totalNominal": "$890",
+    "rewardsCurrency": "United MileagePlus miles",
+    "earnRates": [
+      "5x United purchases",
+      "5x Renowned Hotels and Resorts",
+      "2x Other travel",
+      "2x Dining",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "chase-united-quest",
+    "name": "Chase United Quest Card",
+    "annualFee": "$350",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-united-quest.united-travel",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "chase-united-quest.renowned-hotels",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "hotel",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "chase-united-quest.jsx",
+        "cadence": "annual",
+        "perPeriod": "$150",
+        "kind": "airline-fees",
+        "annualNominal": "$150"
+      },
+      {
+        "id": "chase-united-quest.rideshare",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "rideshare",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-united-quest.car-rental",
+        "cadence": "annual",
+        "perPeriod": "$80",
+        "kind": "car-rental",
+        "annualNominal": "$80"
+      },
+      {
+        "id": "chase-united-quest.instacart",
+        "cadence": "annual",
+        "perPeriod": "$180",
+        "kind": "food-delivery",
+        "annualNominal": "$180"
+      }
+    ],
+    "totalNominal": "$860",
+    "rewardsCurrency": "United MileagePlus miles",
+    "earnRates": [
+      "5x Renowned Hotels and Resorts",
+      "4x United purchases",
+      "2x Other travel",
+      "2x Dining",
+      "2x Select streaming",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "chase-united-explorer",
+    "name": "Chase United Explorer Card",
+    "annualFee": "$150",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-united-explorer.united-travel",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-united-explorer.united-hotels",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-united-explorer.jsx",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-united-explorer.rideshare",
+        "cadence": "annual",
+        "perPeriod": "$60",
+        "kind": "rideshare",
+        "annualNominal": "$60"
+      },
+      {
+        "id": "chase-united-explorer.car-rental",
+        "cadence": "annual",
+        "perPeriod": "$50",
+        "kind": "car-rental",
+        "annualNominal": "$50"
+      },
+      {
+        "id": "chase-united-explorer.instacart",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "food-delivery",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "chase-united-explorer.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$560",
+    "rewardsCurrency": "United MileagePlus miles",
+    "earnRates": [
+      "3x United purchases",
+      "2x Hotels",
+      "2x Dining",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "chase-marriott-boundless",
+    "name": "Chase Marriott Bonvoy Boundless Card",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-marriott-boundless.free-night",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "free-night",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "chase-marriott-boundless.airline",
+        "cadence": "semiannual",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$100",
+        "endsOn": "2027-06-30"
+      }
+    ],
+    "totalNominal": "$100",
+    "rewardsCurrency": "Marriott Bonvoy points",
+    "earnRates": [
+      "6x Marriott Bonvoy hotels",
+      "3x Grocery stores, gas stations and dining",
+      "2x Everything else"
+    ]
+  },
+  {
+    "id": "chase-ihg-premier-select",
+    "name": "Chase IHG One Rewards Premier Select Card",
+    "annualFee": "$350",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-ihg-premier-select.free-night",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "free-night",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "chase-ihg-premier-select.food-beverage",
+        "cadence": "quarterly",
+        "perPeriod": "$75",
+        "kind": "hotel",
+        "annualNominal": "$300"
+      },
+      {
+        "id": "chase-ihg-premier-select.airline",
+        "cadence": "annual",
+        "perPeriod": "$200",
+        "kind": "airline-fees",
+        "annualNominal": "$200",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier-select.united-travelbank",
+        "cadence": "annual",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$50"
+      },
+      {
+        "id": "chase-ihg-premier-select.instacart",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "chase-ihg-premier-select.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier-select.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "delivery-membership",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier-select.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$940",
+    "rewardsCurrency": "IHG One Rewards points",
+    "earnRates": [
+      "12x IHG hotels",
+      "6x Dining and other travel",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "chase-ihg-premier",
+    "name": "Chase IHG One Rewards Premier Card",
+    "annualFee": "$150",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-ihg-premier.free-night",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "free-night",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "chase-ihg-premier.food-beverage",
+        "cadence": "quarterly",
+        "perPeriod": "$25",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-ihg-premier.airline",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier.united-travelbank",
+        "cadence": "annual",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$50"
+      },
+      {
+        "id": "chase-ihg-premier.instacart",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "chase-ihg-premier.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "delivery-membership",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-premier.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$640",
+    "rewardsCurrency": "IHG One Rewards points",
+    "earnRates": [
+      "10x IHG hotels",
+      "5x Flights booked directly, car rentals, dining, groceries and gas",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "chase-ihg-business",
+    "name": "Chase IHG One Rewards Premier Business Card",
+    "annualFee": "$200",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "chase-ihg-business.food-beverage",
+        "cadence": "quarterly",
+        "perPeriod": "$25",
+        "kind": "hotel",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-ihg-business.airline",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-business.expensify",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "business-software",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "chase-ihg-business.instacart",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "chase-ihg-business.doordash-promos",
+        "cadence": "monthly",
+        "perPeriod": "$10",
+        "kind": "food-delivery",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-business.dashpass",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "delivery-membership",
+        "annualNominal": "$120",
+        "endsOn": "2027-12-31"
+      },
+      {
+        "id": "chase-ihg-business.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$690",
+    "rewardsCurrency": "IHG One Rewards points",
+    "earnRates": [
+      "10x IHG hotels",
+      "5x Flights booked directly, car rentals, dining, select advertising and gas",
+      "3x Everything else"
+    ]
+  },
+  {
     "id": "capital-one-venture-x",
     "name": "Capital One Venture X",
     "annualFee": "$395",
@@ -716,6 +1403,63 @@
       "3x Restaurants",
       "3x Supermarkets",
       "3x Gas and EV charging",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "citi-aadvantage-executive",
+    "name": "Citi AAdvantage Executive Card",
+    "annualFee": "$695",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "citi-aadvantage-executive.aa-vacations",
+        "cadence": "semiannual",
+        "perPeriod": "$250",
+        "kind": "travel-general",
+        "annualNominal": "$500"
+      },
+      {
+        "id": "citi-aadvantage-executive.inkind",
+        "cadence": "semiannual",
+        "perPeriod": "$100",
+        "kind": "dining",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "citi-aadvantage-executive.lyft",
+        "cadence": "monthly",
+        "perPeriod": "$15",
+        "kind": "rideshare",
+        "annualNominal": "$180"
+      },
+      {
+        "id": "citi-aadvantage-executive.car-rental",
+        "cadence": "annual",
+        "perPeriod": "$120",
+        "kind": "car-rental",
+        "annualNominal": "$120"
+      },
+      {
+        "id": "citi-aadvantage-executive.inflight",
+        "cadence": "annual",
+        "perPeriod": "$100",
+        "kind": "airline-fees",
+        "annualNominal": "$100"
+      },
+      {
+        "id": "citi-aadvantage-executive.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$1,130",
+    "rewardsCurrency": "AAdvantage miles",
+    "earnRates": [
+      "12x AAdvantage Hotels and Cars bookings",
+      "4x American Airlines purchases",
       "1x Everything else"
     ]
   },

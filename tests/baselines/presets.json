@@ -18,6 +18,34 @@
         "realized": "$120",
         "effective": "-$25"
       },
+      "amex-hilton-aspire": {
+        "realized": "$819",
+        "effective": "-$269"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$200",
+        "effective": "-$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$240",
+        "effective": "-$45"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$330",
+        "effective": "$320"
+      },
+      "amex-delta-reserve": {
+        "realized": "$590",
+        "effective": "$60"
+      },
+      "amex-delta-platinum": {
+        "realized": "$420",
+        "effective": "-$70"
+      },
+      "amex-delta-gold": {
+        "realized": "$420",
+        "effective": "-$270"
+      },
       "chase-sapphire-preferred": {
         "realized": "$550",
         "effective": "-$455"
@@ -38,6 +66,34 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$890",
+        "effective": "-$195"
+      },
+      "chase-united-quest": {
+        "realized": "$860",
+        "effective": "-$510"
+      },
+      "chase-united-explorer": {
+        "realized": "$560",
+        "effective": "-$410"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$940",
+        "effective": "-$590"
+      },
+      "chase-ihg-premier": {
+        "realized": "$640",
+        "effective": "-$490"
+      },
+      "chase-ihg-business": {
+        "realized": "$690",
+        "effective": "-$490"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -57,6 +113,10 @@
       "citi-strata-premier": {
         "realized": "$100",
         "effective": "-$5"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$1,130",
+        "effective": "-$435"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$480",
@@ -96,6 +156,34 @@
         "realized": "$60",
         "effective": "$35"
       },
+      "amex-hilton-aspire": {
+        "realized": "$410",
+        "effective": "$140"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$100",
+        "effective": "$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$120",
+        "effective": "$75"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$165",
+        "effective": "$485"
+      },
+      "amex-delta-reserve": {
+        "realized": "$295",
+        "effective": "$355"
+      },
+      "amex-delta-platinum": {
+        "realized": "$210",
+        "effective": "$140"
+      },
+      "amex-delta-gold": {
+        "realized": "$210",
+        "effective": "-$60"
+      },
       "chase-sapphire-preferred": {
         "realized": "$275",
         "effective": "-$180"
@@ -116,6 +204,34 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$445",
+        "effective": "$250"
+      },
+      "chase-united-quest": {
+        "realized": "$430",
+        "effective": "-$80"
+      },
+      "chase-united-explorer": {
+        "realized": "$280",
+        "effective": "-$130"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$50",
+        "effective": "$45"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$470",
+        "effective": "-$120"
+      },
+      "chase-ihg-premier": {
+        "realized": "$320",
+        "effective": "-$170"
+      },
+      "chase-ihg-business": {
+        "realized": "$345",
+        "effective": "-$145"
+      },
       "capital-one-venture-x": {
         "realized": "$215",
         "effective": "$180"
@@ -135,6 +251,10 @@
       "citi-strata-premier": {
         "realized": "$50",
         "effective": "$45"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$565",
+        "effective": "$130"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$240",
@@ -174,6 +294,34 @@
         "realized": "$0",
         "effective": "$95"
       },
+      "amex-hilton-aspire": {
+        "realized": "$819",
+        "effective": "-$269"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$200",
+        "effective": "-$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$240",
+        "effective": "-$45"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$330",
+        "effective": "$320"
+      },
+      "amex-delta-reserve": {
+        "realized": "$590",
+        "effective": "$60"
+      },
+      "amex-delta-platinum": {
+        "realized": "$420",
+        "effective": "-$70"
+      },
+      "amex-delta-gold": {
+        "realized": "$420",
+        "effective": "-$270"
+      },
       "chase-sapphire-preferred": {
         "realized": "$250",
         "effective": "-$155"
@@ -194,6 +342,34 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$650",
+        "effective": "$45"
+      },
+      "chase-united-quest": {
+        "realized": "$680",
+        "effective": "-$330"
+      },
+      "chase-united-explorer": {
+        "realized": "$440",
+        "effective": "-$290"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$700",
+        "effective": "-$350"
+      },
+      "chase-ihg-premier": {
+        "realized": "$400",
+        "effective": "-$250"
+      },
+      "chase-ihg-business": {
+        "realized": "$350",
+        "effective": "-$150"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -213,6 +389,10 @@
       "citi-strata-premier": {
         "realized": "$100",
         "effective": "-$5"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$1,130",
+        "effective": "-$435"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$330",
@@ -252,6 +432,34 @@
         "realized": "$0",
         "effective": "$95"
       },
+      "amex-hilton-aspire": {
+        "realized": "$0",
+        "effective": "$550"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "amex-hilton-business": {
+        "realized": "$0",
+        "effective": "$195"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$0",
+        "effective": "$650"
+      },
+      "amex-delta-reserve": {
+        "realized": "$0",
+        "effective": "$650"
+      },
+      "amex-delta-platinum": {
+        "realized": "$0",
+        "effective": "$350"
+      },
+      "amex-delta-gold": {
+        "realized": "$0",
+        "effective": "$150"
+      },
       "chase-sapphire-preferred": {
         "realized": "$0",
         "effective": "$95"
@@ -272,6 +480,34 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$0",
+        "effective": "$695"
+      },
+      "chase-united-quest": {
+        "realized": "$0",
+        "effective": "$350"
+      },
+      "chase-united-explorer": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$0",
+        "effective": "$350"
+      },
+      "chase-ihg-premier": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "chase-ihg-business": {
+        "realized": "$0",
+        "effective": "$200"
+      },
       "capital-one-venture-x": {
         "realized": "$0",
         "effective": "$395"
@@ -291,6 +527,10 @@
       "citi-strata-premier": {
         "realized": "$0",
         "effective": "$95"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$0",
+        "effective": "$695"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$0",

@@ -31,11 +31,14 @@ export type PerkCategory =
 export const KINDS = [
   { id: 'travel-general', label: 'Travel credit', group: 'Travel' },
   { id: 'hotel', label: 'Hotel credits', group: 'Travel' },
-  { id: 'airline-fees', label: 'Airline fee credit', group: 'Travel' },
+  { id: 'airline-fees', label: 'Airline credits', group: 'Travel' },
   { id: 'trusted-traveler', label: 'Global Entry / TSA PreCheck', group: 'Travel' },
   { id: 'airport-security', label: 'CLEAR+', group: 'Travel' },
   { id: 'bonus-miles', label: 'Anniversary bonus', group: 'Travel' },
+  { id: 'free-night', label: 'Free night certificates', group: 'Travel' },
+  { id: 'companion-fare', label: 'Companion certificate', group: 'Travel' },
   { id: 'car-service', label: 'Car service', group: 'Travel' },
+  { id: 'car-rental', label: 'Car rental credits', group: 'Travel' },
   { id: 'dining', label: 'Dining credits', group: 'Dining' },
   { id: 'food-delivery', label: 'Delivery promos', group: 'Dining' },
   { id: 'delivery-membership', label: 'Delivery membership', group: 'Dining' },
@@ -80,6 +83,14 @@ export interface PerkDef {
   endsOn?: string;
   /** True for perks the user created. */
   custom?: boolean;
+  /**
+   * True for a benefit with no face value, such as a free-night certificate or a companion
+   * fare: the user says what it's worth to them. It counts $0 toward face-value totals, presets
+   * leave it alone, and `amountPerPeriodCents` is only the most the user can enter.
+   */
+  userValued?: boolean;
+  /** For a user-valued perk: the question to answer, e.g. "What would you pay for that night?" */
+  valueHint?: string;
 }
 
 export interface CardDef {
@@ -103,6 +114,11 @@ export interface CardDef {
    * a percentage (cents per $1), always worth face value.
    */
   cashBack?: boolean;
+  /**
+   * Starting point value in cents for break-even, when the user hasn't set one (default 1¢).
+   * For hotel and airline currencies worth well under 1¢ (e.g. 0.5 for Hilton points).
+   */
+  defaultPointValueCents?: number;
   /** Points or miles per dollar by spending category, highest first (catalog cards only). */
   earnRates?: readonly EarnRate[];
 }

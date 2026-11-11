@@ -115,6 +115,27 @@ describe('break-even UI', () => {
     expect(within(section).getByRole('note').textContent).toContain('Robinhood Gold');
   });
 
+  it("starts from the card's own point value, and clearing the field returns to it", () => {
+    render(<App store={setup('amex-hilton-aspire')} />);
+    const section = screen.getByRole('region', { name: 'Making up the difference with rewards' });
+    const row = (name: RegExp) =>
+      within(section).getByRole('rowheader', { name }).closest('tr') as HTMLElement;
+    const input = within(section).getByLabelText('Hilton Honors points worth') as HTMLInputElement;
+    expect(input.value).toBe('0.5');
+    // 14x × 0.5¢ = 7¢ − 2¢ = 5¢ extra -> $550 / 0.05 / 12 = $916.67 -> $917/mo
+    expect(row(/^Hilton hotels and resorts/).textContent).toContain('$917/mo');
+    // 7x × 0.5¢ = 3.5¢ − 2¢ = 1.5¢ extra -> $550 / 0.015 / 12 = $3,055.56 -> $3,056/mo
+    expect(row(/^U\.S\. restaurants/).textContent).toContain('$3,056/mo');
+    // 3x × 0.5¢ = 1.5¢: worse than a 2% card
+    expect(row(/^Everything else/).textContent).toContain('No better than your 2% card');
+
+    fireEvent.input(input, { target: { value: '1' } });
+    expect(row(/^Everything else/).textContent).toContain('$4,584/mo');
+    fireEvent.input(input, { target: { value: '9' } });
+    fireEvent.blur(input);
+    expect(input.value).toBe('0.5');
+  });
+
   it('shows cash-back cards in % at face value, with no point value to set', () => {
     const store = setup('amex-blue-cash-preferred');
     // Even a stale saved point value is ignored: cash back is always worth 1¢ per 1%.

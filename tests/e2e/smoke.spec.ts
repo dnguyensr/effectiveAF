@@ -41,6 +41,19 @@ test.describe('accessibility (axe)', () => {
     expect(await seriousViolations(page)).toEqual([]);
   });
 
+  test('a free night the user values', async ({ page }) => {
+    await page.goto('./');
+    await addCards(page, /Add American Express Marriott Bonvoy Brilliant Card/);
+    const field = page.getByLabel(/^Free Night Award: what it's worth to you/);
+    await field.fill('450');
+    await field.blur();
+    await expect(page.getByTestId('realized-amex-marriott-brilliant.free-night')).toContainText(
+      '$450',
+    );
+    await expect(page.getByText(/What would you pay for a night/)).toContainText('Up to $2,000.');
+    expect(await seriousViolations(page)).toEqual([]);
+  });
+
   test('dark theme', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.goto('./');

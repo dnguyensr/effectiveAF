@@ -96,7 +96,8 @@ export function upcomingResets(
         date,
         days,
         kind: endsFirst ? 'ends' : 'resets',
-        periodCents: p.perk.amountPerPeriodCents,
+        // A user-valued perk's amount is only a limit; what's at stake is the user's value.
+        periodCents: p.perk.userValued ? p.realizedCents : p.perk.amountPerPeriodCents,
       });
     }
   }

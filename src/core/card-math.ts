@@ -36,7 +36,10 @@ export type Verdict = 'pays-for-itself' | 'costs';
 
 export interface PerkSummary {
   perk: PerkDef;
+  /** Face value per year; 0 for a user-valued perk, which has none. */
   nominalCents: number;
+  /** The most the user can value it at: face value, or a user-valued perk's upper limit. */
+  capCents: number;
   realizedCents: number;
   valuation: PerkValuation | undefined;
   status: PerkStatus;
@@ -77,12 +80,13 @@ export function summarizeCard(
   const perks = card.perks
     .filter((perk) => isPerkAvailable(perk, asOf))
     .map((perk): PerkSummary => {
-      const nominal = annualNominalCents(perk);
+      const cap = annualNominalCents(perk);
       const valuation = userState?.perks[perk.id];
       return {
         perk,
-        nominalCents: nominal,
-        realizedCents: realizedCents(nominal, valuation),
+        nominalCents: perk.userValued ? 0 : cap,
+        capCents: cap,
+        realizedCents: realizedCents(cap, valuation),
         valuation,
         status: perkStatus(valuation),
       };
