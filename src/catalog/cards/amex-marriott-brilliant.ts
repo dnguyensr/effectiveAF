@@ -20,6 +20,7 @@ export const amexMarriottBrilliant: CardDef = {
     'Marriott points are usually valued around 0.7¢ each, below transferable points; change the value in break-even to what you get.',
     'A Free Night Award (up to 85,000 points; resort fees may apply) each year after your renewal month is not counted here yet; add it as a custom perk at what you would pay for the stay.',
     'Spending $60,000 in a calendar year earns a Brilliant Earned Choice Award.',
+    'Up to $100 property credit at The Ritz-Carlton or St. Regis on 2+ night stays booked direct with a special rate (per stay, not counted here). Also 25 Elite Night Credits each calendar year.',
     'Includes Marriott Bonvoy Platinum Elite status (not counted as a credit). No foreign transaction fees.',
   ],
   perks: [
@@ -33,6 +34,19 @@ export const amexMarriottBrilliant: CardDef = {
       amountPerPeriodCents: 2500,
       resetBasis: 'calendar-year',
       cadenceLabel: '$25 / month',
+      requiresEnrollment: false,
+    },
+    {
+      id: 'amex-marriott-brilliant.global-entry',
+      name: 'Global Entry / TSA PreCheck credit',
+      description:
+        'Application fee for Global Entry ($120) or TSA PreCheck (up to $85), every 4 years.',
+      category: 'travel',
+      kind: 'trusted-traveler',
+      cadence: 'every-4-years',
+      amountPerPeriodCents: 12000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '$120 / 4 years',
       requiresEnrollment: false,
     },
   ],

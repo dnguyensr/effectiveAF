@@ -31,8 +31,16 @@
         "effective": "-$45"
       },
       "amex-marriott-brilliant": {
-        "realized": "$300",
-        "effective": "$350"
+        "realized": "$330",
+        "effective": "$320"
+      },
+      "amex-delta-reserve": {
+        "realized": "$590",
+        "effective": "$60"
+      },
+      "amex-delta-platinum": {
+        "realized": "$420",
+        "effective": "-$70"
       },
       "chase-sapphire-preferred": {
         "realized": "$550",
@@ -54,6 +62,14 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$890",
+        "effective": "-$195"
+      },
+      "chase-united-quest": {
+        "realized": "$860",
+        "effective": "-$510"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -73,6 +89,10 @@
       "citi-strata-premier": {
         "realized": "$100",
         "effective": "-$5"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$1,130",
+        "effective": "-$435"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$480",
@@ -125,8 +145,16 @@
         "effective": "$75"
       },
       "amex-marriott-brilliant": {
-        "realized": "$150",
-        "effective": "$500"
+        "realized": "$165",
+        "effective": "$485"
+      },
+      "amex-delta-reserve": {
+        "realized": "$295",
+        "effective": "$355"
+      },
+      "amex-delta-platinum": {
+        "realized": "$210",
+        "effective": "$140"
       },
       "chase-sapphire-preferred": {
         "realized": "$275",
@@ -148,6 +176,14 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$445",
+        "effective": "$250"
+      },
+      "chase-united-quest": {
+        "realized": "$430",
+        "effective": "-$80"
+      },
       "capital-one-venture-x": {
         "realized": "$215",
         "effective": "$180"
@@ -167,6 +203,10 @@
       "citi-strata-premier": {
         "realized": "$50",
         "effective": "$45"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$565",
+        "effective": "$130"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$240",
@@ -219,8 +259,16 @@
         "effective": "-$45"
       },
       "amex-marriott-brilliant": {
-        "realized": "$300",
-        "effective": "$350"
+        "realized": "$330",
+        "effective": "$320"
+      },
+      "amex-delta-reserve": {
+        "realized": "$590",
+        "effective": "$60"
+      },
+      "amex-delta-platinum": {
+        "realized": "$420",
+        "effective": "-$70"
       },
       "chase-sapphire-preferred": {
         "realized": "$250",
@@ -242,6 +290,14 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$650",
+        "effective": "$45"
+      },
+      "chase-united-quest": {
+        "realized": "$680",
+        "effective": "-$330"
+      },
       "capital-one-venture-x": {
         "realized": "$430",
         "effective": "-$35"
@@ -261,6 +317,10 @@
       "citi-strata-premier": {
         "realized": "$100",
         "effective": "-$5"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$1,130",
+        "effective": "-$435"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$330",
@@ -316,6 +376,14 @@
         "realized": "$0",
         "effective": "$650"
       },
+      "amex-delta-reserve": {
+        "realized": "$0",
+        "effective": "$650"
+      },
+      "amex-delta-platinum": {
+        "realized": "$0",
+        "effective": "$350"
+      },
       "chase-sapphire-preferred": {
         "realized": "$0",
         "effective": "$95"
@@ -336,6 +404,14 @@
         "realized": "$0",
         "effective": "$195"
       },
+      "chase-united-club": {
+        "realized": "$0",
+        "effective": "$695"
+      },
+      "chase-united-quest": {
+        "realized": "$0",
+        "effective": "$350"
+      },
       "capital-one-venture-x": {
         "realized": "$0",
         "effective": "$395"
@@ -355,6 +431,10 @@
       "citi-strata-premier": {
         "realized": "$0",
         "effective": "$95"
+      },
+      "citi-aadvantage-executive": {
+        "realized": "$0",
+        "effective": "$695"
       },
       "bofa-premium-rewards-elite": {
         "realized": "$0",

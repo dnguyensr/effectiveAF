@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { amexBlueCashPreferred } from './cards/amex-blue-cash-preferred';
 import { amexBusinessPlatinum } from './cards/amex-business-platinum';
+import { amexDeltaPlatinum } from './cards/amex-delta-platinum';
+import { amexDeltaReserve } from './cards/amex-delta-reserve';
 import { amexGold } from './cards/amex-gold';
 import { amexHiltonAspire } from './cards/amex-hilton-aspire';
 import { amexHiltonBusiness } from './cards/amex-hilton-business';
@@ -19,6 +21,9 @@ import { chaseInkBusinessPremier } from './cards/chase-ink-business-premier';
 import { chaseSapphirePreferred } from './cards/chase-sapphire-preferred';
 import { chaseSapphireReserve } from './cards/chase-sapphire-reserve';
 import { chaseSapphireReserveBusiness } from './cards/chase-sapphire-reserve-business';
+import { chaseUnitedClub } from './cards/chase-united-club';
+import { chaseUnitedQuest } from './cards/chase-united-quest';
+import { citiAAdvantageExecutive } from './cards/citi-aadvantage-executive';
 import { citiStrataElite } from './cards/citi-strata-elite';
 import { citiStrataPremier } from './cards/citi-strata-premier';
 import { wellsFargoAutographJourney } from './cards/wells-fargo-autograph-journey';
@@ -37,16 +42,21 @@ export const CATALOG: readonly CardDef[] = [
   amexHiltonSurpass,
   amexHiltonBusiness,
   amexMarriottBrilliant,
+  amexDeltaReserve,
+  amexDeltaPlatinum,
   chaseSapphirePreferred,
   chaseSapphireReserve,
   chaseSapphireReserveBusiness,
   chaseInkBusinessPreferred,
   chaseInkBusinessPremier,
+  chaseUnitedClub,
+  chaseUnitedQuest,
   capitalOneVentureX,
   capitalOneVentureXBusiness,
   capitalOneVenture,
   citiStrataElite,
   citiStrataPremier,
+  citiAAdvantageExecutive,
   bofaPremiumRewardsElite,
   bofaPremiumRewards,
   wellsFargoAutographJourney,

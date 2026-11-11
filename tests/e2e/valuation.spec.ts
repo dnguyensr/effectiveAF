@@ -155,7 +155,7 @@ test('picker: issuer tabs and search', async ({ page }) => {
   await page.getByRole('button', { name: /^Value the cards I have/ }).click();
   const picker = page.getByRole('dialog', { name: 'Add a card' });
   await picker.getByRole('tab', { name: 'Chase' }).click();
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(5);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(7);
   await picker.getByRole('tab', { name: 'All' }).click();
   await picker.getByLabel('Search cards').fill('venture');
   await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);

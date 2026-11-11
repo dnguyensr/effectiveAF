@@ -24,6 +24,7 @@ export const amexHiltonAspire: CardDef = {
     'Hilton points are usually valued around 0.5¢ each, well below transferable points; change the value in break-even to what you get.',
     'A Free Night Reward each year on renewal (and in your first year) is not counted here yet; add it as a custom perk at what you would pay for the stay.',
     'Spending $30,000 in a calendar year earns another Free Night Reward, and another $30,000 earns a second.',
+    'Up to $100 property credit at Waldorf Astoria and Conrad on 2+ night stays booked with the Aspire Card Benefit rate (per stay, not counted here).',
     'Includes Hilton Honors Diamond status (not counted as a credit).',
   ],
   perks: [

@@ -74,8 +74,19 @@ describe('catalog cards at full value (hand-computed)', () => {
     ['amex-hilton-surpass', 15000, 20000],
     // 240 Hilton ($60/quarter)
     ['amex-hilton-business', 19500, 24000],
-    // 300 dining ($25/month); the free night isn't counted
-    ['amex-marriott-brilliant', 65000, 30000],
+    // 300 dining ($25/month) + 30 Global Entry ($120 every 4 years); the free night isn't counted
+    ['amex-marriott-brilliant', 65000, 33000],
+    // Batch 2. 200 Delta Stays + 240 Resy ($20/month) + 120 rideshare ($10/month) + 30 Global Entry
+    ['amex-delta-reserve', 65000, 59000],
+    // 150 Delta Stays + 120 Resy ($10/month) + 120 rideshare + 30 Global Entry
+    ['amex-delta-platinum', 35000, 42000],
+    // 200 Renowned Hotels + 200 JSX + 150 rideshare + 100 Avis/Budget + 240 Instacart
+    ['chase-united-club', 69500, 89000],
+    // 200 United travel + 150 Renowned Hotels + 150 JSX + 100 rideshare + 80 Avis/Budget + 180 Instacart
+    ['chase-united-quest', 35000, 86000],
+    // 500 AA Vacations ($250/half) + 200 inKind ($100/half) + 180 Lyft ($15/month)
+    // + 120 Avis/Budget + 100 inflight + 30 Global Entry
+    ['citi-aadvantage-executive', 69500, 113000],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');

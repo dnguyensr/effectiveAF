@@ -36,6 +36,7 @@ export const KINDS = [
   { id: 'airport-security', label: 'CLEAR+', group: 'Travel' },
   { id: 'bonus-miles', label: 'Anniversary bonus', group: 'Travel' },
   { id: 'car-service', label: 'Car service', group: 'Travel' },
+  { id: 'car-rental', label: 'Car rental credits', group: 'Travel' },
   { id: 'dining', label: 'Dining credits', group: 'Dining' },
   { id: 'food-delivery', label: 'Delivery promos', group: 'Dining' },
   { id: 'delivery-membership', label: 'Delivery membership', group: 'Dining' },

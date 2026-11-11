@@ -11,6 +11,18 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/amex-delta-platinum.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-delta-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/amex-gold.ts": {
     "lines": 100,
     "branches": 100,
@@ -114,6 +126,24 @@
     "statements": 100
   },
   "src/catalog/cards/chase-sapphire-reserve.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-united-club.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-united-quest.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/citi-aadvantage-executive.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,

@@ -1,0 +1,77 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import type { CardDef } from '../types';
+
+export const amexDeltaPlatinum: CardDef = {
+  id: 'amex-delta-platinum',
+  issuer: 'American Express',
+  name: 'Delta SkyMiles Platinum Card',
+  annualFeeCents: 35000,
+  lastVerified: '2026-11-11',
+  sourceUrl:
+    'https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/',
+  rewardsCurrency: 'Delta SkyMiles',
+  earnRates: [
+    { category: 'Delta purchases', multiplier: 3, note: 'made directly with Delta' },
+    { category: 'Hotels', multiplier: 3, note: 'booked directly with the hotel' },
+    { category: 'U.S. restaurants', multiplier: 2, note: 'including takeout and delivery' },
+    { category: 'U.S. supermarkets', multiplier: 2 },
+    { category: 'Everything else', multiplier: 1 },
+  ],
+  notes: [
+    'Pay with Miles takes $50 off a Delta flight per 5,000 miles, so 1¢ a mile is a floor; award flights can be worth more.',
+    'A Companion Certificate each year after renewal (Main Cabin round trip within the U.S., the Caribbean or Central America; you pay $22–$250 in taxes and fees) is not counted here yet; add it as a custom perk at what you would pay.',
+    'Includes a free first and second checked bag and 15% off Delta award flights (not counted as credits).',
+    'Also 20% back on Delta in-flight food and drink, and MQD Headstart toward Medallion status.',
+  ],
+  perks: [
+    {
+      id: 'amex-delta-platinum.delta-stays',
+      name: 'Delta Stays credit',
+      description: 'Prepaid hotels or vacation rentals booked through Delta Stays on delta.com.',
+      category: 'travel',
+      kind: 'hotel',
+      cadence: 'annual',
+      amountPerPeriodCents: 15000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$150 / year',
+      requiresEnrollment: false,
+    },
+    {
+      id: 'amex-delta-platinum.resy',
+      name: 'Resy credit',
+      description: 'Eligible purchases at qualifying U.S. Resy restaurants.',
+      category: 'dining',
+      kind: 'dining',
+      cadence: 'monthly',
+      amountPerPeriodCents: 1000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$10 / month',
+      requiresEnrollment: true,
+    },
+    {
+      id: 'amex-delta-platinum.rideshare',
+      name: 'Rideshare credit',
+      description: 'U.S. rideshare purchases with select providers.',
+      category: 'rideshare',
+      kind: 'rideshare',
+      cadence: 'monthly',
+      amountPerPeriodCents: 1000,
+      resetBasis: 'calendar-year',
+      cadenceLabel: '$10 / month',
+      requiresEnrollment: true,
+    },
+    {
+      id: 'amex-delta-platinum.global-entry',
+      name: 'Global Entry / TSA PreCheck credit',
+      description:
+        'Application fee for Global Entry ($120) or TSA PreCheck (up to $85), every 4 years.',
+      category: 'travel',
+      kind: 'trusted-traveler',
+      cadence: 'every-4-years',
+      amountPerPeriodCents: 12000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '$120 / 4 years',
+      requiresEnrollment: false,
+    },
+  ],
+};
