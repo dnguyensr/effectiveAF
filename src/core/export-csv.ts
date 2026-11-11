@@ -50,7 +50,7 @@ export function walletCsv(cards: readonly CardSummary[]): string {
         ...card,
         p.perk.name,
         p.perk.cadenceLabel,
-        dollars(p.nominalCents),
+        p.perk.userValued ? 'You set the value' : dollars(p.nominalCents),
         dollars(p.realizedCents),
         STATUS_LABEL[p.status],
       ]);

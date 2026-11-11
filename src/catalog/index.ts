@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { amexBlueCashPreferred } from './cards/amex-blue-cash-preferred';
 import { amexBusinessPlatinum } from './cards/amex-business-platinum';
+import { amexDeltaGold } from './cards/amex-delta-gold';
 import { amexDeltaPlatinum } from './cards/amex-delta-platinum';
 import { amexDeltaReserve } from './cards/amex-delta-reserve';
 import { amexGold } from './cards/amex-gold';
@@ -16,12 +17,17 @@ import { bofaPremiumRewardsElite } from './cards/bofa-premium-rewards-elite';
 import { capitalOneVenture } from './cards/capital-one-venture';
 import { capitalOneVentureX } from './cards/capital-one-venture-x';
 import { capitalOneVentureXBusiness } from './cards/capital-one-venture-x-business';
+import { chaseIhgBusiness } from './cards/chase-ihg-business';
+import { chaseIhgPremier } from './cards/chase-ihg-premier';
+import { chaseIhgPremierSelect } from './cards/chase-ihg-premier-select';
 import { chaseInkBusinessPreferred } from './cards/chase-ink-business-preferred';
 import { chaseInkBusinessPremier } from './cards/chase-ink-business-premier';
+import { chaseMarriottBoundless } from './cards/chase-marriott-boundless';
 import { chaseSapphirePreferred } from './cards/chase-sapphire-preferred';
 import { chaseSapphireReserve } from './cards/chase-sapphire-reserve';
 import { chaseSapphireReserveBusiness } from './cards/chase-sapphire-reserve-business';
 import { chaseUnitedClub } from './cards/chase-united-club';
+import { chaseUnitedExplorer } from './cards/chase-united-explorer';
 import { chaseUnitedQuest } from './cards/chase-united-quest';
 import { citiAAdvantageExecutive } from './cards/citi-aadvantage-executive';
 import { citiStrataElite } from './cards/citi-strata-elite';
@@ -44,6 +50,7 @@ export const CATALOG: readonly CardDef[] = [
   amexMarriottBrilliant,
   amexDeltaReserve,
   amexDeltaPlatinum,
+  amexDeltaGold,
   chaseSapphirePreferred,
   chaseSapphireReserve,
   chaseSapphireReserveBusiness,
@@ -51,6 +58,11 @@ export const CATALOG: readonly CardDef[] = [
   chaseInkBusinessPremier,
   chaseUnitedClub,
   chaseUnitedQuest,
+  chaseUnitedExplorer,
+  chaseMarriottBoundless,
+  chaseIhgPremierSelect,
+  chaseIhgPremier,
+  chaseIhgBusiness,
   capitalOneVentureX,
   capitalOneVentureXBusiness,
   capitalOneVenture,

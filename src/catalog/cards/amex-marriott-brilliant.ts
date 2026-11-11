@@ -18,12 +18,26 @@ export const amexMarriottBrilliant: CardDef = {
   ],
   notes: [
     'Marriott points are usually valued around 0.7¢ each, below transferable points; change the value in break-even to what you get.',
-    'A Free Night Award (up to 85,000 points; resort fees may apply) each year after your renewal month is not counted here yet; add it as a custom perk at what you would pay for the stay.',
     'Spending $60,000 in a calendar year earns a Brilliant Earned Choice Award.',
     'Up to $100 property credit at The Ritz-Carlton or St. Regis on 2+ night stays booked direct with a special rate (per stay, not counted here). Also 25 Elite Night Credits each calendar year.',
     'Includes Marriott Bonvoy Platinum Elite status (not counted as a credit). No foreign transaction fees.',
   ],
   perks: [
+    {
+      id: 'amex-marriott-brilliant.free-night',
+      name: 'Free Night Award',
+      description:
+        'One night at a hotel costing up to 85,000 points, each year after your renewal month. Resort fees may apply.',
+      category: 'travel',
+      kind: 'free-night',
+      cadence: 'annual',
+      amountPerPeriodCents: 200000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '1 night up to 85k / year',
+      requiresEnrollment: false,
+      userValued: true,
+      valueHint: "What would you pay for a night you'd actually book with it?",
+    },
     {
       id: 'amex-marriott-brilliant.dining',
       name: 'Brilliant Dining credit',

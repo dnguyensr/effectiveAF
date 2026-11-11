@@ -491,6 +491,10 @@ p {
   margin-top: 10px;
 }
 
+.perk-hint {
+  margin: 8px 0 0;
+}
+
 .perk-range {
   flex: 1;
   min-width: 0;

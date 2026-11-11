@@ -19,11 +19,26 @@ export const amexDeltaPlatinum: CardDef = {
   ],
   notes: [
     'Pay with Miles takes $50 off a Delta flight per 5,000 miles, so 1¢ a mile is a floor; award flights can be worth more.',
-    'A Companion Certificate each year after renewal (Main Cabin round trip within the U.S., the Caribbean or Central America; you pay $22–$250 in taxes and fees) is not counted here yet; add it as a custom perk at what you would pay.',
     'Includes a free first and second checked bag and 15% off Delta award flights (not counted as credits).',
     'Also 20% back on Delta in-flight food and drink, and MQD Headstart toward Medallion status.',
   ],
   perks: [
+    {
+      id: 'amex-delta-platinum.companion',
+      name: 'Companion Certificate',
+      description:
+        'Each year after renewal: a companion on a Delta Main round trip within the U.S. or to the Caribbean or Central America. You pay $22–$250 in taxes and fees.',
+      category: 'travel',
+      kind: 'companion-fare',
+      cadence: 'annual',
+      amountPerPeriodCents: 200000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '1 round trip / year',
+      requiresEnrollment: false,
+      userValued: true,
+      valueHint:
+        "What would you pay for the companion's ticket on a trip you'd take anyway, minus the taxes and fees?",
+    },
     {
       id: 'amex-delta-platinum.delta-stays',
       name: 'Delta Stays credit',

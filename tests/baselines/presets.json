@@ -42,6 +42,10 @@
         "realized": "$420",
         "effective": "-$70"
       },
+      "amex-delta-gold": {
+        "realized": "$420",
+        "effective": "-$270"
+      },
       "chase-sapphire-preferred": {
         "realized": "$550",
         "effective": "-$455"
@@ -69,6 +73,26 @@
       "chase-united-quest": {
         "realized": "$860",
         "effective": "-$510"
+      },
+      "chase-united-explorer": {
+        "realized": "$560",
+        "effective": "-$410"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$940",
+        "effective": "-$590"
+      },
+      "chase-ihg-premier": {
+        "realized": "$640",
+        "effective": "-$490"
+      },
+      "chase-ihg-business": {
+        "realized": "$690",
+        "effective": "-$490"
       },
       "capital-one-venture-x": {
         "realized": "$430",
@@ -156,6 +180,10 @@
         "realized": "$210",
         "effective": "$140"
       },
+      "amex-delta-gold": {
+        "realized": "$210",
+        "effective": "-$60"
+      },
       "chase-sapphire-preferred": {
         "realized": "$275",
         "effective": "-$180"
@@ -183,6 +211,26 @@
       "chase-united-quest": {
         "realized": "$430",
         "effective": "-$80"
+      },
+      "chase-united-explorer": {
+        "realized": "$280",
+        "effective": "-$130"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$50",
+        "effective": "$45"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$470",
+        "effective": "-$120"
+      },
+      "chase-ihg-premier": {
+        "realized": "$320",
+        "effective": "-$170"
+      },
+      "chase-ihg-business": {
+        "realized": "$345",
+        "effective": "-$145"
       },
       "capital-one-venture-x": {
         "realized": "$215",
@@ -270,6 +318,10 @@
         "realized": "$420",
         "effective": "-$70"
       },
+      "amex-delta-gold": {
+        "realized": "$420",
+        "effective": "-$270"
+      },
       "chase-sapphire-preferred": {
         "realized": "$250",
         "effective": "-$155"
@@ -297,6 +349,26 @@
       "chase-united-quest": {
         "realized": "$680",
         "effective": "-$330"
+      },
+      "chase-united-explorer": {
+        "realized": "$440",
+        "effective": "-$290"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$100",
+        "effective": "-$5"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$700",
+        "effective": "-$350"
+      },
+      "chase-ihg-premier": {
+        "realized": "$400",
+        "effective": "-$250"
+      },
+      "chase-ihg-business": {
+        "realized": "$350",
+        "effective": "-$150"
       },
       "capital-one-venture-x": {
         "realized": "$430",
@@ -384,6 +456,10 @@
         "realized": "$0",
         "effective": "$350"
       },
+      "amex-delta-gold": {
+        "realized": "$0",
+        "effective": "$150"
+      },
       "chase-sapphire-preferred": {
         "realized": "$0",
         "effective": "$95"
@@ -411,6 +487,26 @@
       "chase-united-quest": {
         "realized": "$0",
         "effective": "$350"
+      },
+      "chase-united-explorer": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "chase-marriott-boundless": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "chase-ihg-premier-select": {
+        "realized": "$0",
+        "effective": "$350"
+      },
+      "chase-ihg-premier": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "chase-ihg-business": {
+        "realized": "$0",
+        "effective": "$200"
       },
       "capital-one-venture-x": {
         "realized": "$0",

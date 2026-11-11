@@ -30,8 +30,8 @@ If the result is zero or below, the card pays for itself. If not, you'll see how
 
 Supported cards:
 
-- **American Express:** Platinum Card, Gold Card, Business Platinum Card, Blue Cash Preferred Card, Hilton Honors Aspire Card, Hilton Honors Surpass Card, Hilton Honors Business Card, Marriott Bonvoy Brilliant Card, Delta SkyMiles Reserve Card, Delta SkyMiles Platinum Card
-- **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business, Ink Business Preferred, Ink Business Premier, United Club Card, United Quest Card
+- **American Express:** Platinum Card, Gold Card, Business Platinum Card, Blue Cash Preferred Card, Hilton Honors Aspire Card, Hilton Honors Surpass Card, Hilton Honors Business Card, Marriott Bonvoy Brilliant Card, Delta SkyMiles Reserve Card, Delta SkyMiles Platinum Card, Delta SkyMiles Gold Card
+- **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business, Ink Business Preferred, Ink Business Premier, United Club Card, United Quest Card, United Explorer Card, Marriott Bonvoy Boundless Card, IHG One Rewards Premier Select Card, IHG One Rewards Premier Card, IHG One Rewards Premier Business Card
 - **Capital One:** Venture X, Venture X Business, Venture
 - **Citi:** Strata Elite, Strata Premier Card, AAdvantage Executive Card
 - **Bank of America:** Premium Rewards Elite, Premium Rewards

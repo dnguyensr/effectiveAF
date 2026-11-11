@@ -87,6 +87,23 @@ describe('catalog cards at full value (hand-computed)', () => {
     // 500 AA Vacations ($250/half) + 200 inKind ($100/half) + 180 Lyft ($15/month)
     // + 120 Avis/Budget + 100 inflight + 30 Global Entry
     ['citi-aadvantage-executive', 69500, 113000],
+    // Batch 3. Free nights and companion certificates have no face value and add nothing here.
+    // 200 flight credit (after $10k spend) + 100 Delta Stays + 120 rideshare ($10/month)
+    ['amex-delta-gold', 15000, 42000],
+    // 100 United travel (after $10k) + 100 United Hotels + 100 JSX + 60 rideshare + 50 Avis/Budget
+    // + 120 Instacart + 30 Global Entry
+    ['chase-united-explorer', 15000, 56000],
+    // 100 airline ($50/half-year, through June 2027); the free night isn't face value
+    ['chase-marriott-boundless', 9500, 10000],
+    // 100 F&B ($25/quarter) + 100 airline + 50 TravelBank + 120 Instacart + 120 DoorDash
+    // + 120 DashPass + 30 Global Entry
+    ['chase-ihg-premier', 15000, 64000],
+    // 300 F&B ($75/quarter) + 200 airline + 50 TravelBank + 120 Instacart + 120 DoorDash
+    // + 120 DashPass + 30 Global Entry
+    ['chase-ihg-premier-select', 35000, 94000],
+    // 100 F&B + 100 airline + 100 Expensify + 120 Instacart + 120 DoorDash + 120 DashPass
+    // + 30 Global Entry
+    ['chase-ihg-business', 20000, 69000],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');

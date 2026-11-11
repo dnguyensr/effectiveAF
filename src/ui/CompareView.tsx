@@ -125,7 +125,11 @@ export function CompareView({ onChooseCards }: { onChooseCards: () => void }) {
                             ) : (
                               perks.map((p) => (
                                 <div key={p.id} class="cmp-perk">
-                                  <strong>{formatUsd(annualNominalCents(p))}/yr</strong>
+                                  <strong>
+                                    {p.userValued
+                                      ? 'You set the value'
+                                      : `${formatUsd(annualNominalCents(p))}/yr`}
+                                  </strong>
                                   <span>{p.name}</span>
                                   <span class="cmp-cadence">{p.cadenceLabel}</span>
                                 </div>

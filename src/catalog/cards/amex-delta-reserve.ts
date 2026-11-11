@@ -16,11 +16,26 @@ export const amexDeltaReserve: CardDef = {
   ],
   notes: [
     'Pay with Miles takes $50 off a Delta flight per 5,000 miles, so 1¢ a mile is a floor; award flights can be worth more.',
-    'A Companion Certificate each year after renewal (First, Comfort or Main round trip within the U.S., Mexico, the Caribbean or Central America; you pay $22–$250 in taxes and fees) is not counted here yet; add it as a custom perk at what you would pay.',
     'Includes 15 Delta Sky Club visits a year (unlimited after $75,000 in a calendar year), Centurion Lounge access when flying Delta, and a free first and second checked bag (not counted as credits).',
     'Also 20% back on Delta in-flight food and drink, and $2,500 MQD Headstart each year toward Medallion status.',
   ],
   perks: [
+    {
+      id: 'amex-delta-reserve.companion',
+      name: 'Companion Certificate',
+      description:
+        'Each year after renewal: a companion on a Delta First, Comfort or Main round trip within the U.S. or to Mexico, the Caribbean or Central America. You pay $22–$250 in taxes and fees.',
+      category: 'travel',
+      kind: 'companion-fare',
+      cadence: 'annual',
+      amountPerPeriodCents: 200000,
+      resetBasis: 'cardmember-year',
+      cadenceLabel: '1 round trip / year',
+      requiresEnrollment: false,
+      userValued: true,
+      valueHint:
+        "What would you pay for the companion's ticket on a trip you'd take anyway, minus the taxes and fees?",
+    },
     {
       id: 'amex-delta-reserve.delta-stays',
       name: 'Delta Stays credit',

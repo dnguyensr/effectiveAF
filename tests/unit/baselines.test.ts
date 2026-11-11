@@ -40,10 +40,15 @@ describe('baselines', () => {
         cadence: p.cadence,
         perPeriod: usd(p.amountPerPeriodCents),
         kind: p.kind,
-        annualNominal: usd(annualNominalCents(p)),
+        // A user-valued perk has no face value; its amount is only the most the user can enter.
+        annualNominal: p.userValued
+          ? `you set (up to ${usd(annualNominalCents(p))})`
+          : usd(annualNominalCents(p)),
         ...(p.endsOn ? { endsOn: p.endsOn } : {}),
       })),
-      totalNominal: usd(card.perks.reduce((s, p) => s + annualNominalCents(p), 0)),
+      totalNominal: usd(
+        card.perks.reduce((s, p) => s + (p.userValued ? 0 : annualNominalCents(p)), 0),
+      ),
       rewardsCurrency: card.rewardsCurrency,
       earnRates: card.earnRates?.map((r) => `${r.multiplier}x ${r.category}`),
     }));
