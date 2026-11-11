@@ -23,6 +23,11 @@ function renderApp(initial: Record<string, string> = {}, storageAvailable = true
 
 const click = (name: string | RegExp, root: HTMLElement = document.body) =>
   fireEvent.click(within(root).getByRole('button', { name }));
+/** Opens the Options menu and picks an item. */
+const option = (name: string) => {
+  click('Options');
+  click(name);
+};
 const clickTab = (name: string, root: HTMLElement) =>
   fireEvent.click(within(root).getByRole('tab', { name }));
 const verdict = (cardId: string) => screen.getByTestId(`verdict-${cardId}`).textContent;
@@ -77,7 +82,9 @@ describe('first visit', () => {
       'Bilt',
       'Your cards',
     ]);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(16);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(19);
+    expect(within(picker).getByText('$195 fee · rewards only, no credits')).toBeTruthy();
+    expect(within(picker).getAllByText('$95 fee · 1 perk').length).toBeGreaterThan(0);
   });
 
   it('"Compare cards" goes to the comparison and opens the picker there', () => {
@@ -104,7 +111,7 @@ describe('card picker', () => {
     click(/^Value the cards I have/);
     const picker = dialog('Add a card');
     clickTab('Chase', picker);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(3);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(5);
     const chase = within(picker).getByRole('tab', { name: 'Chase' });
     fireEvent.keyDown(chase, { key: 'ArrowRight' });
     expect(
@@ -326,10 +333,10 @@ describe('wallet', () => {
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
     fireEvent.input(slider, { target: { value: '100' } });
     const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValueOnce(false);
-    click('Clear all values');
+    option('Clear all values');
     expect(verdict('amex-gold')).toBe('Costs $205/yr');
     confirmSpy.mockReturnValueOnce(true);
-    click('Clear all values');
+    option('Clear all values');
     expect(verdict('amex-gold')).toBe('Costs $325/yr');
   });
 
@@ -481,8 +488,137 @@ describe('notices and theme', () => {
   });
 });
 
-describe('backup dialog', () => {
-  const openDialog = () => click('Back up or restore');
+describe('options menu', () => {
+  const toggle = () => screen.getByRole('button', { name: 'Options' });
+  const items = () =>
+    within(document.getElementById('options-panel') as HTMLElement)
+      .getAllByRole('button')
+      .map((b) => b.textContent);
+
+  it('opens and closes with the button, Escape, an outside click and tabbing away', () => {
+    renderApp();
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByRole('button', { name: 'Back up' })).toBeNull();
+
+    click('Options');
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    // With no cards, only the actions that make sense without any.
+    expect(items()).toEqual(['Back up', 'Restore from backup…', 'Start over…']);
+    click('Options');
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+
+    click('Options');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(toggle());
+
+    click('Options');
+    fireEvent.pointerDown(screen.getByRole('button', { name: 'Back up' }));
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    fireEvent.pointerDown(document.body);
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+
+    click('Options');
+    const backUp = screen.getByRole('button', { name: 'Back up' });
+    fireEvent.focusOut(backUp, { relatedTarget: toggle() });
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    fireEvent.focusOut(backUp, { relatedTarget: null });
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    fireEvent.focusOut(backUp, {
+      relatedTarget: screen.getByRole('link', { name: 'Compare' }),
+    });
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('lists every action once the wallet has cards', () => {
+    walletWith(/Add American Express Gold Card/);
+    click('Options');
+    expect(items()).toEqual([
+      'Copy summary for forums',
+      'Export spreadsheet (CSV)',
+      'Back up',
+      'Restore from backup…',
+      'Clear all values',
+      'Start over…',
+    ]);
+  });
+
+  it('exports the wallet as a dated CSV file', async () => {
+    walletWith(/Add American Express Gold Card/);
+    let blob: Blob | undefined;
+    Object.assign(URL, {
+      createObjectURL: vi.fn((b: Blob) => {
+        blob = b;
+        return 'blob:x';
+      }),
+      revokeObjectURL: vi.fn(),
+    });
+    const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    option('Export spreadsheet (CSV)');
+    const anchor = anchorClick.mock.instances[0] as unknown as HTMLAnchorElement;
+    expect(anchor.download).toBe('effectiveaf-2026-11-08.csv');
+    expect(blob?.type).toBe('text/csv;charset=utf-8');
+    expect(await blob?.text()).toContain('Gold Card,American Express,Have,Annual fee');
+    expect(screen.getByRole('button', { name: 'Options' }).getAttribute('aria-expanded')).toBe(
+      'false',
+    );
+  });
+});
+
+describe('start over', () => {
+  it('cancels, backs up first, erases everything, and can be undone', () => {
+    const { store } = walletWith(/Add American Express Gold Card/);
+    fireEvent.input(screen.getByRole('slider', { name: /^Dining credit/ }), {
+      target: { value: '100' },
+    });
+    act(() => {
+      store.setBaselinePercent(3);
+      store.toggleCompare('amex-platinum');
+    });
+    const before = store.state.value;
+
+    option('Start over…');
+    const confirmDialog = dialog('Start over?');
+    expect(confirmDialog.textContent).toContain('cards and perks you added yourself');
+    click('Cancel', confirmDialog);
+    expect(store.state.value).toBe(before);
+
+    Object.assign(URL, { createObjectURL: vi.fn(() => 'blob:x'), revokeObjectURL: vi.fn() });
+    const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    option('Start over…');
+    click('Back up first', dialog('Start over?'));
+    const anchor = anchorClick.mock.instances[0] as unknown as HTMLAnchorElement;
+    expect(anchor.download).toBe('effectiveaf-backup-2026-11-08.json');
+    expect(store.state.value).toBe(before);
+
+    click('Erase everything', dialog('Start over?'));
+    expect(store.state.value).toMatchObject({
+      wallet: [],
+      compare: [],
+      cards: {},
+      customCards: [],
+    });
+    expect(store.state.value.settings).toBeUndefined();
+    expect(store.baselinePercent.value).toBe(2);
+    expect(screen.getByRole('status').textContent).toContain('Everything was erased.');
+
+    click('Undo');
+    expect(store.state.value.wallet).toEqual(['amex-gold']);
+    expect(store.state.value.compare).toEqual(['amex-platinum']);
+    expect(store.baselinePercent.value).toBe(3);
+    expect(verdict('amex-gold')).toBe('Costs $205/yr');
+    expect(screen.queryByText('Everything was erased.')).toBeNull();
+
+    option('Start over…');
+    click('Erase everything', dialog('Start over?'));
+    click('Dismiss');
+    expect(screen.queryByText('Everything was erased.')).toBeNull();
+    expect(store.state.value.wallet).toEqual([]);
+  });
+});
+
+describe('restore dialog and backup', () => {
+  const openDialog = () => option('Restore from backup…');
 
   it('rejects invalid backups with a message and changes nothing', () => {
     const { store } = renderApp();
@@ -555,8 +691,7 @@ describe('backup dialog', () => {
     const createUrl = vi.fn(() => 'blob:x');
     Object.assign(URL, { createObjectURL: createUrl, revokeObjectURL: vi.fn() });
     const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
-    openDialog();
-    click('Download backup file');
+    option('Back up');
     expect(createUrl).toHaveBeenCalledTimes(1);
     const anchor = anchorClick.mock.instances[0] as unknown as HTMLAnchorElement;
     expect(anchor.download).toBe('effectiveaf-backup-2026-11-08.json');

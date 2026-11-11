@@ -1,12 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 import { useState } from 'preact/hooks';
+import { csvFileName, walletCsv } from '../core/export-csv';
 import { messageFor } from '../state/errors';
+import { backupFileName, exportState } from '../state/import-export';
+import type { UserState } from '../state/schema';
 import type { Store } from '../state/store';
-import { BackupDialog } from './BackupDialog';
 import { CardPicker, type PickerMode } from './CardPicker';
 import { CompareView } from './CompareView';
+import { downloadText } from './download';
 import { useHashRoute, type Route } from './navigation';
+import { OptionsMenu } from './OptionsMenu';
+import { RestoreDialog } from './RestoreDialog';
 import { ShareDialog } from './ShareDialog';
+import { StartOverDialog } from './StartOverDialog';
 import { StoreContext } from './store-context';
 import { ThemeToggle } from './ThemeToggle';
 import { WalletView } from './WalletView';
@@ -17,8 +23,11 @@ const REPO_URL = 'https://github.com/dnguyensr/effectiveAF';
 export function App({ store }: { store: Store }) {
   const [route, go] = useHashRoute();
   const [picker, setPicker] = useState<PickerMode | null>(null);
-  const [backupOpen, setBackupOpen] = useState(false);
+  const [restoreOpen, setRestoreOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [startOverOpen, setStartOverOpen] = useState(false);
+  /** What Start over erased, kept in memory (not saved) so it can be undone until reload. */
+  const [erased, setErased] = useState<UserState | null>(null);
   const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const { wallet, compare, customCards } = store.state.value;
@@ -29,6 +38,9 @@ export function App({ store }: { store: Store }) {
     go(target);
     setPicker(target);
   };
+
+  const backup = () =>
+    downloadText(backupFileName(store.asOf), exportState(store.state.value), 'application/json');
 
   return (
     <StoreContext.Provider value={store}>
@@ -51,6 +63,25 @@ export function App({ store }: { store: Store }) {
         <a href="#compare" aria-current={view === 'compare' ? 'page' : undefined}>
           Compare
         </a>
+        <OptionsMenu
+          hasCards={wallet.length > 0}
+          onShare={() => setShareOpen(true)}
+          onExport={() =>
+            downloadText(
+              csvFileName(store.asOf),
+              walletCsv(store.summary.value.cards),
+              'text/csv;charset=utf-8',
+            )
+          }
+          onBackup={backup}
+          onRestore={() => setRestoreOpen(true)}
+          onClearValues={() => {
+            if (confirm('Clear every value and fee override? Perks you added are kept.')) {
+              store.resetAll();
+            }
+          }}
+          onStartOver={() => setStartOverOpen(true)}
+        />
       </nav>
 
       <StorageNotice store={store} />
@@ -67,30 +98,6 @@ export function App({ store }: { store: Store }) {
           />
         )}
         {view === 'compare' && <CompareView onChooseCards={() => setPicker('compare')} />}
-
-        <section class="toolbar" aria-label="Data">
-          <button type="button" class="btn" onClick={() => setBackupOpen(true)}>
-            Back up or restore
-          </button>
-          {view === 'wallet' && wallet.length > 0 && (
-            <button type="button" class="btn" onClick={() => setShareOpen(true)}>
-              Copy summary for forums
-            </button>
-          )}
-          {view === 'wallet' && wallet.length > 0 && (
-            <button
-              type="button"
-              class="btn"
-              onClick={() => {
-                if (confirm('Clear every value and fee override? Perks you added are kept.')) {
-                  store.resetAll();
-                }
-              }}
-            >
-              Clear all values
-            </button>
-          )}
-        </section>
       </main>
 
       <CardPicker
@@ -99,8 +106,36 @@ export function App({ store }: { store: Store }) {
         onClose={() => setPicker(null)}
         onAdded={setActiveCard}
       />
-      <BackupDialog open={backupOpen} onClose={() => setBackupOpen(false)} />
+      <RestoreDialog open={restoreOpen} onClose={() => setRestoreOpen(false)} />
       <ShareDialog open={shareOpen} onClose={() => setShareOpen(false)} />
+      <StartOverDialog
+        open={startOverOpen}
+        onClose={() => setStartOverOpen(false)}
+        onBackup={backup}
+        onErase={() => {
+          setErased(store.startOver());
+          setActiveCard(null);
+          setStartOverOpen(false);
+        }}
+      />
+      {erased && (
+        <div class="toast" role="status">
+          <span>Everything was erased.</span>
+          <button
+            type="button"
+            class="link-button"
+            onClick={() => {
+              store.replaceState(erased);
+              setErased(null);
+            }}
+          >
+            Undo
+          </button>
+          <button type="button" class="link-button" onClick={() => setErased(null)}>
+            Dismiss
+          </button>
+        </div>
+      )}
 
       <footer class="site-footer">
         <p>
@@ -122,7 +157,7 @@ function StorageNotice({ store }: { store: Store }) {
   let text: string | null = null;
   if (store.loadStatus === 'unavailable') {
     text =
-      "This browser isn't letting effectiveAF save data, so your changes will be lost when you close the page. Use “Back up or restore” to keep a copy.";
+      "This browser isn't letting effectiveAF save data, so your changes will be lost when you close the page. Use Options → Back up to keep a copy.";
   } else if (store.loadStatus === 'recovered') {
     text = `Your saved data couldn't be read, so effectiveAF started fresh. The old data is still stored in this browser. ${store.loadProblem ? messageFor(store.loadProblem) : ''}`;
   } else if (store.saveFailed.value) {

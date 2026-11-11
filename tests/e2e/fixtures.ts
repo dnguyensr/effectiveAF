@@ -32,6 +32,12 @@ export async function addCards(page: Page, ...names: RegExp[]) {
   await expect(picker).toBeHidden();
 }
 
+/** Opens the Options menu on the nav bar and picks an item. */
+export async function chooseOption(page: Page, name: string) {
+  await page.getByRole('button', { name: 'Options' }).click();
+  await page.getByRole('button', { name, exact: true }).click();
+}
+
 /** Picks cards for the comparison (from the first-visit screen or the compare view). */
 export async function compareCards(page: Page, ...names: RegExp[]) {
   const choice = page.getByRole('button', { name: /^Compare cards/ });

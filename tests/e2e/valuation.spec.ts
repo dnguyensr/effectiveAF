@@ -1,5 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-import { addCards, expect, perkChip, selectTab, setFee, test, verdict } from './fixtures';
+import {
+  addCards,
+  chooseOption,
+  expect,
+  perkChip,
+  selectTab,
+  setFee,
+  test,
+  verdict,
+} from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('./');
@@ -135,10 +144,10 @@ test('clear all values asks first', async ({ page }) => {
   await addCards(page, /Add American Express Gold Card/);
   await page.getByRole('slider', { name: /^Dining credit/ }).fill('100');
   page.once('dialog', (d) => void d.dismiss());
-  await page.getByRole('button', { name: 'Clear all values' }).click();
+  await chooseOption(page, 'Clear all values');
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $205/yr');
   page.once('dialog', (d) => void d.accept());
-  await page.getByRole('button', { name: 'Clear all values' }).click();
+  await chooseOption(page, 'Clear all values');
   await expect(verdict(page, 'amex-gold')).toHaveText('Costs $325/yr');
 });
 
@@ -146,10 +155,10 @@ test('picker: issuer tabs and search', async ({ page }) => {
   await page.getByRole('button', { name: /^Value the cards I have/ }).click();
   const picker = page.getByRole('dialog', { name: 'Add a card' });
   await picker.getByRole('tab', { name: 'Chase' }).click();
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(5);
   await picker.getByRole('tab', { name: 'All' }).click();
   await picker.getByLabel('Search cards').fill('venture');
-  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(2);
+  await expect(picker.getByRole('button', { name: /^Add / })).toHaveCount(3);
   // Escape in a search box with text first clears it (browser behavior), then closes.
   await page.keyboard.press('Escape');
   if (await picker.isVisible()) await page.keyboard.press('Escape');

@@ -10,7 +10,7 @@ const isRealDate = (iso: string) =>
   ISO_DATE.test(iso) && new Date(`${iso}T00:00:00Z`).toISOString().startsWith(iso);
 
 describe('catalog', () => {
-  it('contains the Phase 1, Tier 1 and Tier 2 cards, grouped by issuer', () => {
+  it('contains the Phase 1 and Tier 1–3 cards, grouped by issuer', () => {
     expect(CATALOG.map((c) => c.id)).toEqual([
       'amex-platinum',
       'amex-gold',
@@ -19,8 +19,11 @@ describe('catalog', () => {
       'chase-sapphire-preferred',
       'chase-sapphire-reserve',
       'chase-sapphire-reserve-business',
+      'chase-ink-business-preferred',
+      'chase-ink-business-premier',
       'capital-one-venture-x',
       'capital-one-venture-x-business',
+      'capital-one-venture',
       'citi-strata-elite',
       'citi-strata-premier',
       'bofa-premium-rewards-elite',
@@ -53,7 +56,8 @@ describe('catalog', () => {
       expect(card.custom).toBeUndefined();
       expect(isRealDate(card.lastVerified ?? '')).toBe(true);
       expect(card.sourceUrl ?? '').toMatch(/^https:\/\//);
-      expect(card.perks.length).toBeGreaterThan(0);
+      // Rewards-only cards may have no credits, but then earning has to carry the answer.
+      if (card.perks.length === 0) expect(card.earnRates?.length ?? 0).toBeGreaterThan(1);
     });
 
     it.each(card.perks.map((p) => [p.id, p] as const))('perk %s is well-formed', (_pid, perk) => {

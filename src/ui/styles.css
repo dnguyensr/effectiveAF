@@ -520,11 +520,82 @@ p {
 /* Add cards */
 
 /* Toolbar, toast */
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 20px;
+/* Options menu: on the right of the views nav, opening a panel below it. */
+.options {
+  position: relative;
+  margin-left: auto;
+  align-self: center;
+}
+
+.options-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-weight: 600;
+  min-height: var(--target);
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.options-toggle:hover,
+.options-toggle[aria-expanded='true'] {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.options-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-width: 240px;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.options-panel li.options-danger:not(.options-danger + .options-danger) {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.options-item {
+  display: block;
+  width: 100%;
+  min-height: var(--target);
+  padding: 8px 12px;
+  font: inherit;
+  text-align: left;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.options-item:hover {
+  background: var(--surface-2);
+}
+
+.options-item-danger {
+  color: var(--bad);
+}
+
+.erase-list {
+  margin: 8px 0 12px;
+  padding-left: 20px;
 }
 
 .toast {
@@ -1167,9 +1238,10 @@ td .unset-note {
   font-weight: 600;
 }
 
+/* Amounts like "$1,355/mo" have no spaces, so they stay on one line; longer text such as
+   "No better than your 2% card" wraps instead of widening the page on phones. */
 .breakeven-table td:last-child {
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .share {
@@ -1459,19 +1531,31 @@ td .unset-note {
   background: var(--warn-bg);
 }
 
+/* Floats over the page under the asterisk; PayInFullNote sets top, left and width. The warning
+   tint is layered over the surface color so the note is opaque in both themes (the dark
+   theme's --warn-bg is translucent). */
 .pay-note {
-  display: block;
-  flex-basis: 100%;
-  max-width: 36rem;
-  margin-top: 4px;
-  padding: 8px 10px;
+  position: fixed;
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 10px 10px 12px;
   border: 1px solid var(--warn);
-  border-radius: 8px;
-  background: var(--warn-bg);
+  border-radius: 10px;
+  background: linear-gradient(var(--warn-bg), var(--warn-bg)), var(--surface);
+  box-shadow: var(--shadow);
   color: var(--text);
   font-size: var(--fs-small);
   font-weight: 400;
+  line-height: 1.5;
   text-align: left;
+  white-space: normal;
+}
+
+.pay-note-close {
+  flex: none;
 }
 
 .pay-question {

@@ -14,6 +14,22 @@ test('pay-in-full question, asterisk explanation and "apply to all"', async ({ p
   await page.keyboard.press('Escape');
   await expect(header.getByRole('note')).toHaveCount(0);
 
+  // The note floats below the header without covering the card's name, and is opaque.
+  await star.click();
+  const note = header.getByRole('note');
+  const title = header.getByText('Venture X', { exact: true });
+  const [noteBox, titleBox] = [await note.boundingBox(), await title.boundingBox()];
+  expect(noteBox && titleBox && noteBox.y >= titleBox.y + titleBox.height).toBe(true);
+  expect(
+    await note.evaluate((el) => getComputedStyle(el).backgroundImage.startsWith('linear-gradient')),
+  ).toBe(true);
+  await note.getByRole('button', { name: 'Close' }).click();
+  await expect(note).toHaveCount(0);
+  await expect(star).toBeFocused();
+  await star.click();
+  await page.mouse.click(5, 5);
+  await expect(note).toHaveCount(0);
+
   const question = page.getByRole('group', {
     name: "Will you pay this card's statement balance in full every month?",
   });

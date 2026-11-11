@@ -1,4 +1,10 @@
 {
+  "src/catalog/cards/amex-blue-cash-preferred.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/amex-business-platinum.ts": {
     "lines": 100,
     "branches": 100,
@@ -17,6 +23,12 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/bilt-obsidian.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/bilt-palladium.ts": {
     "lines": 100,
     "branches": 100,
@@ -29,6 +41,12 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/bofa-premium-rewards.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/capital-one-venture-x-business.ts": {
     "lines": 100,
     "branches": 100,
@@ -36,6 +54,24 @@
     "statements": 100
   },
   "src/catalog/cards/capital-one-venture-x.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/capital-one-venture.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-ink-business-preferred.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/chase-ink-business-premier.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -60,6 +96,18 @@
     "statements": 100
   },
   "src/catalog/cards/citi-strata-elite.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/citi-strata-premier.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/wells-fargo-autograph-journey.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -96,6 +144,12 @@
     "statements": 100
   },
   "src/core/dates.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/core/export-csv.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -174,10 +228,10 @@
     "statements": 100
   },
   "src/state/store.ts": {
-    "lines": 99.37,
+    "lines": 99.38,
     "branches": 95.27,
-    "functions": 98.73,
-    "statements": 98.49
+    "functions": 98.75,
+    "statements": 98.51
   },
   "src/state/v1-estimates.ts": {
     "lines": 100,
@@ -187,19 +241,13 @@
   },
   "src/ui/App.tsx": {
     "lines": 100,
-    "branches": 97.29,
+    "branches": 96.96,
     "functions": 100,
     "statements": 100
   },
-  "src/ui/BackupDialog.tsx": {
-    "lines": 100,
-    "branches": 83.33,
-    "functions": 90.9,
-    "statements": 89.58
-  },
   "src/ui/BreakEven.tsx": {
     "lines": 100,
-    "branches": 95.83,
+    "branches": 97.22,
     "functions": 100,
     "statements": 100
   },
@@ -211,7 +259,7 @@
   },
   "src/ui/CardPicker.tsx": {
     "lines": 100,
-    "branches": 97.67,
+    "branches": 100,
     "functions": 100,
     "statements": 100
   },
@@ -222,6 +270,12 @@
     "statements": 100
   },
   "src/ui/CustomForms.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/download.ts": {
     "lines": 100,
     "branches": 100,
     "functions": 100,
@@ -245,6 +299,12 @@
     "functions": 100,
     "statements": 100
   },
+  "src/ui/OptionsMenu.tsx": {
+    "lines": 100,
+    "branches": 95.65,
+    "functions": 100,
+    "statements": 96.77
+  },
   "src/ui/PayInFullNote.tsx": {
     "lines": 100,
     "branches": 88.88,
@@ -263,7 +323,19 @@
     "functions": 100,
     "statements": 100
   },
+  "src/ui/RestoreDialog.tsx": {
+    "lines": 100,
+    "branches": 90,
+    "functions": 100,
+    "statements": 94.87
+  },
   "src/ui/ShareDialog.tsx": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/ui/StartOverDialog.tsx": {
     "lines": 100,
     "branches": 100,
     "functions": 100,

@@ -7,8 +7,11 @@ import { biltObsidian } from './cards/bilt-obsidian';
 import { biltPalladium } from './cards/bilt-palladium';
 import { bofaPremiumRewards } from './cards/bofa-premium-rewards';
 import { bofaPremiumRewardsElite } from './cards/bofa-premium-rewards-elite';
+import { capitalOneVenture } from './cards/capital-one-venture';
 import { capitalOneVentureX } from './cards/capital-one-venture-x';
 import { capitalOneVentureXBusiness } from './cards/capital-one-venture-x-business';
+import { chaseInkBusinessPreferred } from './cards/chase-ink-business-preferred';
+import { chaseInkBusinessPremier } from './cards/chase-ink-business-premier';
 import { chaseSapphirePreferred } from './cards/chase-sapphire-preferred';
 import { chaseSapphireReserve } from './cards/chase-sapphire-reserve';
 import { chaseSapphireReserveBusiness } from './cards/chase-sapphire-reserve-business';
@@ -29,8 +32,11 @@ export const CATALOG: readonly CardDef[] = [
   chaseSapphirePreferred,
   chaseSapphireReserve,
   chaseSapphireReserveBusiness,
+  chaseInkBusinessPreferred,
+  chaseInkBusinessPremier,
   capitalOneVentureX,
   capitalOneVentureXBusiness,
+  capitalOneVenture,
   citiStrataElite,
   citiStrataPremier,
   bofaPremiumRewardsElite,
