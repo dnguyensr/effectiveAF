@@ -17,6 +17,30 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/amex-hilton-aspire.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-hilton-business.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-hilton-surpass.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/amex-marriott-brilliant.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/amex-platinum.ts": {
     "lines": 100,
     "branches": 100,
@@ -247,7 +271,7 @@
   },
   "src/ui/BreakEven.tsx": {
     "lines": 100,
-    "branches": 97.22,
+    "branches": 97.29,
     "functions": 100,
     "statements": 100
   },
@@ -307,7 +331,7 @@
   },
   "src/ui/PayInFullNote.tsx": {
     "lines": 100,
-    "branches": 88.88,
+    "branches": 92.3,
     "functions": 100,
     "statements": 100
   },

@@ -18,6 +18,22 @@
         "realized": "$120",
         "effective": "-$25"
       },
+      "amex-hilton-aspire": {
+        "realized": "$819",
+        "effective": "-$269"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$200",
+        "effective": "-$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$240",
+        "effective": "-$45"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$300",
+        "effective": "$350"
+      },
       "chase-sapphire-preferred": {
         "realized": "$550",
         "effective": "-$455"
@@ -95,6 +111,22 @@
       "amex-blue-cash-preferred": {
         "realized": "$60",
         "effective": "$35"
+      },
+      "amex-hilton-aspire": {
+        "realized": "$410",
+        "effective": "$140"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$100",
+        "effective": "$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$120",
+        "effective": "$75"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$150",
+        "effective": "$500"
       },
       "chase-sapphire-preferred": {
         "realized": "$275",
@@ -174,6 +206,22 @@
         "realized": "$0",
         "effective": "$95"
       },
+      "amex-hilton-aspire": {
+        "realized": "$819",
+        "effective": "-$269"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$200",
+        "effective": "-$50"
+      },
+      "amex-hilton-business": {
+        "realized": "$240",
+        "effective": "-$45"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$300",
+        "effective": "$350"
+      },
       "chase-sapphire-preferred": {
         "realized": "$250",
         "effective": "-$155"
@@ -251,6 +299,22 @@
       "amex-blue-cash-preferred": {
         "realized": "$0",
         "effective": "$95"
+      },
+      "amex-hilton-aspire": {
+        "realized": "$0",
+        "effective": "$550"
+      },
+      "amex-hilton-surpass": {
+        "realized": "$0",
+        "effective": "$150"
+      },
+      "amex-hilton-business": {
+        "realized": "$0",
+        "effective": "$195"
+      },
+      "amex-marriott-brilliant": {
+        "realized": "$0",
+        "effective": "$650"
       },
       "chase-sapphire-preferred": {
         "realized": "$0",

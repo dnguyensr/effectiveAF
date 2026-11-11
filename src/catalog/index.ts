@@ -2,6 +2,10 @@
 import { amexBlueCashPreferred } from './cards/amex-blue-cash-preferred';
 import { amexBusinessPlatinum } from './cards/amex-business-platinum';
 import { amexGold } from './cards/amex-gold';
+import { amexHiltonAspire } from './cards/amex-hilton-aspire';
+import { amexHiltonBusiness } from './cards/amex-hilton-business';
+import { amexHiltonSurpass } from './cards/amex-hilton-surpass';
+import { amexMarriottBrilliant } from './cards/amex-marriott-brilliant';
 import { amexPlatinum } from './cards/amex-platinum';
 import { biltObsidian } from './cards/bilt-obsidian';
 import { biltPalladium } from './cards/bilt-palladium';
@@ -21,7 +25,7 @@ import { wellsFargoAutographJourney } from './cards/wells-fargo-autograph-journe
 import type { CardDef } from './types';
 
 /** Bump whenever card data changes, so saved sessions record which data they were made with. */
-export const CATALOG_VERSION = '2026-11-09';
+export const CATALOG_VERSION = '2026-11-11';
 
 /** Grouped by issuer; the picker's issuer tabs follow this order. */
 export const CATALOG: readonly CardDef[] = [
@@ -29,6 +33,10 @@ export const CATALOG: readonly CardDef[] = [
   amexGold,
   amexBusinessPlatinum,
   amexBlueCashPreferred,
+  amexHiltonAspire,
+  amexHiltonSurpass,
+  amexHiltonBusiness,
+  amexMarriottBrilliant,
   chaseSapphirePreferred,
   chaseSapphireReserve,
   chaseSapphireReserveBusiness,

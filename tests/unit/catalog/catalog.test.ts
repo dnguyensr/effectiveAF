@@ -2,6 +2,7 @@
 /** Integrity rules every catalog card must satisfy. */
 import { describe, expect, it } from 'vitest';
 import { CATALOG, CATALOG_VERSION, findCard } from '../../../src/catalog';
+import { MAX_POINT_VALUE_CENTS, MIN_POINT_VALUE_CENTS } from '../../../src/core/breakeven';
 import { annualNominalCents } from '../../../src/core/valuation';
 import { ID_PATTERN } from '../../../src/state/schema';
 
@@ -10,12 +11,16 @@ const isRealDate = (iso: string) =>
   ISO_DATE.test(iso) && new Date(`${iso}T00:00:00Z`).toISOString().startsWith(iso);
 
 describe('catalog', () => {
-  it('contains the Phase 1 and Tier 1–3 cards, grouped by issuer', () => {
+  it('contains the Phase 1, Tier 1–3 and co-brand cards, grouped by issuer', () => {
     expect(CATALOG.map((c) => c.id)).toEqual([
       'amex-platinum',
       'amex-gold',
       'amex-business-platinum',
       'amex-blue-cash-preferred',
+      'amex-hilton-aspire',
+      'amex-hilton-surpass',
+      'amex-hilton-business',
+      'amex-marriott-brilliant',
       'chase-sapphire-preferred',
       'chase-sapphire-reserve',
       'chase-sapphire-reserve-business',
@@ -58,6 +63,11 @@ describe('catalog', () => {
       expect(card.sourceUrl ?? '').toMatch(/^https:\/\//);
       // Rewards-only cards may have no credits, but then earning has to carry the answer.
       if (card.perks.length === 0) expect(card.earnRates?.length ?? 0).toBeGreaterThan(1);
+      if (card.defaultPointValueCents !== undefined) {
+        expect(card.cashBack).toBeUndefined();
+        expect(card.defaultPointValueCents).toBeGreaterThanOrEqual(MIN_POINT_VALUE_CENTS);
+        expect(card.defaultPointValueCents).toBeLessThanOrEqual(MAX_POINT_VALUE_CENTS);
+      }
     });
 
     it.each(card.perks.map((p) => [p.id, p] as const))('perk %s is well-formed', (_pid, perk) => {

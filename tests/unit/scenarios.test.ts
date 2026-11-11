@@ -68,6 +68,14 @@ describe('catalog cards at full value (hand-computed)', () => {
     ['chase-ink-business-premier', 19500, 0],
     // 30 Global Entry ($120 every 4 years)
     ['capital-one-venture', 9500, 3000],
+    // Co-brands, batch 1. 400 resort ($200/half-year) + 200 flight ($50/quarter) + 219 CLEAR+
+    ['amex-hilton-aspire', 55000, 81900],
+    // 200 Hilton ($50/quarter)
+    ['amex-hilton-surpass', 15000, 20000],
+    // 240 Hilton ($60/quarter)
+    ['amex-hilton-business', 19500, 24000],
+    // 300 dining ($25/month); the free night isn't counted
+    ['amex-marriott-brilliant', 65000, 30000],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');

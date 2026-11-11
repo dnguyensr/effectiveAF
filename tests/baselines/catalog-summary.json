@@ -259,6 +259,112 @@
     ]
   },
   {
+    "id": "amex-hilton-aspire",
+    "name": "American Express Hilton Honors Aspire Card",
+    "annualFee": "$550",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-aspire.resort",
+        "cadence": "semiannual",
+        "perPeriod": "$200",
+        "kind": "hotel",
+        "annualNominal": "$400"
+      },
+      {
+        "id": "amex-hilton-aspire.flight",
+        "cadence": "quarterly",
+        "perPeriod": "$50",
+        "kind": "airline-fees",
+        "annualNominal": "$200"
+      },
+      {
+        "id": "amex-hilton-aspire.clear",
+        "cadence": "annual",
+        "perPeriod": "$219",
+        "kind": "airport-security",
+        "annualNominal": "$219"
+      }
+    ],
+    "totalNominal": "$819",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "14x Hilton hotels and resorts",
+      "7x Flights and car rentals",
+      "7x U.S. restaurants",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "amex-hilton-surpass",
+    "name": "American Express Hilton Honors Surpass Card",
+    "annualFee": "$150",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-surpass.hilton",
+        "cadence": "quarterly",
+        "perPeriod": "$50",
+        "kind": "hotel",
+        "annualNominal": "$200"
+      }
+    ],
+    "totalNominal": "$200",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "12x Hilton hotels and resorts",
+      "6x U.S. restaurants",
+      "6x U.S. supermarkets",
+      "6x U.S. gas stations",
+      "4x U.S. online retail",
+      "3x Everything else"
+    ]
+  },
+  {
+    "id": "amex-hilton-business",
+    "name": "American Express Hilton Honors Business Card",
+    "annualFee": "$195",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-hilton-business.hilton",
+        "cadence": "quarterly",
+        "perPeriod": "$60",
+        "kind": "hotel",
+        "annualNominal": "$240"
+      }
+    ],
+    "totalNominal": "$240",
+    "rewardsCurrency": "Hilton Honors points",
+    "earnRates": [
+      "12x Hilton hotels and resorts",
+      "5x Everything else"
+    ]
+  },
+  {
+    "id": "amex-marriott-brilliant",
+    "name": "American Express Marriott Bonvoy Brilliant Card",
+    "annualFee": "$650",
+    "lastVerified": "2026-11-11",
+    "perks": [
+      {
+        "id": "amex-marriott-brilliant.dining",
+        "cadence": "monthly",
+        "perPeriod": "$25",
+        "kind": "dining",
+        "annualNominal": "$300"
+      }
+    ],
+    "totalNominal": "$300",
+    "rewardsCurrency": "Marriott Bonvoy points",
+    "earnRates": [
+      "6x Marriott Bonvoy hotels",
+      "3x Restaurants worldwide",
+      "3x Flights booked directly with airlines",
+      "2x Everything else"
+    ]
+  },
+  {
     "id": "chase-sapphire-preferred",
     "name": "Chase Sapphire Preferred",
     "annualFee": "$95",

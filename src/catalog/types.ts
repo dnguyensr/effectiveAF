@@ -31,7 +31,7 @@ export type PerkCategory =
 export const KINDS = [
   { id: 'travel-general', label: 'Travel credit', group: 'Travel' },
   { id: 'hotel', label: 'Hotel credits', group: 'Travel' },
-  { id: 'airline-fees', label: 'Airline fee credit', group: 'Travel' },
+  { id: 'airline-fees', label: 'Airline credits', group: 'Travel' },
   { id: 'trusted-traveler', label: 'Global Entry / TSA PreCheck', group: 'Travel' },
   { id: 'airport-security', label: 'CLEAR+', group: 'Travel' },
   { id: 'bonus-miles', label: 'Anniversary bonus', group: 'Travel' },
@@ -103,6 +103,11 @@ export interface CardDef {
    * a percentage (cents per $1), always worth face value.
    */
   cashBack?: boolean;
+  /**
+   * Starting point value in cents for break-even, when the user hasn't set one (default 1¢).
+   * For hotel and airline currencies worth well under 1¢ (e.g. 0.5 for Hilton points).
+   */
+  defaultPointValueCents?: number;
   /** Points or miles per dollar by spending category, highest first (catalog cards only). */
   earnRates?: readonly EarnRate[];
 }
