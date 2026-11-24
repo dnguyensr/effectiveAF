@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+﻿// SPDX-License-Identifier: GPL-3.0-or-later
 import type { CardDef } from '../types';
 
 export const chaseSapphireReserve: CardDef = {
@@ -6,11 +6,17 @@ export const chaseSapphireReserve: CardDef = {
   issuer: 'Chase',
   name: 'Sapphire Reserve',
   annualFeeCents: 79500,
-  lastVerified: '2026-11-08',
+  lastVerified: '2026-11-24',
   sourceUrl: 'https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve',
   rewardsCurrency: 'Ultimate Rewards points',
   earnRates: [
+    {
+      category: 'Peloton equipment and accessories',
+      multiplier: 10,
+      note: 'purchases over $150, through Dec 31, 2027',
+    },
     { category: 'Travel booked through Chase Travel', multiplier: 8 },
+    { category: 'Lyft rides', multiplier: 5, note: 'through Sep 30, 2027' },
     { category: 'Flights and hotels booked directly', multiplier: 4 },
     { category: 'Dining', multiplier: 3 },
     { category: 'Everything else', multiplier: 1 },

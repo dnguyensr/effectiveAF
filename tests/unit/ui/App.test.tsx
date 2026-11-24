@@ -368,7 +368,7 @@ describe('wallet', () => {
     walletWith(/Add Chase Sapphire Reserve$/);
     const link = screen.getByRole('link', { name: 'Chase card page' });
     expect(link.getAttribute('rel')).toContain('noopener');
-    expect(screen.getByText(/Card data checked Nov 8, 2026/)).toBeTruthy();
+    expect(screen.getByText(/Card data checked Nov 24, 2026/)).toBeTruthy();
     const perk = screen
       .getByRole('heading', { name: 'Select hotels credit (2026)' })
       .closest('li') as HTMLElement;
