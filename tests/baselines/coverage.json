@@ -77,6 +77,18 @@
     "functions": 100,
     "statements": 100
   },
+  "src/catalog/cards/bofa-atmos-ascent.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "src/catalog/cards/bofa-atmos-summit.ts": {
+    "lines": 100,
+    "branches": 100,
+    "functions": 100,
+    "statements": 100
+  },
   "src/catalog/cards/bofa-premium-rewards-elite.ts": {
     "lines": 100,
     "branches": 100,

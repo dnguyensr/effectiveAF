@@ -104,6 +104,11 @@ describe('catalog cards at full value (hand-computed)', () => {
     // 100 F&B + 100 airline + 100 Expensify + 120 Instacart + 120 DoorDash + 120 DashPass
     // + 30 Global Entry
     ['chase-ihg-business', 20000, 69000],
+    // Atmos (secondary sources only). Companion awards have no face value and add nothing here.
+    // 30 Global Entry ($120 / 4 years)
+    ['bofa-atmos-summit', 39500, 3000],
+    // The companion fare is its only perk
+    ['bofa-atmos-ascent', 9500, 0],
   ])('%s: fee %d, face value %d', (id, fee, face) => {
     const c = card(id);
     const s = summarizeCard(c, { perks: applyPreset(c, {}, 'face') }, '2026-11-08');

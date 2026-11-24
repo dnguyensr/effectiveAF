@@ -12,6 +12,8 @@ import { amexMarriottBrilliant } from './cards/amex-marriott-brilliant';
 import { amexPlatinum } from './cards/amex-platinum';
 import { biltObsidian } from './cards/bilt-obsidian';
 import { biltPalladium } from './cards/bilt-palladium';
+import { bofaAtmosAscent } from './cards/bofa-atmos-ascent';
+import { bofaAtmosSummit } from './cards/bofa-atmos-summit';
 import { bofaPremiumRewards } from './cards/bofa-premium-rewards';
 import { bofaPremiumRewardsElite } from './cards/bofa-premium-rewards-elite';
 import { capitalOneVenture } from './cards/capital-one-venture';
@@ -36,7 +38,7 @@ import { wellsFargoAutographJourney } from './cards/wells-fargo-autograph-journe
 import type { CardDef } from './types';
 
 /** Bump whenever card data changes, so saved sessions record which data they were made with. */
-export const CATALOG_VERSION = '2026-11-11';
+export const CATALOG_VERSION = '2026-11-24';
 
 /** Grouped by issuer; the picker's issuer tabs follow this order. */
 export const CATALOG: readonly CardDef[] = [
@@ -71,6 +73,8 @@ export const CATALOG: readonly CardDef[] = [
   citiAAdvantageExecutive,
   bofaPremiumRewardsElite,
   bofaPremiumRewards,
+  bofaAtmosSummit,
+  bofaAtmosAscent,
   wellsFargoAutographJourney,
   biltPalladium,
   biltObsidian,

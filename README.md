@@ -34,7 +34,7 @@ Supported cards:
 - **Chase:** Sapphire Preferred, Sapphire Reserve, Sapphire Reserve for Business, Ink Business Preferred, Ink Business Premier, United Club Card, United Quest Card, United Explorer Card, Marriott Bonvoy Boundless Card, IHG One Rewards Premier Select Card, IHG One Rewards Premier Card, IHG One Rewards Premier Business Card
 - **Capital One:** Venture X, Venture X Business, Venture
 - **Citi:** Strata Elite, Strata Premier Card, AAdvantage Executive Card
-- **Bank of America:** Premium Rewards Elite, Premium Rewards
+- **Bank of America:** Premium Rewards Elite, Premium Rewards, Atmos Rewards Summit Visa Infinite, Atmos Rewards Ascent Visa Signature
 - **Wells Fargo:** Autograph Journey Card
 - **Bilt:** Palladium Card, Obsidian Card
 
