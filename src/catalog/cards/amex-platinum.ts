@@ -6,7 +6,7 @@ export const amexPlatinum: CardDef = {
   issuer: 'American Express',
   name: 'Platinum Card',
   annualFeeCents: 89500,
-  lastVerified: '2026-11-08',
+  lastVerified: '2026-11-24',
   sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/platinum/',
   rewardsCurrency: 'Membership Rewards points',
   earnRates: [
@@ -23,7 +23,7 @@ export const amexPlatinum: CardDef = {
       id: 'amex-platinum.hotel',
       name: 'Hotel credit',
       description:
-        'Prepaid Fine Hotels + Resorts or The Hotel Collection stays booked through Amex Travel.',
+        'Prepaid Fine Hotels + Resorts or The Hotel Collection stays booked through Amex Travel. The Hotel Collection needs 2+ nights; from Jan 1, 2027, so does Fine Hotels + Resorts.',
       category: 'travel',
       kind: 'hotel',
       cadence: 'semiannual',
@@ -132,7 +132,8 @@ export const amexPlatinum: CardDef = {
     {
       id: 'amex-platinum.equinox',
       name: 'Equinox credit',
-      description: 'Equinox club or Equinox+ app membership, after enrolling.',
+      description:
+        'A U.S. Equinox club membership or an Equinox+ subscription bought directly from Equinox (not in the app or through a third party).',
       category: 'wellness',
       kind: 'fitness',
       cadence: 'annual',

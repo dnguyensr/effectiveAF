@@ -6,7 +6,7 @@ export const amexBlueCashPreferred: CardDef = {
   issuer: 'American Express',
   name: 'Blue Cash Preferred Card',
   annualFeeCents: 9500,
-  lastVerified: '2026-11-09',
+  lastVerified: '2026-11-24',
   sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/blue-cash-preferred/',
   rewardsCurrency: 'Cash back',
   cashBack: true,

@@ -31,22 +31,43 @@ try {
     await page.waitForTimeout(250);
   }
   await page.waitForTimeout(2000);
-  // Amex lists only "Featured Benefits" until "Explore All" opens the full list, whose
-  // descriptions stay collapsed until "Expand All". Click each if the page has it.
-  for (const label of ['Explore All', 'Expand All']) {
-    const button = page.getByText(label, { exact: true }).first();
-    if ((await button.count()) === 0) continue;
+  // Read via a locator: some pages' content security policy blocks page.evaluate.
+  const readBody = () => page.locator('body').innerText();
+  const clickIfPresent = async (button, label) => {
     try {
       await button.scrollIntoViewIfNeeded({ timeout: 5000 });
       await button.click({ timeout: 5000 });
       await page.waitForTimeout(2000);
       console.log(`Clicked "${label}"`);
+      return true;
     } catch {
       console.warn(`Found "${label}" but could not click it; the text may be incomplete.`);
+      return false;
+    }
+  };
+  // Amex lists only "Featured Benefits" per section until that section's "Explore All" opens
+  // its full list in a drawer, whose descriptions stay collapsed until "Expand All". Open
+  // each section in turn, save its text, and close the drawer before the next one.
+  // Amex's "Show Value Breakdown" lists the credits the issuer counts toward the card's value.
+  const breakdown = page.getByText('Show Value Breakdown', { exact: true }).first();
+  if ((await breakdown.count()) > 0) await clickIfPresent(breakdown, 'Show Value Breakdown');
+  let text = await readBody();
+  const exploreCount = await page.getByText('Explore All', { exact: true }).count();
+  for (let i = 0; i < exploreCount; i++) {
+    const explore = page.getByText('Explore All', { exact: true }).nth(i);
+    if (!(await clickIfPresent(explore, `Explore All (${i + 1} of ${exploreCount})`))) continue;
+    const expand = page.getByText('Expand All', { exact: true }).first();
+    if ((await expand.count()) > 0) await clickIfPresent(expand, 'Expand All');
+    text += `\n\n=== Explore All, section ${i + 1} of ${exploreCount} ===\n\n${await readBody()}`;
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(1000);
+  }
+  if (exploreCount === 0) {
+    const expand = page.getByText('Expand All', { exact: true }).first();
+    if ((await expand.count()) > 0 && (await clickIfPresent(expand, 'Expand All'))) {
+      text = await readBody();
     }
   }
-  // Read via a locator: some pages' content security policy blocks page.evaluate.
-  const text = await page.locator('body').innerText();
   const date = new Date().toISOString().slice(0, 10);
   const file = join(outDir, `${date}-${name}.txt`);
   writeFileSync(file, `${url}\nFetched ${new Date().toISOString()}\n\n${text}\n`);

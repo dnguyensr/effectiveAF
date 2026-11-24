@@ -40,11 +40,15 @@ describe('breakEven (hand-computed)', () => {
   });
 
   it('Gold costing $325 at 1.5¢ a point', () => {
-    // 4x × 1.5¢ = 6¢ − 2¢ = 4¢ → $325 / 0.04 = $8,125 a year → $677.08 → $678 a month
     const rows = breakEven(32500, rates('amex-gold'), 1.5);
-    expect(rows?.[0]).toMatchObject({ extraCentsPerDollar: 4, monthlySpendDollars: 678 });
-    expect(rows?.[0]).toMatchObject({ capDollarsPerYear: 50000, overCap: false });
-    expect(rows?.[0]?.note).toBeUndefined();
+    // 5x × 1.5¢ = 7.5¢ − 2¢ = 5.5¢ → $325 / 0.055 = $5,909.09 a year → $492.42 → $493 a month
+    expect(rows?.[0]).toMatchObject({ multiplier: 5, extraCentsPerDollar: 5.5 });
+    expect(rows?.[0]).toMatchObject({ monthlySpendDollars: 493 });
+    // 4x × 1.5¢ = 6¢ − 2¢ = 4¢ → $325 / 0.04 = $8,125 a year → $677.08 → $678 a month
+    const restaurants = rows?.find((r) => r.category === 'Restaurants worldwide');
+    expect(restaurants).toMatchObject({ extraCentsPerDollar: 4, monthlySpendDollars: 678 });
+    expect(restaurants).toMatchObject({ capDollarsPerYear: 50000, overCap: false });
+    expect(restaurants?.note).toBeUndefined();
     // 1x × 1.5¢ = 1.5¢ < 2¢
     expect(rows?.at(-1)?.monthlySpendDollars).toBeNull();
   });
