@@ -3,7 +3,7 @@
     "id": "amex-platinum",
     "name": "American Express Platinum Card",
     "annualFee": "$895",
-    "lastVerified": "2026-11-08",
+    "lastVerified": "2026-11-24",
     "perks": [
       {
         "id": "amex-platinum.hotel",
@@ -102,7 +102,7 @@
     "id": "amex-gold",
     "name": "American Express Gold Card",
     "annualFee": "$325",
-    "lastVerified": "2026-11-08",
+    "lastVerified": "2026-11-24",
     "perks": [
       {
         "id": "amex-gold.dining",
@@ -136,9 +136,11 @@
     "totalNominal": "$424",
     "rewardsCurrency": "Membership Rewards points",
     "earnRates": [
+      "5x Prepaid hotels on Amex Travel",
       "4x Restaurants worldwide",
       "4x U.S. supermarkets",
       "3x Flights booked directly with airlines or Amex Travel",
+      "2x Prepaid car rentals and cruises on Amex Travel",
       "1x Everything else"
     ]
   },
@@ -146,7 +148,7 @@
     "id": "amex-business-platinum",
     "name": "American Express Business Platinum Card",
     "annualFee": "$895",
-    "lastVerified": "2026-11-09",
+    "lastVerified": "2026-11-24",
     "perks": [
       {
         "id": "amex-business-platinum.hotel",
@@ -238,7 +240,7 @@
     "id": "amex-blue-cash-preferred",
     "name": "American Express Blue Cash Preferred Card",
     "annualFee": "$95",
-    "lastVerified": "2026-11-09",
+    "lastVerified": "2026-11-24",
     "perks": [
       {
         "id": "amex-blue-cash-preferred.disney",

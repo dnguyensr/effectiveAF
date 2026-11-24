@@ -6,13 +6,15 @@ export const amexGold: CardDef = {
   issuer: 'American Express',
   name: 'Gold Card',
   annualFeeCents: 32500,
-  lastVerified: '2026-11-08',
+  lastVerified: '2026-11-24',
   sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/gold-card/',
   rewardsCurrency: 'Membership Rewards points',
   earnRates: [
+    { category: 'Prepaid hotels on Amex Travel', multiplier: 5 },
     { category: 'Restaurants worldwide', multiplier: 4, capCentsPerYear: 5_000_000 },
     { category: 'U.S. supermarkets', multiplier: 4, capCentsPerYear: 2_500_000 },
     { category: 'Flights booked directly with airlines or Amex Travel', multiplier: 3 },
+    { category: 'Prepaid car rentals and cruises on Amex Travel', multiplier: 2 },
     { category: 'Everything else', multiplier: 1 },
   ],
   perks: [

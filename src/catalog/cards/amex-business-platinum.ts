@@ -6,7 +6,7 @@ export const amexBusinessPlatinum: CardDef = {
   issuer: 'American Express',
   name: 'Business Platinum Card',
   annualFeeCents: 89500,
-  lastVerified: '2026-11-09',
+  lastVerified: '2026-11-24',
   sourceUrl:
     'https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/american-express-business-platinum-credit-card-amex/',
   rewardsCurrency: 'Membership Rewards points',
