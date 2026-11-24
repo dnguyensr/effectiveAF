@@ -44,6 +44,8 @@ describe('catalog', () => {
       'citi-aadvantage-executive',
       'bofa-premium-rewards-elite',
       'bofa-premium-rewards',
+      'bofa-atmos-summit',
+      'bofa-atmos-ascent',
       'wells-fargo-autograph-journey',
       'bilt-palladium',
       'bilt-obsidian',

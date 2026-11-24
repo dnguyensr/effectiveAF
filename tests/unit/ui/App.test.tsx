@@ -82,7 +82,7 @@ describe('first visit', () => {
       'Bilt',
       'Your cards',
     ]);
-    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(34);
+    expect(within(picker).getAllByRole('button', { name: /^Add / })).toHaveLength(36);
     expect(within(picker).getByText('$195 fee · rewards only, no credits')).toBeTruthy();
     expect(within(picker).getAllByText('$95 fee · 1 perk').length).toBeGreaterThan(0);
   });

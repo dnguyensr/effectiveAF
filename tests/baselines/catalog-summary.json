@@ -1527,6 +1527,60 @@
     ]
   },
   {
+    "id": "bofa-atmos-summit",
+    "name": "Bank of America Atmos Rewards Summit Visa Infinite",
+    "annualFee": "$395",
+    "lastVerified": "2026-11-24",
+    "perks": [
+      {
+        "id": "bofa-atmos-summit.companion",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "companion-fare",
+        "annualNominal": "you set (up to $2,000)"
+      },
+      {
+        "id": "bofa-atmos-summit.global-entry",
+        "cadence": "every-4-years",
+        "perPeriod": "$120",
+        "kind": "trusted-traveler",
+        "annualNominal": "$30"
+      }
+    ],
+    "totalNominal": "$30",
+    "rewardsCurrency": "Atmos Rewards points",
+    "earnRates": [
+      "3x Alaska and Hawaiian Airlines",
+      "3x Dining",
+      "3x Foreign purchases",
+      "1x Everything else"
+    ]
+  },
+  {
+    "id": "bofa-atmos-ascent",
+    "name": "Bank of America Atmos Rewards Ascent Visa Signature",
+    "annualFee": "$95",
+    "lastVerified": "2026-11-24",
+    "perks": [
+      {
+        "id": "bofa-atmos-ascent.companion",
+        "cadence": "annual",
+        "perPeriod": "$2,000",
+        "kind": "companion-fare",
+        "annualNominal": "you set (up to $2,000)"
+      }
+    ],
+    "totalNominal": "$0",
+    "rewardsCurrency": "Atmos Rewards points",
+    "earnRates": [
+      "3x Alaska and Hawaiian Airlines",
+      "2x Gas and EV charging",
+      "2x Local transit",
+      "2x Cable and select streaming",
+      "1x Everything else"
+    ]
+  },
+  {
     "id": "wells-fargo-autograph-journey",
     "name": "Wells Fargo Autograph Journey Card",
     "annualFee": "$95",

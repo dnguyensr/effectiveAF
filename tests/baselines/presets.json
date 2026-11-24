@@ -126,6 +126,14 @@
         "realized": "$125",
         "effective": "-$30"
       },
+      "bofa-atmos-summit": {
+        "realized": "$30",
+        "effective": "$365"
+      },
+      "bofa-atmos-ascent": {
+        "realized": "$0",
+        "effective": "$95"
+      },
       "wells-fargo-autograph-journey": {
         "realized": "$50",
         "effective": "$45"
@@ -263,6 +271,14 @@
       "bofa-premium-rewards": {
         "realized": "$63",
         "effective": "$32"
+      },
+      "bofa-atmos-summit": {
+        "realized": "$15",
+        "effective": "$380"
+      },
+      "bofa-atmos-ascent": {
+        "realized": "$0",
+        "effective": "$95"
       },
       "wells-fargo-autograph-journey": {
         "realized": "$25",
@@ -402,6 +418,14 @@
         "realized": "$125",
         "effective": "-$30"
       },
+      "bofa-atmos-summit": {
+        "realized": "$30",
+        "effective": "$365"
+      },
+      "bofa-atmos-ascent": {
+        "realized": "$0",
+        "effective": "$95"
+      },
       "wells-fargo-autograph-journey": {
         "realized": "$50",
         "effective": "$45"
@@ -537,6 +561,14 @@
         "effective": "$550"
       },
       "bofa-premium-rewards": {
+        "realized": "$0",
+        "effective": "$95"
+      },
+      "bofa-atmos-summit": {
+        "realized": "$0",
+        "effective": "$395"
+      },
+      "bofa-atmos-ascent": {
         "realized": "$0",
         "effective": "$95"
       },
